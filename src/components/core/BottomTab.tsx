@@ -1,9 +1,9 @@
-import { SearchScreenPage } from '../../pages/SearchScreen.page';
-import { NotificationScreenPage } from '../../pages/NotificationScreen.page';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PostScreen } from '../derived/PostScreen';
 import { ProfileScreen } from '../derived/ProfileScreen';
+import { NotificationScreen } from '../derived/NotificationScreen';
+import { SearchScreen } from '../derived/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,24 +16,27 @@ export const BottomTab = () => {
                     return (
                         <Ionicons name={focused ? 'home' : 'home-outline'} size={22} color={'white'}/>
                     )
-                }
+                },
+                unmountOnBlur: true
             }} />
-            <Tab.Screen name="Search" component={SearchScreenPage} options={{
+            <Tab.Screen name="Search" component={SearchScreen} options={{
                 title: '',
                 tabBarIcon: ({ color, size, focused }) => {
                     return (
                         <Ionicons name={focused ? 'search' : 'search-outline'} size={22} color={'white'}/>
                     )
-                }
+                },
+                unmountOnBlur: true
 
             }} />
-            <Tab.Screen name="Notification" component={NotificationScreenPage} options={{
+            <Tab.Screen name="Notification" component={NotificationScreen} options={{
                 title: '',
                 tabBarIcon: ({ color, size, focused }) => {
                     return (
                         <Ionicons name={focused ? 'notifications' : 'notifications-outline'} size={22} color={'white'}/>
                     )
-                }
+                },
+                unmountOnBlur: true
 
             }} />
             <Tab.Screen name="Profile" component={ProfileScreen} options={{
@@ -42,7 +45,8 @@ export const BottomTab = () => {
                     return (
                         <Ionicons name={focused ? 'person' : 'person-outline'} size={22} color={'white'}/>
                     )
-                }
+                },
+                unmountOnBlur: true
 
             }} />
         </Tab.Navigator>

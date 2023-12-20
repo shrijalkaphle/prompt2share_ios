@@ -31,8 +31,9 @@ export const PostCard = ({ post }: IPostCard) => {
     const [commenting, setCommenting] = useState<boolean>(false)
 
     const dateFormat = () => {
+        return moment(post.created_at).format('Do MMM, YYYY');
         const currentTime = moment();
-        const dateStatus = moment.utc(post.created_at).local().startOf('seconds').fromNow();
+        const dateStatus = moment.utc(post.created_at).startOf('seconds').fromNow();
         const differenceInDays = currentTime.diff(post.created_at, 'days');
         if (differenceInDays > 3) {
             return moment(post.created_at).format('Do MMM, YYYY');

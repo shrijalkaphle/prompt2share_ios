@@ -31,3 +31,9 @@ export interface ICommentResponse {
     message: string
     comment: IPostComment[]
 }
+
+export interface ICreatePostProps {
+    title: string
+    category: string
+    chunk: string
+}

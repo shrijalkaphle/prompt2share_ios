@@ -35,6 +35,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
                                 <MenuOption onSelect={() => navigation.navigate('Guide')} text='Guide' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Billing')} text='Billing' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={onLogout} text='Logout' customStyles={menuOptionStyles} />
+                                <MenuOption onSelect={() => navigation.navigate('DALLE')} text='DAlle' customStyles={menuOptionStyles} />
                             </MenuOptions>
                         </Menu>
                     </>

@@ -1,10 +1,3 @@
-import { IPost, IUser } from "../models.type"
-
-export interface IAuthService {
-    logOut() : void
-    login(loginparams : ILoginParams) : Promise<void>
-}
-
 export interface ILoginParams {
     email: string
     password: string
@@ -36,4 +29,9 @@ export interface IUserResponse {
     generate_history: string
     total_price: string
     report_count: string
+}
+
+export interface IGetUserNotificationParams {
+    page: number
+    perPage: number
 }

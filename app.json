@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "prompttoshare",
+    "name": "Prompt to Share",
     "slug": "prompttoshare",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,12 +22,28 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow P2S to access your camera."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow P2S) to access your photos.",
+          "savePhotosPermission": "Allow P2S to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ]
   }
 }

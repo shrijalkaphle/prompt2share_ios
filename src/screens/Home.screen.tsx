@@ -8,7 +8,7 @@ export const HomeScreen = ({ navigation }: any) => {
     return (
         <StyledView className="flex w-full h-full">
             <AppBarComponent navigation={navigation}/>
-            <FloatingButton/>
+            <FloatingButton navigation={navigation}/>
             <BottomTab />
         </StyledView>
     )

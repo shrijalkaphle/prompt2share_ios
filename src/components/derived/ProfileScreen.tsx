@@ -29,7 +29,7 @@ export const ProfileScreen = ({ navigation }: any) => {
 
     useEffect(() => {
         getPosts()
-    }, [page])
+    }, [navigation])
 
     const updatePageCount = () => {
         setPage(page + 1)

@@ -56,3 +56,31 @@ export interface IPostComment {
     created_at: string | null
     text: string
 } 
+
+export interface IBought {
+    qty: number
+    price: number
+    created_at: string
+    id: string
+    payment_type: string
+}
+
+export interface IWithdraw {
+    amt: string
+    status: string
+    bank_name: string
+    routing_name: string
+    account_num: string
+    created_at: string
+    id: string
+    sender_account: string
+    sender_receipt: string
+}
+
+export interface INotification {
+    id: number
+    message: string
+    is_read: boolean
+    created_at: string
+    
+}

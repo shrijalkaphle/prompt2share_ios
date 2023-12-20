@@ -1,10 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { REQUEST_TYPE } from "../enum/http.enum";
-import { ICommentProps, ICommentResponse, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
+import { ICommentProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AUTH_CONSTANTS } from "../enum/auth.enum";
-import Toast from "react-native-root-toast";
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
 
@@ -54,6 +53,16 @@ export const commentPostbyId = async (commentProps: ICommentProps) => {
     const endpoint = `${api_url}/${ENDPOINT.COMMENT_POST}`;
     try {
         const result = await axios.post(endpoint,commentProps)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const createPost = async (createPostProps: ICreatePostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.POST_GENERATE}`;
+    try {
+        const result = await axios.post(endpoint,createPostProps)
         return result.data
     } catch (error) {
         return { error: true, message: (error as any).response.data.message }

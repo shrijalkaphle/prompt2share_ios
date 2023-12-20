@@ -10,45 +10,15 @@ import { HomeScreen } from './src/screens/Home.screen';
 import { PurchaseScreen } from './src/screens/Purchase.screen';
 import { BillingScreen } from './src/screens/Billing.screen';
 import { GuideScreen } from './src/screens/Guide.screen';
+import { GenerateScreen } from './src/screens/Generate.screen';
+import { CameraScreen } from './src/screens/Camera.screen';
+import { DalleScreen } from './src/screens/Dalle.screen';
+import { ImageGenerateScreen } from './src/screens/ImageGenerate.screen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  // const [user, setUser] = useState<IUser>();
-  // const [initialRouteName, setInitialRouteName] = useState<string>('Home');
-
-  // const validateUser = async () => {
-  //   const _token = await AsyncStorage.getItem(AUTH_CONSTANTS.TOKENKEY)
-  //   if (_token) {
-  //     setInitialRouteName('Home')
-  //     // call user detail
-  //     me().then((response: IUserResponse) => {
-  //       setUser(response)
-  //     })
-  //   }
-  // }
-  // useEffect(() => {
-  //   validateUser()
-  //   console.log('initial route', initialRouteName)
-  // }, [])
-
   return (
-    // <UserContext.Provider value={{ user, setUser }}>
-    //   <MenuProvider>
-    //     <RootSiblingParent>
-    //       <NavigationContainer>
-    //         <Stack.Navigator initialRouteName={initialRouteName}>
-    //           <Stack.Screen name="Home" component={HomeScreenPage} options={{ headerShown: false }} />
-    //           <Stack.Screen name="Login" component={LoginScreenPage} options={{ headerShown: false }} />
-    //           <Stack.Screen name="Register" component={RegisterScreenPage} options={{ headerShown: false }} />
-    //           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreenPage} options={{ headerShown: false }} />
-    //           <Stack.Screen name="BuyTokenScreen" component={BuyTokenScreenPage} options={{ headerShown: false }} />
-    //         </Stack.Navigator>
-    //       </NavigationContainer>
-    //     </RootSiblingParent>
-    //   </MenuProvider>
-    // </UserContext.Provider>
     <AuthProvider>
       <RootSiblingParent>
         <MenuProvider>
@@ -61,7 +31,7 @@ export default function App() {
 
 export const Layout = () => {
 
-  const { authState, onLogout } = useAuth();
+  const { authState } = useAuth();
   return (
     <NavigationContainer>
 
@@ -71,6 +41,10 @@ export const Layout = () => {
           <Stack.Screen name="PurchaseCoin" component={PurchaseScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Generate" component={GenerateScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>
