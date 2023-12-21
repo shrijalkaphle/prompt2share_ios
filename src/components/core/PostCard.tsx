@@ -147,7 +147,7 @@ export const PostCard = ({ post }: IPostCard) => {
                 <StyledView className="flex flex-row items-center m-3 justify-center gap-x-3">
                     <StyledImage source={{ uri: authUser?.profile ? authUser.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-8 w-8 rounded-full border" />
                     <StyledView className="bg-white/10 w-4/5 p-2 rounded-lg">
-                        <StyledTextInput className="text-white font-medium" placeholder="Write a comment" value={wirteComment} onChangeText={(text: string) => setWriteComment(text)} />
+                        <StyledTextInput className="text-white font-medium" placeholder="Write a comment" value={wirteComment} onChangeText={(text: string) => setWriteComment(text)} placeholderTextColor={'white'}/>
                     </StyledView>
                     <StyledTouchableOpacity className={`py-2 rounded-lg `} onPress={commentOnPost} disabled={commenting}>
 

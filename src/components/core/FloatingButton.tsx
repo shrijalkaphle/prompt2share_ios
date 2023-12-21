@@ -15,7 +15,7 @@ export const FloatingButton = ({navigation}:any) => {
                 <StyledTouchableOpacity className="h-14 w-14 rounded-full bg-white z-10 flex items-center justify-center" onPress={() => {setShowCreateModel(!showCreateModel);navigation.push('Generate')}}>
                     <Ionicons name={'language'} size={22} color={'black'} />
                 </StyledTouchableOpacity>
-                <StyledTouchableOpacity className="h-14 w-14 rounded-full bg-white z-10 flex items-center justify-center" onPress={() => setShowCreateModel(!showCreateModel)}>
+                <StyledTouchableOpacity className="h-14 w-14 rounded-full bg-white z-10 flex items-center justify-center" onPress={() => {setShowCreateModel(!showCreateModel);navigation.push('CreatePost')}}>
                     <Ionicons name={'text'} size={22} color={'black'} />
                 </StyledTouchableOpacity>
                 <StyledTouchableOpacity className="h-14 w-14 rounded-full bg-white z-10 flex items-center justify-center" onPress={() => {setShowCreateModel(!showCreateModel);navigation.push('ImageGenerate')}}>

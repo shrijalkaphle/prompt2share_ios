@@ -1,3 +1,4 @@
+import { IPostType } from "../../screens/CreatePost.screen"
 import { IPost, IPostComment } from "../models.type"
 
 export interface IGetPostParams {
@@ -36,4 +37,12 @@ export interface ICreatePostProps {
     title: string
     category: string
     chunk: string
+}
+
+export interface ICreateManualPostProps {
+    prompt: string
+    file: string | null
+    imageProvider: string | null
+    chunk: string | null
+    postType: IPostType
 }

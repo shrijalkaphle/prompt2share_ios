@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Prompt to Share",
-    "slug": "prompttoshare",
+    "name": "PrompttoShare",
+    "slug": "prompt-to-share",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,13 +18,25 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow P2S to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ],
+      "package": "com.shrijalkaphle.prompttoshare"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -43,7 +55,26 @@
           "savePhotosPermission": "Allow P2S to save photos.",
           "isAccessMediaLocationEnabled": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.prompttoshare.prompttoshare",
+          "enableGooglePay": true
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e59a261c-109f-4880-9960-71758c7017b9"
+      }
+    },
+    "owner": "shrijalkaphle"
   }
 }

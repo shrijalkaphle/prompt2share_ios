@@ -8,7 +8,8 @@ import { Keyboard } from "react-native";
 
 export interface IGeneratedImage {
     uri: string,
-    id: number 
+    id: number,
+    localuri?: string
 }
 
 export const ImageGenerateScreen = ({ navigation }: any) => {
@@ -41,7 +42,7 @@ export const ImageGenerateScreen = ({ navigation }: any) => {
         <StyledView className="flex w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
             <StyledView className="p-4">
-                <StyledTextInput className="border border-slate-300 p-3 rounded-full text-white" value={generatePrompt} onChangeText={(e) => setGeneratePrompt(e)} onSubmitEditing={generateImage} autoCapitalize="none" placeholder="Enter your prompt" />
+                <StyledTextInput className="border border-slate-300 p-3 rounded-full text-white" value={generatePrompt} onChangeText={(e) => setGeneratePrompt(e)} onSubmitEditing={generateImage} autoCapitalize="none" placeholder="Enter your prompt" placeholderTextColor={'white'}/>
                 <StyledTouchableOpacity className="w-full bg-white/10 p-4 rounded-full flex items-center justify-center mt-2" onPress={generateImage} disabled={generating}>
                     {
                         generating ? <StyledActivityIndicator /> : <StyledText className="text-white">Generate</StyledText>

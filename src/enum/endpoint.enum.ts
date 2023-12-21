@@ -14,4 +14,6 @@ export enum ENDPOINT {
     POST_GENERATE = 'generate/feed/post',
     IMAGE_POST = 'generate/image/post',
     SEARCH = "search",
+    UPLOAD_IMAGE = "upload/image",
+    UPLOAD_VIDEO = "upload/video",
 }

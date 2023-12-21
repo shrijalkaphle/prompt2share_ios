@@ -129,7 +129,7 @@ export const GenerateScreen = ({ navigation }: any) => {
             </StyledView>
 
             <StyledView className="w-full absolute right-0 bottom-2 left-0 px-4 flex items-center justify-center">
-                <StyledTextInput className="rounded-2xl w-full px-3 py-1 text-gray-900 border-slate-300 bg-gray-300" placeholder="Write Text" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} />
+                <StyledTextInput className="rounded-2xl w-full px-3 py-1 text-gray-900 border-slate-300 bg-gray-300" placeholder="Write Text" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'}/>
                 <StyledScrollView horizontal={true} className="mt-4">
                     {
                         generateButtons.map((item, index) => {

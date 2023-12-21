@@ -14,17 +14,23 @@ import { GenerateScreen } from './src/screens/Generate.screen';
 import { CameraScreen } from './src/screens/Camera.screen';
 import { DalleScreen } from './src/screens/Dalle.screen';
 import { ImageGenerateScreen } from './src/screens/ImageGenerate.screen';
+import { CreatePostScreen } from './src/screens/CreatePost.screen';
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <AuthProvider>
-      <RootSiblingParent>
-        <MenuProvider>
-          <Layout />
-        </MenuProvider>
-      </RootSiblingParent>
+      <StripeProvider
+        publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
+        merchantIdentifier="merchant.prompttoshate.prompttoshare">
+        <RootSiblingParent>
+          <MenuProvider>
+            <Layout />
+          </MenuProvider>
+        </RootSiblingParent>
+      </StripeProvider>
     </AuthProvider>
   );
 }
@@ -45,6 +51,7 @@ export const Layout = () => {
           <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>

@@ -3,27 +3,38 @@ import { StyledActivityIndicator, StyledImage, StyledText, StyledTouchableOpacit
 import { IGeneratedImage } from "../../screens/ImageGenerate.screen"
 import Toast from "react-native-root-toast"
 import { postGenerateImage } from "../../services/openai.service"
+import { Ionicons } from "@expo/vector-icons"
+import * as FileSystem from 'expo-file-system'
+import * as MediaLibrary from 'expo-media-library';
+import { Platform } from "react-native"
 
 interface IGalleryViewProps {
     images: IGeneratedImage[],
     prompt: string,
     navigation: any
 }
+const albumName = "PromptToShare"
 
 export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) => {
 
-    const [uri, setUri] = useState<string>()
+    
+    // const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
+
+    const [activeImageIndex, setActiveImageIndex] = useState<number>(0)
     const [postingImage, setPostingImage] = useState<boolean>(false)
 
-    const show = (uri: string) => {
-        setUri(uri)
+    const [imageSaving, setImageSaving] = useState<boolean>(false)
+
+    const show = (index: number) => {
+        setActiveImageIndex(index)
     }
-    useEffect(() => {
-        setUri(images[0].uri)
-    }, [])
+
+    const deleteImage = () => {
+        
+    }
 
     const postImage = async () => {
-        if(!uri) {
+        if(!activeImageIndex) {
             Toast.show('Please select an image!')
             return
         }
@@ -31,7 +42,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
         const props = {
             prompt: prompt,
             category: 'extra',
-            image_url: uri
+            image_url: images[activeImageIndex].uri
         }
         const response = await postGenerateImage(props)
         console.log(response)
@@ -41,20 +52,41 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
             return
         }
         Toast.show(response.message)
-        // navigation.navigate('Home', { screen: 'ProfileScreen' })
         setPostingImage(false)
+        navigation.navigate('Home', { screen: 'ProfileScreen' })
+    }
+
+    const saveToMedia = async () => {
+        setImageSaving(true)
+        Toast.show('Saving image')
+        const fileName = `${images[activeImageIndex].id}.png`
+        const { uri } = await FileSystem.downloadAsync(images[activeImageIndex].uri, FileSystem.documentDirectory + fileName)
+        console.log(uri)
+        const response = await MediaLibrary.saveToLibraryAsync(uri)
+        console.log(response, uri)
+        Toast.show('Image Saved')
+        setImageSaving(false)
     }
     
     return (
-        <StyledView className="rounded-lg h-3/6 mt-2 p-4 flex items-center">
-            {/* image preivew */}
-            <StyledImage source={{ uri: uri }} className="w-full h-full rounded-lg mx-2" />
+        <StyledView className="rounded-lg h-3/6 mt-2 px-4 py-1 flex items-center">
+            
+            <StyledView className="flex flex-row items-end justify-end w-full px-3">
+                <StyledTouchableOpacity className="" onPress={saveToMedia} disabled={imageSaving}>
+                    
+                    {
+                        imageSaving ? <StyledActivityIndicator /> : <Ionicons name="cloud-download" size={32} color="white" />
+                    }
+                </StyledTouchableOpacity>
+            </StyledView>
+
+            <StyledImage source={{ uri: images[activeImageIndex].uri }} className="w-full h-full rounded-lg mx-2"/>
             <StyledView className="flex flex-row items-center justify-center mt-2">
                 {
                     images.map((image, index) => {
                         return (
-                            <StyledTouchableOpacity onPress={() => show(image.uri)} key={index}>
-                                <StyledImage source={{ uri: image.uri }} className={`w-12 h-14 rounded-lg mx-2 ${image.uri == uri ? '' : 'opacity-50'}`} />
+                            <StyledTouchableOpacity onPress={() => show(index)} key={index}>
+                                <StyledImage source={{ uri: image.uri }} className={`w-12 h-14 rounded-lg mx-2 ${index == activeImageIndex ? '' : 'opacity-50'}`} />
                             </StyledTouchableOpacity>
                         )
                     })

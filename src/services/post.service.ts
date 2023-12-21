@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { REQUEST_TYPE } from "../enum/http.enum";
-import { ICommentProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
+import { ICommentProps, ICreateManualPostProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AUTH_CONSTANTS } from "../enum/auth.enum";
 
@@ -65,6 +65,17 @@ export const createPost = async (createPostProps: ICreatePostProps) => {
         const result = await axios.post(endpoint,createPostProps)
         return result.data
     } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const createManualPost = async (createManualPostProps: ICreateManualPostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.POST}`;
+    try {
+        const result = await axios.post(endpoint,createManualPostProps)
+        return result.data
+    } catch (error) {
+        console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }

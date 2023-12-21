@@ -29,7 +29,7 @@ export const CameraScreen = ({navigation}: any) => {
 
         if (cameraRef) {
             const data = await cameraRef.current?.takePictureAsync(options)
-            // console.log(data?.base64)
+            console.log(data?.uri)
             navigation.navigate('DALLE', { imageBase64: data?.base64 })
         }
     }

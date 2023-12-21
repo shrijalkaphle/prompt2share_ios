@@ -13,10 +13,12 @@ export const AuthScreen = () => {
 
     const verifyLogin = async () => {
         Keyboard.dismiss()
+        setFormLoading(true)
         const response = await onLogin!({email, password})
         if(response && response.error) {
             Toast.show(response.message)
         }
+        setFormLoading(false)
     }
     
     return (

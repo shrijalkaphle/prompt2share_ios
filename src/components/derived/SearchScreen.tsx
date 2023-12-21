@@ -38,8 +38,8 @@ export const SearchScreen = () => {
 
     return (
         <StyledView className="bg-background w-full h-full p-4">
-            <StyledTextInput className="border border-white p-3 rounded-full text-white" value={searchText} onChangeText={(e) => searchUpdate(e)} onSubmitEditing={(e) => search(e.nativeEvent.text)} autoCapitalize="none" />
-            <StyledScrollView className="mt-4 border-t border-slate-6z00">
+            <StyledTextInput className="border border-white p-3 rounded-full text-white" placeholder="Search" value={searchText} onChangeText={(e) => searchUpdate(e)} onSubmitEditing={(e) => search(e.nativeEvent.text)} autoCapitalize="none" placeholderTextColor={'white'}/>
+            <StyledScrollView className="mt-4 border-t border-slate-600">
                 {
                     searching
                         ?
