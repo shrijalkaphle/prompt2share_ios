@@ -4,8 +4,9 @@ import { searchQuery } from "../../services/user.service"
 import { IPost, IUser } from "../../types/models.type"
 import { SearchUserCard } from "../core/SearchUserCard"
 import { PostCard } from "../core/PostCard"
+import { FloatingButton } from "../core/FloatingButton"
 
-export const SearchScreen = () => {
+export const SearchScreen = ({navigation}: any) => {
 
     const [searchText, setSearchText] = useState<string>('')
     const [users, setUsers] = useState<IUser[]>([])
@@ -37,9 +38,12 @@ export const SearchScreen = () => {
     }
 
     return (
-        <StyledView className="bg-background w-full h-full p-4">
+        <StyledView className="bg-background w-full h-full">
+            <FloatingButton navigation={navigation}/>
+            <StyledView className="p-4">
             <StyledTextInput className="border border-white p-3 rounded-full text-white" placeholder="Search" value={searchText} onChangeText={(e) => searchUpdate(e)} onSubmitEditing={(e) => search(e.nativeEvent.text)} autoCapitalize="none" placeholderTextColor={'white'}/>
-            <StyledScrollView className="mt-4 border-t border-slate-600">
+            </StyledView>
+            <StyledScrollView className="mt-4 border-t border-slate-600 p-4">
                 {
                     searching
                         ?

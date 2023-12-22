@@ -17,7 +17,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
         <>
             <AppBar
                 title=""
-                style={{ backgroundColor: "rgba(36,25,40,1)", elevation: 5, height: 100 }}
+                style={{ backgroundColor: "rgba(36,25,40,1)", elevation: 1, height: 80 }}
                 leading={props => (hasBack ? <StyledView className="h-10 w-10 mt-16 ml-2 flex justify-center">
                     <StyledTouchableOpacity onPress={() => navigation.goBack()} >
                         <Ionicons name="arrow-back" size={24} color={'white'}/>
@@ -27,7 +27,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
                     <>
                         <Menu>
                             <MenuTrigger>
-                                <StyledView className="h-10 w-10 bg-slate-700 rounded-full mt-16 mr-4" >
+                                <StyledView className="h-8 w-8 bg-slate-700 rounded-full mt-14 mr-4" >
                                     <StyledImage source={{ uri: authUser?.profile ? authUser?.profile : "https://bootdey.com/img/Content/avatar/avatar7.png" }} className="h-full w-full rounded-full" />
                                 </StyledView>
                             </MenuTrigger>

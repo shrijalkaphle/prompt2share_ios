@@ -4,9 +4,10 @@ import { LoadingPost } from "../core/LoadingPost"
 import { IPost } from "../../types/models.type"
 import { getPost } from "../../services/post.service"
 import { PostCard } from "../core/PostCard"
+import { FloatingButton } from "../core/FloatingButton"
 
-export const PostScreen = () => {
-    
+export const PostScreen = ({navigation}: any) => {
+
     const [pageLoading, setPageLoading] = useState<boolean>(true)
     const [dataLoading, setDataLoading] = useState<boolean>(true)
     const [posts, setPosts] = useState<IPost[]>([])
@@ -33,21 +34,24 @@ export const PostScreen = () => {
         getPosts()
     }, [page])
     return (
-        <StyledScrollView className="bg-background p-4">
-            {
-                dataLoading ?
-                <LoadingPost />
-                :
-                <StyledView>
-                    {
-                        posts.map((post:IPost, index:number) => (
-                            <PostCard key={index} post={post} />
-                        ))
-                    }
-                
-                </StyledView>
-            }
-            
-        </StyledScrollView>
+        <StyledView className="w-full h-full">
+            <FloatingButton navigation={navigation} />
+            <StyledScrollView className="bg-background p-4">
+                {
+                    dataLoading ?
+                        <LoadingPost />
+                        :
+                        <StyledView>
+                            {
+                                posts.map((post: IPost, index: number) => (
+                                    <PostCard key={index} post={post} />
+                                ))
+                            }
+
+                        </StyledView>
+                }
+
+            </StyledScrollView>
+        </StyledView>
     )
 }

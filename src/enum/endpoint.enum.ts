@@ -16,4 +16,7 @@ export enum ENDPOINT {
     SEARCH = "search",
     UPLOAD_IMAGE = "upload/image",
     UPLOAD_VIDEO = "upload/video",
+    CREATE_PAYMENT_INTENT="create_payment_intent",
+    UPDATE_PAYMENT_INTENT="update_payment_intent",
+    COMPLETE_PAYMENT="complete_payment",
 }
