@@ -3,6 +3,7 @@ import { StyledActivityIndicator, StyledSafeAreaView, StyledText, StyledTextInpu
 import { useAuth } from "../contexts/AuthContext"
 import { Keyboard } from 'react-native'
 import Toast from 'react-native-root-toast'
+import { StatusBar } from "expo-status-bar"
 
 export const AuthScreen = () => {
 
@@ -23,6 +24,7 @@ export const AuthScreen = () => {
     
     return (
         <StyledView className="flex justify-center items-center bg-background w-full h-full">
+            <StatusBar style="light" animated={true} />
             <StyledSafeAreaView className="flex h-4/5 w-4/5 items-center justify-center gap-10">
                 <StyledText className="font-bold text-2xl text-gray-400">Sign in to Prompt to Share</StyledText>
                 <StyledView className="w-full">

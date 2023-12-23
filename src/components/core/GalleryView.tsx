@@ -6,7 +6,7 @@ import { postGenerateImage } from "../../services/openai.service"
 import { Ionicons } from "@expo/vector-icons"
 import * as FileSystem from 'expo-file-system'
 import * as MediaLibrary from 'expo-media-library';
-import { Platform } from "react-native"
+import { Image } from 'expo-image';
 
 interface IGalleryViewProps {
     images: IGeneratedImage[],
@@ -29,10 +29,6 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
         setActiveImageIndex(index)
     }
 
-    const deleteImage = () => {
-        
-    }
-
     const postImage = async () => {
         if(!activeImageIndex) {
             Toast.show('Please select an image!')
@@ -53,7 +49,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
         }
         Toast.show(response.message)
         setPostingImage(false)
-        navigation.navigate('Home', { screen: 'ProfileScreen' })
+        navigation.navigate('Home', { screen: 'Profile' })
     }
 
     const saveToMedia = async () => {
@@ -67,7 +63,10 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
         Toast.show('Image Saved')
         setImageSaving(false)
     }
-    
+
+    const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
     return (
         <StyledView className="rounded-lg h-3/6 mt-2 px-4 py-1 flex items-center">
             
@@ -80,7 +79,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
                 </StyledTouchableOpacity>
             </StyledView>
 
-            <StyledImage source={{ uri: images[activeImageIndex].uri }} className="w-full h-full rounded-lg mx-2"/>
+            <Image source={images[activeImageIndex].uri} style={{ width: '100%', aspectRatio: 1 }} placeholder={blurhash} transition={500} contentFit="cover" className="rounded-lg"/>
             <StyledView className="flex flex-row items-center justify-center mt-2">
                 {
                     images.map((image, index) => {

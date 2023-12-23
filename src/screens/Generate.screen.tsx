@@ -104,7 +104,7 @@ export const GenerateScreen = ({ navigation }: any) => {
     return (
         <StyledView className="flex w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
-            <StyledView className="border border-slate-300 mx-2 rounded-lg h-3/5 relative p-4">
+            <StyledView className="border border-slate-300 mx-2 rounded-lg h-2/5 relative p-4 mt-4">
                 <StyledScrollView className="mb-3">
                     {
                         generatedText.map((item, index) => (
@@ -128,8 +128,8 @@ export const GenerateScreen = ({ navigation }: any) => {
                 </StyledView>
             </StyledView>
 
-            <StyledView className="w-full absolute right-0 bottom-2 left-0 px-4 flex items-center justify-center">
-                <StyledTextInput className="rounded-2xl w-full px-3 py-1 text-gray-900 border-slate-300 bg-gray-300" placeholder="Write Text" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'}/>
+            <StyledView className="w-full absolute right-0 bottom-10 left-0 px-4 flex items-center justify-center">
+                <StyledTextInput className="rounded-full w-full px-3 py-2 text-white border border-slate-300 " placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'}/>
                 <StyledScrollView horizontal={true} className="mt-4">
                     {
                         generateButtons.map((item, index) => {

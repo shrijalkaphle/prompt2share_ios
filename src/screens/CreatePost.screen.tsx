@@ -13,6 +13,7 @@ import { FileSystemUploadType } from "expo-file-system";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { useAuth } from "../contexts/AuthContext";
 import Toast from "react-native-root-toast";
+import { AppBarComponent } from "../components/core/AppBarComponent";
 
 export enum IPostType {
     TEXT = 'text',
@@ -128,7 +129,8 @@ export const CreatePostScreen = ({ navigation }: any) => {
 
     return (
         <StyledView className="h-full w-full p-3 bg-background">
-            <StyledView className="w-full mt-12">
+            <AppBarComponent navigation={navigation} hasBack={true}/>
+            <StyledView className="w-full mt-4">
                 <StyledText className="text-white text-2xl font-bold my-3">Create a post</StyledText>
                 <StyledView className={`${postType == IPostType.TEXT ? '' : 'hidden'}`}>
                     <StyledView className="w-full rounded-xl bg-white/10 h-fit p-4">

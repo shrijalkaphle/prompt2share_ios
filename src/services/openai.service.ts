@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
-import { IGenerateFeedPostProps, IGenerateImageProps, IPostGenerateImageProps } from "../types/services/openai.type";
+import { IEditImageProps, IGenerateFeedPostProps, IGenerateImageProps, IPostGenerateImageProps } from "../types/services/openai.type";
 
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
@@ -30,7 +30,6 @@ export const generateImages = async (generateImageProps: IGenerateImageProps) =>
 
 
 export const postGenerateImage = async (postGenerateImageProps: IPostGenerateImageProps) => {
-    console.log('posting image')
     const endpoint = `${api_url}/${ENDPOINT.IMAGE_POST}`;
     try {
         const result = await axios.post(endpoint,postGenerateImageProps)
@@ -39,4 +38,14 @@ export const postGenerateImage = async (postGenerateImageProps: IPostGenerateIma
         return { error: true, message: (error as any).response.data.message }
     }
     
+}
+
+export const editImage = async (editImageProps: IEditImageProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.IMAGE_EDIT}`;
+    try {
+        const result = await axios.post(endpoint,editImageProps)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
 }

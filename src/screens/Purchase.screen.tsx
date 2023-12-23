@@ -13,7 +13,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe()
 
     const [amount, setAmount] = useState<string>('1')
-    const [paymentIntentId, setPaymentIntentId] = useState<string>('')
+    const [paymentIntent, setPaymentIntent] = useState<any>()
 
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
 
@@ -23,7 +23,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
             Toast.show(intentResponse.error)
             return
         }
-        setPaymentIntentId(intentResponse.intent.id)
+        setPaymentIntent(intentResponse.intent)
         const { error } = await initPaymentSheet({
             merchantDisplayName: 'Prompt to Share',
             paymentIntentClientSecret: intentResponse.intent.client_secret,
@@ -42,6 +42,18 @@ export const PurchaseScreen = ({ navigation }: any) => {
     }, [])
 
     const openPaymentSheet = async () => {
+        // check if amount is different
+        if(parseInt(amount)*100 != paymentIntent.amount) {
+            if (amount == '' || amount == '0') {
+                Toast.show('Enter a valid amount!', {
+                    containerStyle: {
+                        backgroundColor: 'red',
+                    }
+                })
+                return
+            }
+            updateAmount()
+        }
         const { error, paymentOption } = await presentPaymentSheet()
         if (error) {
             Toast.show(error.code)
@@ -50,7 +62,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
         setPaymentProcessing(true)
 
         const props: ICompletePurchaseProps = {
-            paymentIntentId: paymentIntentId,
+            paymentIntentId: paymentIntent.id,
             amount: amount,
             paymentOption: paymentOption ? paymentOption.label : 'card'
         }
@@ -59,26 +71,16 @@ export const PurchaseScreen = ({ navigation }: any) => {
             Toast.show(response.error)
             return
         }
-        navigation.navigate('Home', { screen: 'ProfileScreen' })
+        navigation.navigate('Home', { screen: 'Profile' })
     }
 
-    const updateAmount = async (amount: string) => {
-        setAmount(amount)
-        if (amount == '' || amount == '0') {
-            Toast.show('Enter a valid amount!', {
-                containerStyle: {
-                    backgroundColor: 'red',
-                }
-            })
-            return
-        }
+    const updateAmount = async () => {
         const props: IUpdatePaymentIntentPropos = {
             amount: parseInt(amount) * 100,
-            payment_intent_id: paymentIntentId
+            payment_intent_id: paymentIntent.id
         }
         // update payment intent
         const intentResponse = await updatePaymentIntent(props)
-        console.log(intentResponse)
     }
 
 
@@ -91,7 +93,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
 
                     <StyledView className="w-full bg-white/10 p-4 mt-6 rounded-3xl flex flex-row items-center">
                         <Ionicons name="logo-usd" size={24} color="white" />
-                        <StyledTextInput className="text-white w-5/6 px-2 text-lg" value={amount} onChange={(e) => updateAmount(e.nativeEvent.text)} keyboardType="numeric" placeholderTextColor={'white'} />
+                        <StyledTextInput className="text-white w-5/6 px-2 text-lg" value={amount} onChange={(e) => setAmount(e.nativeEvent.text)} keyboardType="numeric" placeholderTextColor={'white'} />
                     </StyledView>
 
                     <StyledText className="text-white text-2xl font-semibold mt-6">{isNaN(rate * parseInt(amount)) ? '0' : rate * parseInt(amount)} coins</StyledText>

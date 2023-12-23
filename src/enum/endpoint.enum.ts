@@ -8,7 +8,7 @@ export enum ENDPOINT {
     MINE_POST = "me/posts",
     LIKE_POST = "posts/like",
     COMMENT_POST = "posts/comment",
-    TOKEN_POST = "posts/token",
+    TROPHY_POST = "posts/trophy",
     FEED_GENERATE = "generate/feed",
     IMAGE_GENERATE = "generate/image",
     POST_GENERATE = 'generate/feed/post',
@@ -19,4 +19,5 @@ export enum ENDPOINT {
     CREATE_PAYMENT_INTENT="create_payment_intent",
     UPDATE_PAYMENT_INTENT="update_payment_intent",
     COMPLETE_PAYMENT="complete_payment",
+    IMAGE_EDIT="generate/edit/image"
 }

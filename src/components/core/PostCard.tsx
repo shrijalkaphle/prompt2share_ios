@@ -2,8 +2,8 @@ import moment from "moment";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyledActivityIndicator, StyledImage, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper"
 import React, { useRef, useState } from "react";
-import { IPost, IPostComment } from "../../types/models.type";
-import { commentPostbyId, likePostbyId } from "../../services/post.service";
+import { IPost, IPostComment, IPostLike } from "../../types/models.type";
+import { commentPostbyId, likePostbyId, tyophyPostbyId } from "../../services/post.service";
 import { useAuth } from "../../contexts/AuthContext";
 import { ICommentProps, ICommentResponse } from "../../types/services/post.type";
 import Toast from 'react-native-root-toast'
@@ -18,7 +18,7 @@ export const PostCard = ({ post }: IPostCard) => {
     const video = useRef(null)
     const [status, setStatus] = React.useState({});
 
-    const { authUser } = useAuth();
+    const { authUser, setAuthUser } = useAuth();
 
     const [toogleComment, setToogleComment] = useState<boolean>(false)
     const [wirteComment, setWriteComment] = useState<string>('')
@@ -27,11 +27,13 @@ export const PostCard = ({ post }: IPostCard) => {
     const [commetCount, setCommentCount] = useState<number>(comments.length)
     const [likeCount, setLikeCount] = useState<number>(post.like.length)
     const [troplyCount, setTroplyCount] = useState<number>(post.trophy.length)
+    const [isLiked, setIsLiked] = useState<boolean>(post.like.some((like: any) => like.user_id === authUser?.user_id))
+    const [isTroplyed, setIsTroplyed] = useState<boolean>(post.trophy.some((like: any) => like.user_id === authUser?.user_id))
 
     const [commenting, setCommenting] = useState<boolean>(false)
 
     const dateFormat = () => {
-        return moment(post.created_at).format('Do MMM, YYYY');
+        return moment(post.created_at).format('MMM D, YYYY');
         const currentTime = moment();
         const dateStatus = moment.utc(post.created_at).startOf('seconds').fromNow();
         const differenceInDays = currentTime.diff(post.created_at, 'days');
@@ -40,22 +42,39 @@ export const PostCard = ({ post }: IPostCard) => {
         }
         return dateStatus
     }
-    const liked = () => {
-        return (post.like.some((like: any) => like.user_id === authUser?.user_id))
-    }
-
-    const troplyed = () => {
-        return (post.trophy.some((like: any) => like.user_id === authUser?.user_id))
-    }
 
     const likePost = async () => {
-        if (liked()) {
+        if (isLiked) {
             return
         }
-        likePostbyId({ id: parseInt(post.id) }).then((response: any) => {
-            if (response.status) {
-                console.log(response)
-            }
+        const response = await likePostbyId({ id: parseInt(post.id) })
+        if(response && response.error) {
+            Toast.show(response.message)
+            return
+        }
+        
+        setLikeCount(likeCount + 1)
+        setIsLiked(true)
+
+    }
+
+    const troplyPost = async () => {
+        if (isTroplyed) {
+            return
+        }
+        const response = await tyophyPostbyId({ id: parseInt(post.id) })
+        if(response && response.error) {
+            Toast.show(response.message)
+            return
+        }
+        
+        setTroplyCount(troplyCount + 1)
+        setIsTroplyed(true)
+        response.level
+        if(authUser && setAuthUser)
+            setAuthUser({
+                ...authUser,
+                level: response.level
         })
     }
 
@@ -91,12 +110,12 @@ export const PostCard = ({ post }: IPostCard) => {
             <StyledView className="flex flex-row gap-x-4">
                 <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
                 <StyledView>
-                    <StyledText className="text-lg font-bold text-white">{post.user?.name}</StyledText>
-                    <StyledText className="text-sm font-base text-white">{dateFormat()}</StyledText>
+                    <StyledText className="text-lg font-base text-white">{post.user?.name}</StyledText>
+                    <StyledText className="text-xs font-bold text-white">{dateFormat()}</StyledText>
                 </StyledView>
             </StyledView>
             <StyledView className="my-2">
-                <StyledText className={`text-white my-4 ${liked() ? '' : 'hidden'}`}>
+                <StyledText className={`text-white my-4 ${isLiked ? '' : 'hidden'}`}>
                     <StyledText className="font-bold">Prompt: </StyledText>
                     <StyledText>{post.title}</StyledText>
                 </StyledText>
@@ -127,8 +146,8 @@ export const PostCard = ({ post }: IPostCard) => {
                 }
             </StyledView>
             <StyledView className="my-2 flex flex-row gap-x-1">
-                <StyledTouchableOpacity className={`w-1/3 py-2 rounded-lg ${liked() ? 'bg-white/10' : ''} `} onPress={likePost}><StyledText className="text-white text-center"><Ionicons name={liked() ? 'medal' : 'medal-outline'} size={22} color={'white'} /> {likeCount}</StyledText></StyledTouchableOpacity>
-                <StyledTouchableOpacity className={`w-1/3 py-2 rounded-lg ${troplyed() ? 'bg-white/10' : ''} `} onPress={() => { }}><StyledText className="text-white text-center"><Ionicons name={troplyed() ? 'trophy' : 'trophy-outline'} size={22} color={'white'} /> {troplyCount}</StyledText></StyledTouchableOpacity>
+                <StyledTouchableOpacity className={`w-1/3 py-2 rounded-lg ${isLiked ? 'bg-white/10' : ''} `} onPress={likePost}><StyledText className="text-white text-center"><Ionicons name={isLiked ? 'medal' : 'medal-outline'} size={22} color={'white'} /> {likeCount}</StyledText></StyledTouchableOpacity>
+                <StyledTouchableOpacity className={`w-1/3 py-2 rounded-lg ${isTroplyed ? 'bg-white/10' : ''} `} onPress={troplyPost}><StyledText className="text-white text-center"><Ionicons name={isTroplyed ? 'trophy' : 'trophy-outline'} size={22} color={'white'} /> {troplyCount}</StyledText></StyledTouchableOpacity>
                 <StyledTouchableOpacity className={`w-1/3 py-2 rounded-lg `} onPress={() => setToogleComment(!toogleComment)}><StyledText className="text-white text-center"><Ionicons name={'chatbubble-outline'} size={22} color={'white'} /> {commetCount}</StyledText></StyledTouchableOpacity>
             </StyledView>
 

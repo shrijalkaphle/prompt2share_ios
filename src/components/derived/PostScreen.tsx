@@ -41,7 +41,7 @@ export const PostScreen = ({navigation}: any) => {
                     dataLoading ?
                         <LoadingPost />
                         :
-                        <StyledView>
+                        <StyledView className="pb-24">
                             {
                                 posts.map((post: IPost, index: number) => (
                                     <PostCard key={index} post={post} />

@@ -12,3 +12,9 @@ export interface IPostGenerateImageProps {
     category: string
     image_url: string
 }
+
+export interface IEditImageProps {
+    prompt: string
+    original: string
+    mask: string
+}

@@ -11,7 +11,7 @@ export interface IUser {
     generate_history: string
     total_price: string
     report_count: string
-    level?: number
+    level: number
 }
 
 export interface IPost {

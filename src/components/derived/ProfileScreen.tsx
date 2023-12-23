@@ -91,21 +91,11 @@ export const ProfileScreen = ({ navigation }: any) => {
                     </StyledView>
                 </StyledScrollView>
 
-                <StyledView className="mb-10">
+                <StyledView className="mb-24">
                     {posts.map((post, index) => (
                         <PostCard key={index} post={post} />
                     ))}
-                    {
-                        postLoading ?
-                            <LoadingPost />
-                            :
-                            <StyledView className="mb-10">
-                                <StyledTouchableOpacity className="w-full flex items-center justify-center border border-slate-400 p-3 rounded-lg mt-7" onPress={updatePageCount}>
-                                    <StyledText className="text-gray-400">Load More</StyledText>
-                                </StyledTouchableOpacity>
-                            </StyledView>
-
-                    }
+                    { postLoading && <LoadingPost /> }
                 </StyledView>
 
             </StyledScrollView>

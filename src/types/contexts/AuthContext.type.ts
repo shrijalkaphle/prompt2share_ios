@@ -7,6 +7,7 @@ export interface IAuthContext {
     onRegister?:(registerParams: IRegisterParams) => Promise<any>
     onLogin?: (loginParams: ILoginParams) => Promise<any>
     onLogout?: () => Promise<any>
+    setAuthUser?: (authUser: IUser | undefined) => void
 }
 
 export interface IAuthState {

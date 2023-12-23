@@ -27,27 +27,26 @@ export const getUserPost = async ({ perPage, page }: IGetPostParams) => {
     }
 }
 
-export const likePostbyId = ({ id }: ILikeProps) => {
-    return new Promise<ILikePostResponse>(async (resolve, reject) => {
-        const endPoint = `${ENDPOINT.LIKE_POST}/${id}`;
-        const type = REQUEST_TYPE.POST;
-        const options: AxiosRequestConfig = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + await AsyncStorage.getItem(AUTH_CONSTANTS.TOKENKEY)
-            }
-        }
-
-        axios[type](api_url + endPoint, options)
-            .then(async (response: any) => {
-                // STORE AUTH TOKEN
-                resolve(response.data as ILikePostResponse)
-            })
-            .catch((response: any) => {
-                reject(response)
-            })
-    })
+export const likePostbyId = async ({ id }: ILikeProps) => {
+    const endPoint = `${api_url}/${ENDPOINT.LIKE_POST}/${id}`;
+    try {
+        const result = await axios.post(endPoint)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
 }
+
+export const tyophyPostbyId = async ({ id }: ILikeProps) => {
+    const endPoint = `${api_url}/${ENDPOINT.TROPHY_POST}/${id}`;
+    try {
+        const result = await axios.post(endPoint)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
 
 export const commentPostbyId = async (commentProps: ICommentProps) => {
     const endpoint = `${api_url}/${ENDPOINT.COMMENT_POST}`;
