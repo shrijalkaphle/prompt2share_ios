@@ -5,6 +5,7 @@ export enum ENDPOINT {
     BILLING = "me/billing",
     NOTIFICATIONS = "me/notifications",
     POST = "posts",
+    USERS="users",
     MINE_POST = "me/posts",
     LIKE_POST = "posts/like",
     COMMENT_POST = "posts/comment",
@@ -23,5 +24,6 @@ export enum ENDPOINT {
 
     UPDATE_PASSWORD="auth/update-password",
     UPDATE_DETAIL="auth/update-detail",
-    UPDATE_PROFILE="auth/update-profile"
+    UPDATE_PROFILE="auth/update-profile",
+    PROMPTS="prompts"
 }

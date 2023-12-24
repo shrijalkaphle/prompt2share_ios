@@ -12,3 +12,13 @@ export const searchQuery = async (searchParams: string) => {
         return { error: true, message: (error as any).response.data.message }
     }
 }
+
+export const getUserDetail = async (id: number) => {
+    const endpoint = `${api_url}/${ENDPOINT.USERS}/${id}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}

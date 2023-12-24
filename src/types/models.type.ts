@@ -12,6 +12,7 @@ export interface IUser {
     total_price: string
     report_count: string
     level: number
+    
 }
 
 export interface IPost {
@@ -83,4 +84,10 @@ export interface INotification {
     is_read: boolean
     created_at: string
     
+}
+
+export interface IPrompt {
+    name: string
+    id: string
+    created_at: string
 }

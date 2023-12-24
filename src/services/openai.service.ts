@@ -49,3 +49,13 @@ export const editImage = async (editImageProps: IEditImageProps) => {
         return { error: true, message: (error as any).response.data.message }
     }
 }
+
+export const getPrompts = async () => {
+    const endpoint = `${api_url}/${ENDPOINT.PROMPTS}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}

@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { StyledActivityIndicator, StyledScrollView, StyledText, StyledTextInput, StyledView } from "../../helpers/NativeWind.helper"
+import { StyledActivityIndicator, StyledScrollView, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper"
 import { searchQuery } from "../../services/user.service"
 import { IPost, IUser } from "../../types/models.type"
 import { SearchUserCard } from "../core/SearchUserCard"
 import { PostCard } from "../core/PostCard"
 import { FloatingButton } from "../core/FloatingButton"
+import Toast from "react-native-root-toast"
 
 export const SearchScreen = ({navigation}: any) => {
 
@@ -26,7 +27,7 @@ export const SearchScreen = ({navigation}: any) => {
         setSearching(true)
         const response = await searchQuery(value)
         if (response && response.error) {
-            alert(response.error)
+            Toast.show(response.message)
             setSearching(false)
             return
         }
@@ -57,7 +58,9 @@ export const SearchScreen = ({navigation}: any) => {
                                     <StyledScrollView horizontal={true} className="py-4">
                                         {
                                             users.map((user: IUser, index) => (
-                                                <SearchUserCard {...user} key={index} />
+                                                <StyledTouchableOpacity key={index} onPress={() => navigation.navigate('User', { userId: user.user_id })}>
+                                                    <SearchUserCard {...user} />
+                                                </StyledTouchableOpacity>
                                             ))
                                         }
                                     </StyledScrollView>

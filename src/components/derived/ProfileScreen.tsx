@@ -60,32 +60,32 @@ export const ProfileScreen = ({ navigation }: any) => {
                         </StyledTouchableOpacity>
                     </StyledView>
                 </StyledView>
-                <StyledScrollView horizontal={true} className="gap-x-4 my-4">
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                <StyledScrollView horizontal={true} className="my-4">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Reward given</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.reward_given}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Trophy given</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.trophy_given}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Your History</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.generate_history}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Trophy received</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.trophy_received}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Reward received</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.reward_received}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Total price</StyledText>
-                        <StyledText className="text-white text-sm font-base">{authUser?.total_price}</StyledText>
+                        <StyledText className="text-white text-sm font-base">${authUser?.total_price}</StyledText>
                     </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36">
+                    <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Report Problem</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.report_count}</StyledText>
                     </StyledView>

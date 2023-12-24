@@ -78,3 +78,14 @@ export const createManualPost = async (createManualPostProps: ICreateManualPostP
         return { error: true, message: (error as any).response.data.message }
     }
 }
+
+export const getPostbyUserId = async ({page, perPage, user_id}: IGetPostParams ) => {
+    const endpoint = `${api_url}/${ENDPOINT.POST}?user_id=${user_id}&${perPage && `perPage=${perPage}&`}${page && `page=${page}`}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}

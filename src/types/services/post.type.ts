@@ -4,6 +4,7 @@ import { IPost, IPostComment } from "../models.type"
 export interface IGetPostParams {
     perPage: number
     page: number
+    user_id?: number
 }
 
 export interface IPostResponse {
