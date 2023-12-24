@@ -86,7 +86,7 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
                             </Canvas>
                         </StyledView>
                         <StyledView className="w-full flex flex-row items-center justify-between px-4 mt-1">
-                            <StyledTouchableOpacity className="border border-slate-300 py-2 px-4 rounded-full" onPress={() => navigation.goBack()}>
+                            <StyledTouchableOpacity className="border border-slate-300 py-2 px-4 rounded-full" onPress={() => setPhoto(undefined)}>
                                 <StyledText className="text-white">Select another</StyledText>
                             </StyledTouchableOpacity>
                             <StyledTouchableOpacity className="border border-slate-300 py-2 px-4 rounded-full" onPress={undoMask}>

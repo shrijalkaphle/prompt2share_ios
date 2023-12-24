@@ -56,6 +56,10 @@ export const CreatePostScreen = ({ navigation }: any) => {
     }, [])
 
     const imagePicker = async () => {
+        if(!hasMediaLibraryPermission) {
+            Toast.show('Please enable media library permission in settings')
+            return
+        }
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             base64: true,
@@ -68,6 +72,10 @@ export const CreatePostScreen = ({ navigation }: any) => {
     }
 
     const videoPicker = async () => {
+        if(!hasMediaLibraryPermission) {
+            Toast.show('Please enable media library permission in settings')
+            return
+        }
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Videos,
             base64: true,
@@ -118,12 +126,6 @@ export const CreatePostScreen = ({ navigation }: any) => {
         }
         Toast.show('Post created')
         navigation.navigate('Home', {screen: 'Profile'})
-        // console.log(response)
-        // const response = await fetch(video?.uri ? video.uri.replace("file:///","file:/") : '');
-        // const blob = await response.blob();
-        // const uri = video?.uri.replace("file:///","file:/")
-        // const response = await fetch(uri ? uri : '');
-        // console.log(video)
         setPosting(false)
     }
 

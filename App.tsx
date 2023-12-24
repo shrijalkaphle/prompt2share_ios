@@ -16,6 +16,7 @@ import { DalleScreen } from './src/screens/Dalle.screen';
 import { ImageGenerateScreen } from './src/screens/ImageGenerate.screen';
 import { CreatePostScreen } from './src/screens/CreatePost.screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
+import { EditProfileScreen } from './src/screens/EditProfile.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ export const Layout = () => {
           <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>

@@ -22,7 +22,8 @@
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow P2S to access your photos.",
         "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
-      }
+      },
+      "bundleIdentifier": "com.aiinterf.prompttoshare"
     },
     "android": {
       "adaptiveIcon": {
@@ -36,7 +37,7 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION"
       ],
-      "package": "com.shrijalkaphle.prompttoshare"
+      "package": "com.aiinterf.prompttoshare"
     },
     "web": {
       "favicon": "./assets/icon.png"

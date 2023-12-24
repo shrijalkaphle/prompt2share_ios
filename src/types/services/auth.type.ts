@@ -35,3 +35,13 @@ export interface IGetUserNotificationParams {
     page: number
     perPage: number
 }
+
+export interface IUpdatePasswordParams {
+    password: string
+    confirm_password: string
+}
+
+export interface IUpdateDetailParams {
+    name: string
+    email: string
+}

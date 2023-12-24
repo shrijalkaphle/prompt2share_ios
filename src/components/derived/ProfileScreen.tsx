@@ -52,7 +52,7 @@ export const ProfileScreen = ({ navigation }: any) => {
                         <StyledText className="text-white text-xl font-semibold">Level: {authUser?.level ? authUser?.level : '0'}</StyledText>
                     </StyledView>
                     <StyledView className="flex flex-row gap-x-4 justify-around">
-                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5">
+                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('EditProfile')}>
                             <StyledText className="text-white">Edit Profile</StyledText>
                         </StyledTouchableOpacity>
                         <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('PurchaseCoin')}>

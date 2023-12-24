@@ -3,14 +3,14 @@ import { StyledActivityIndicator, StyledImage, StyledText, StyledTouchableOpacit
 import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera'
 import { Ionicons } from "@expo/vector-icons"
 import * as MediaLibrary from 'expo-media-library'
+import * as ImagePicker from 'expo-image-picker';
 import Toast from "react-native-root-toast"
-import { Canvas, Image, useImage } from "@shopify/react-native-skia"
 import { CameraPreview } from "../components/core/CameraPreview"
 export const CameraScreen = ({ navigation }: any) => {
     let cameraRef = useRef<Camera>(null)
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false)
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
-    const [photo, setPhoto] = useState<CameraCapturedPicture | undefined>(undefined);
+    const [photo, setPhoto] = useState<CameraCapturedPicture | ImagePicker.ImagePickerAsset | undefined>(undefined);
     const [type, setType] = useState(CameraType.back);
 
     useEffect(() => {
@@ -45,41 +45,21 @@ export const CameraScreen = ({ navigation }: any) => {
         (async () => {
             const { granted } = await MediaLibrary.requestPermissionsAsync()
             if (granted) {
-                const { assets } = await MediaLibrary.getAssetsAsync()
-                console.log(assets)
+                let result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    base64: true,
+                    quality: 1,
+                    allowsEditing: true,
+                    aspect: [1, 1],
+                })
+                if(result.canceled) return
+                setPhoto(result.assets[0])
+                return
             }
+
+            Toast.show('Please enable media library permission in settings')
         })()
     }
-
-    // if (photo) {
-    //     return (
-    // <StyledView className="w-full h-full bg-background flex items-center justify-center p-4">
-    //     <StyledView className="h-full w-full relative flex items-center mt-20">
-    //         <StyledView className="w-full flex flex-row items-center justify-between px-2">
-    //             <StyledTouchableOpacity onPress={() => setPhoto(undefined)}>
-    //                 <Ionicons name="arrow-back-circle" size={36} color="white" />
-    //             </StyledTouchableOpacity>
-    //             <StyledTouchableOpacity onPress={undoMask}>
-    //                 <Ionicons name="arrow-undo" size={36} color="white" />
-    //             </StyledTouchableOpacity>
-    //         </StyledView>
-    //         <StyledView className="w-full h-[400px] p-2">
-    //             <Canvas style={{ flex: 1, width: 400, height: 400, backgroundColor: 'black', borderRadius: 20, overflow: 'hidden' }} >
-    //                 <Image image={useImage('https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')} fit="contain" x={0} y={0} width={400} height={400} />
-    //             </Canvas>
-    //         </StyledView>
-
-    //         <StyledView className="w-full flex flex-row items-center justify-center p-2">
-    //             <StyledTouchableOpacity className="border border-slate-300 py-4 rounded-full w-2/3 flex items-center justify-center" onPress={generateImage} >
-    //                 {
-    //                     imageGenerating ? <StyledActivityIndicator /> : <StyledText className="text-white font-bold text-xl">Generate</StyledText>
-    //                 }
-    //             </StyledTouchableOpacity>
-    //         </StyledView>
-    //     </StyledView>
-    // </StyledView>
-    //     )
-    // }
 
     if (!hasCameraPermission) {
         return (

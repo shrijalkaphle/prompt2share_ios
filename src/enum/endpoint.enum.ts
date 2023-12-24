@@ -19,5 +19,9 @@ export enum ENDPOINT {
     CREATE_PAYMENT_INTENT="create_payment_intent",
     UPDATE_PAYMENT_INTENT="update_payment_intent",
     COMPLETE_PAYMENT="complete_payment",
-    IMAGE_EDIT="generate/edit/image"
+    IMAGE_EDIT="generate/edit/image",
+
+    UPDATE_PASSWORD="auth/update-password",
+    UPDATE_DETAIL="auth/update-detail",
+    UPDATE_PROFILE="auth/update-profile"
 }
