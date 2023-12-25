@@ -26,7 +26,6 @@ export default function App() {
     <AuthProvider>
       <StripeProvider
         publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
-        // urlScheme="your-url-scheme"
         merchantIdentifier="merchant.prompttoshate.prompttoshare">
         <RootSiblingParent>
           <MenuProvider>

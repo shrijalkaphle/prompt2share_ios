@@ -155,6 +155,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
                             </StyledTouchableOpacity>
                         </StyledView>
                 }
+                <StyledText className="text-white text-xs mt-1">{isPlatformpaySupported ? 'platform pay is supported' : 'platform pay is not supported'}</StyledText>
             </StyledView>
             {
                 paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">
