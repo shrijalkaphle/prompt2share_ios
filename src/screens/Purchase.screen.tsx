@@ -7,6 +7,7 @@ import { completeCoinPurchase, generatePaymentIntent, updatePaymentIntent } from
 import Toast from "react-native-root-toast";
 import * as Linking from 'expo-linking';
 import { ICompletePurchaseProps, IUpdatePaymentIntentPropos } from "../types/services/payment.type";
+import { Alert } from "react-native";
 
 export const PurchaseScreen = ({ navigation }: any) => {
     const rate = 96
@@ -20,7 +21,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const [isPlatformpaySupported, setIsPlatformpaySupported] = useState(false);
 
     const initializePaymentSheet = async () => {
-        const intentResponse = await generatePaymentIntent()
+        const intentResponse = await generatePaymentIntent({amount: parseInt(amount)})
         if (intentResponse && intentResponse.error) {
             Toast.show(intentResponse.error)
             return
@@ -42,7 +43,11 @@ export const PurchaseScreen = ({ navigation }: any) => {
     useEffect(() => {
         // initializePaymentSheet()
         (async function () {
-            setIsPlatformpaySupported(await isPlatformPaySupported());
+            const response = await isPlatformPaySupported()
+            setIsPlatformpaySupported(response);
+            if(!response) {
+                initializePaymentSheet()
+            }
         })();
     }, [])
 
@@ -90,7 +95,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
 
 
     const pay = async () => {
-        const intentResponse = await generatePaymentIntent()
+        const intentResponse = await generatePaymentIntent({amount: parseInt(amount)})
         if (intentResponse && intentResponse.error) {
             Toast.show(intentResponse.error)
             return
@@ -117,20 +122,20 @@ export const PurchaseScreen = ({ navigation }: any) => {
             }
         )
         if(error)
-            alert(error.message)
+            Alert.alert(error.message, error.stripeErrorCode)
     };
 
 
     return (
         <StyledView className="w-full h-full bg-background relative">
             <AppBarComponent navigation={navigation} hasBack={true} />
-            <StyledView className="flex flex-col items-center justify-between p-4 h-2/3">
+            <StyledView className="flex flex-col items-center p-4 h-2/3">
                 <StyledView className="flex flex-col items-center justify-center">
                     <StyledText className="text-white text-2xl font-bold mt-6">Purchase your token here</StyledText>
 
-                    <StyledView className="w-full bg-white/10 p-4 mt-6 rounded-3xl flex flex-row items-center">
+                    <StyledView className="w-full bg-white/10 p-4 mt-6 rounded-3xl flex flex-row items-center justify-center">
                         <Ionicons name="logo-usd" size={24} color="white" />
-                        <StyledTextInput className="text-white w-5/6 px-2 text-lg" value={amount} onChange={(e) => setAmount(e.nativeEvent.text)} keyboardType="numeric" placeholderTextColor={'white'} />
+                        <StyledTextInput className="text-white w-5/6 px-2 py-0.5 text-lg" value={amount} onChange={(e) => setAmount(e.nativeEvent.text)} keyboardType="numeric" placeholderTextColor={'white'} />
                     </StyledView>
 
                     <StyledText className="text-white text-2xl font-semibold mt-6">{isNaN(rate * parseInt(amount)) ? '0' : rate * parseInt(amount)} coins</StyledText>
@@ -155,7 +160,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
                             </StyledTouchableOpacity>
                         </StyledView>
                 }
-                <StyledText className="text-white text-xs mt-1">{isPlatformpaySupported ? 'platform pay is supported' : 'platform pay is not supported'}</StyledText>
+                <StyledText className="text-white text-xs mt-1">{isPlatformpaySupported ? '' : 'Platform pay is not supported in this device. Proceed with credit card.'}</StyledText>
             </StyledView>
             {
                 paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">

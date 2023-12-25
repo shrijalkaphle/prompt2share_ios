@@ -10,3 +10,7 @@ export interface ICompletePurchaseProps {
     amount: string,
     paymentOption: string
 }
+
+export interface IPaymentIntentProps {
+    amount: number
+}

@@ -8,6 +8,7 @@ import { generateFeedPost, getPrompts } from "../services/openai.service";
 import { ICreatePostProps } from "../types/services/post.type";
 import { createPost } from "../services/post.service";
 import { IPrompt } from "../types/models.type";
+import { Keyboard } from "react-native";
 
 export const GenerateScreen = ({ navigation }: any) => {
 
@@ -27,6 +28,7 @@ export const GenerateScreen = ({ navigation }: any) => {
         setFilteredPrompts(prompts.filter((prompt) => prompt.name.toLowerCase().includes(filter.toLowerCase())))
     }
     const generateText = async (category: string) => {
+        Keyboard.dismiss()
         if (generatePrompt == '') {
             Toast.show('Generate prompt cannot be empty!')
             return
@@ -84,7 +86,7 @@ export const GenerateScreen = ({ navigation }: any) => {
             setPrompts(response.prompts)
             setFilteredPrompts(response.prompts)
         })()
-    },[])
+    }, [])
 
     return (
         <StyledView className="w-full h-full bg-background flex items-center justify-between">
@@ -117,20 +119,22 @@ export const GenerateScreen = ({ navigation }: any) => {
             <StyledView className="w-full px-4 flex items-center justify-center mb-10">
                 <StyledTextInput className="rounded-lg w-full px-3 py-2 text-white border border-slate-300 " placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'} />
                 <StyledTouchableOpacity className="rounded-3xl w-full p-3  bg-slate-300 border my-2 flex items-center justify-center" onPress={() => generateText('Write about')} disabled={generatingText}>
-                    {generatingText ? <StyledActivityIndicator/> : <StyledText className="text-background font-bold text-lg">Generate</StyledText>}
+                    {generatingText ? <StyledActivityIndicator /> : <StyledText className="text-background font-bold text-lg">Generate</StyledText>}
                 </StyledTouchableOpacity>
-                <StyledTextInput className="w-full px-3 py-2 text-white border-b border-slate-300 " placeholder="Search prompt" value={filterPrompt} onChange={(e) => filter(e.nativeEvent.text)} placeholderTextColor={'white'} />
-                <StyledScrollView horizontal={true} className="mt-4">
-                    {
-                        filteredPrompts.map((prompt, index) => {
-                            return (
-                                <StyledTouchableOpacity className="rounded-3xl w-fit p-3 text-white border-slate-300 border mx-1" onPress={() => generateText(prompt.name)} key={index} disabled={generatingText}>
-                                    {generatingText ? <StyledActivityIndicator/> : <StyledText className="text-white">{prompt.name}</StyledText>}
-                                </StyledTouchableOpacity>
-                            )
-                        })
-                    }
-                </StyledScrollView>
+                <StyledView className={`w-full ${generatingText ? 'hidden' : ''}`}>
+                    <StyledTextInput className="w-full px-3 py-2 text-white border-b border-slate-300 " placeholder="Search prompt" value={filterPrompt} onChange={(e) => filter(e.nativeEvent.text)} placeholderTextColor={'white'} />
+                    <StyledScrollView horizontal={true} className="mt-4">
+                        {
+                            filteredPrompts.map((prompt, index) => {
+                                return (
+                                    <StyledTouchableOpacity className="rounded-3xl w-fit p-3 text-white border-slate-300 border mx-1" onPress={() => generateText(prompt.name)} key={index} disabled={generatingText}>
+                                        <StyledText className="text-white">{prompt.name}</StyledText>
+                                    </StyledTouchableOpacity>
+                                )
+                            })
+                        }
+                    </StyledScrollView>
+                </StyledView>
             </StyledView>
         </StyledView>
     )

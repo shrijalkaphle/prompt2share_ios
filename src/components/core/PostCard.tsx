@@ -159,7 +159,7 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
                 <StyledView className={`my-2 border-t border-background ${toogleComment ? '' : 'hidden'}`}>
                     {
                         comments.map((comment: IPostComment, index: number) => (
-                            <StyledView className="flex flex-row items-center m-3 justify-center gap-x-3" key={index}>
+                            <StyledView className="flex flex-row items-center m-3 justify-center gap-x-3" key={`comment_${post.id}_${index}`}>
                                 <StyledImage source={{ uri: comment.profile ? comment.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-8 w-8 rounded-full border" />
                                 <StyledView className="bg-white/10 w-4/5 p-2 rounded-lg">
                                     <StyledText className="text-white font-medium">{comment.name}</StyledText>
