@@ -11,6 +11,7 @@ import * as MediaLibrary from 'expo-media-library'
 import * as ImagePicker from 'expo-image-picker';
 import { ENDPOINT } from "../enum/endpoint.enum";
 import * as FileSystem from 'expo-file-system';
+import { manipulateAsync, FlipType } from 'expo-image-manipulator';
 
 
 export const EditProfileScreen = ({ navigation }: any) => {
@@ -89,8 +90,10 @@ export const EditProfileScreen = ({ navigation }: any) => {
             return
         }
         setProfileUploading(true)
+        // flip image
+        const { uri } = await manipulateAsync(result.assets[0].uri, [], { compress: 0, base64: true })
         const endpoint = `${process.env.EXPO_PUBLIC_API_URL}/${ENDPOINT.UPDATE_PROFILE}`;
-        const { body } = await FileSystem.uploadAsync(endpoint,result.assets[0].uri,{
+        const { body } = await FileSystem.uploadAsync(endpoint,uri,{
             httpMethod: 'POST',
             uploadType: FileSystem.FileSystemUploadType.MULTIPART,
             fieldName: 'profile',
@@ -123,7 +126,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
 
     return (
         <StyledView className="w-full h-full bg-background">
-            <AppBarComponent navigation={navigation} hasBack={true} />
+            <AppBarComponent navigation={navigation} hasBack={true} hasTitle={true} title={"Edit Profile"}/>
             <StyledView className="w-full mt-9 flex items-center">
                 <StyledView className="h-32 w-32 bg-black rounded-full relative">
                     <StyledImage className="h-32 w-32 rounded-full" source={{ uri: profile }} />

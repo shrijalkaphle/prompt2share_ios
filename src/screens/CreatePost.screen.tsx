@@ -14,6 +14,7 @@ import { ENDPOINT } from "../enum/endpoint.enum";
 import { useAuth } from "../contexts/AuthContext";
 import Toast from "react-native-root-toast";
 import { AppBarComponent } from "../components/core/AppBarComponent";
+import { manipulateAsync } from "expo-image-manipulator";
 
 export enum IPostType {
     TEXT = 'text',
@@ -98,12 +99,13 @@ export const CreatePostScreen = ({ navigation }: any) => {
         }
         if(postType == IPostType.IMAGE || postType == IPostType.VIDEO){
             const endpoint = `${process.env.EXPO_PUBLIC_API_URL}/${postType == IPostType.IMAGE ? ENDPOINT.UPLOAD_IMAGE : ENDPOINT.UPLOAD_VIDEO}`;
-            let uri = ''
+            let rawUri = ''
             if(postType == IPostType.IMAGE)
-                uri = photo?.uri ? photo.uri : ''
+                rawUri = photo?.uri ? photo.uri : ''
             if(postType == IPostType.VIDEO)
-                uri = video?.uri ? video.uri : ''
-
+                rawUri = video?.uri ? video.uri : ''
+            
+            const { uri } = await manipulateAsync(rawUri, [], { compress: 0, base64: true })
             const { body } = await FileSystem.uploadAsync(endpoint,uri,{
                 httpMethod: 'POST',
                 uploadType: FileSystemUploadType.MULTIPART,
@@ -160,7 +162,10 @@ export const CreatePostScreen = ({ navigation }: any) => {
                             </StyledTouchableOpacity>
                     }
 
-                    <Dropdown data={imageDropDownData} labelField="label" valueField="value" placeholder="Select Image Provider" selectedTextStyle={{ color: 'white' }} placeholderStyle={{ color: 'white' }} onChange={(e) => setImageProvider(e.value)} className="bg-white/10 p-3 rounded-xl mt-4" value={imageProvider}/>
+                    <Dropdown data={imageDropDownData} labelField="label" valueField="value" placeholder="Select Image Provider" 
+                        selectedTextStyle={{ color: 'white' }} placeholderStyle={{ color: 'white' }}
+                        style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'white', padding: 12, borderRadius: 12, marginTop: 16 }}
+                        onChange={(e) => setImageProvider(e.value)} value={imageProvider}/>
                     <StyledText className="text-white text-xl font-bold mt-3 my-2">Prompt</StyledText>
                     <StyledView className="w-full rounded-xl bg-white/10 h-fit p-4">
                         <StyledTextInput placeholder={'Your Prompt'} placeholderTextColor={'white'} value={prompt} onChange={(e) => setPrompt(e.nativeEvent.text)} className="text-white"/>

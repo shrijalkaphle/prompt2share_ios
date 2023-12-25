@@ -2,7 +2,7 @@ import { StyledActivityIndicator, StyledText, StyledTextInput, StyledTouchableOp
 import { AppBarComponent } from "../components/core/AppBarComponent";
 import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useStripe } from '@stripe/stripe-react-native';
+import { useStripe, isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { completeCoinPurchase, generatePaymentIntent, updatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
 import * as Linking from 'expo-linking';
@@ -16,6 +16,8 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const [paymentIntent, setPaymentIntent] = useState<any>()
 
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
+
+    const [isPlatformpaySupported, setIsPlatformpaySupported] = useState(false);
 
     const initializePaymentSheet = async () => {
         const intentResponse = await generatePaymentIntent()
@@ -38,12 +40,15 @@ export const PurchaseScreen = ({ navigation }: any) => {
     }
 
     useEffect(() => {
-        initializePaymentSheet()
+        // initializePaymentSheet()
+        (async function () {
+            setIsPlatformpaySupported(await isPlatformPaySupported());
+        })();
     }, [])
 
     const openPaymentSheet = async () => {
         // check if amount is different
-        if(parseInt(amount)*100 != paymentIntent.amount) {
+        if (parseInt(amount) * 100 != paymentIntent.amount) {
             if (amount == '' || amount == '0') {
                 Toast.show('Enter a valid amount!', {
                     containerStyle: {
@@ -84,6 +89,38 @@ export const PurchaseScreen = ({ navigation }: any) => {
     }
 
 
+    const pay = async () => {
+        const intentResponse = await generatePaymentIntent()
+        if (intentResponse && intentResponse.error) {
+            Toast.show(intentResponse.error)
+            return
+        }
+        setPaymentIntent(intentResponse.intent)
+        const { error } = await confirmPlatformPayPayment(
+            intentResponse.intent.client_secret,
+            {
+                applePay: {
+                    merchantCountryCode: 'US',
+                    currencyCode: 'USD',
+                    cartItems: [
+                        {
+                            label: 'Prompt to Share',
+                            amount: amount,
+                            paymentType: PlatformPay.PaymentType.Immediate
+                        }
+                    ],
+                    requiredShippingAddressFields: [
+                        PlatformPay.ContactField.PostalAddress
+                    ],
+                    requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
+                }
+            }
+        )
+        if(error)
+            alert(error.message)
+    };
+
+
     return (
         <StyledView className="w-full h-full bg-background relative">
             <AppBarComponent navigation={navigation} hasBack={true} />
@@ -99,12 +136,25 @@ export const PurchaseScreen = ({ navigation }: any) => {
                     <StyledText className="text-white text-2xl font-semibold mt-6">{isNaN(rate * parseInt(amount)) ? '0' : rate * parseInt(amount)} coins</StyledText>
                     <StyledText className="text-white text-xs mt-1">$1 = {rate} coins</StyledText>
                 </StyledView>
-
-                <StyledView className="flex w-full mt-6">
-                    <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={openPaymentSheet} disabled={amount === '' || amount === '0'}>
-                        <StyledText className="text-white text-lg font-bold">Checkout</StyledText>
-                    </StyledTouchableOpacity>
-                </StyledView>
+                {
+                    isPlatformpaySupported ?
+                        <PlatformPayButton
+                            onPress={pay}
+                            type={PlatformPay.ButtonType.Order}
+                            appearance={PlatformPay.ButtonStyle.Black}
+                            borderRadius={4}
+                            style={{
+                                width: '100%',
+                                height: 50,
+                            }}
+                        />
+                        :
+                        <StyledView className="flex w-full mt-6">
+                            <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={openPaymentSheet} disabled={amount === '' || amount === '0'}>
+                                <StyledText className="text-white text-lg font-bold">Checkout</StyledText>
+                            </StyledTouchableOpacity>
+                        </StyledView>
+                }
             </StyledView>
             {
                 paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">

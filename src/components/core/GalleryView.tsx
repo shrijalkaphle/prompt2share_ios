@@ -79,7 +79,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
                 </StyledTouchableOpacity>
             </StyledView>
 
-            <Image source={images[activeImageIndex].uri} style={{ width: '100%', aspectRatio: 1 }} placeholder={blurhash} transition={500} contentFit="cover" className="rounded-lg"/>
+            <Image source={images[activeImageIndex].uri} style={{ width: '100%', aspectRatio: 1, borderRadius: 8 }} placeholder={blurhash} transition={500} contentFit="cover"/>
             <StyledView className="flex flex-row items-center justify-center mt-2">
                 {
                     images.map((image, index) => {

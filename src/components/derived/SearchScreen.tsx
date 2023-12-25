@@ -73,7 +73,7 @@ export const SearchScreen = ({navigation}: any) => {
                                     <StyledScrollView className="pb-24">
                                         {
                                             posts.map((post: IPost, index) => (
-                                                <PostCard key={index} post={post} />
+                                                <PostCard key={index} post={post} navigation={navigation}/>
                                             ))
                                         }
                                     </StyledScrollView>

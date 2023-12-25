@@ -93,7 +93,7 @@ export const ProfileScreen = ({ navigation }: any) => {
 
                 <StyledView className="mb-24">
                     {posts.map((post, index) => (
-                        <PostCard key={index} post={post} />
+                        <PostCard key={index} post={post} navigation={navigation}/>
                     ))}
                     { postLoading && <LoadingPost /> }
                 </StyledView>

@@ -104,7 +104,7 @@ export const UserScreen = ({ navigation, route }: any) => {
                     <StyledView className="mb-24">
                         {posts.map((post, index) => (
                             <StyledView key={index} ref={index == (posts.length - 1) ? lasPostElementRef : null}>
-                                <PostCard post={post}/>
+                                <PostCard post={post} navigation={navigation}/>
                             </StyledView>
                         ))}
                         {postLoading && <LoadingPost />}

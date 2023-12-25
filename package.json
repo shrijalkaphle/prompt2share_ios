@@ -50,7 +50,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-web": "~0.19.6",
     "tsyringe": "^4.8.0",
-    "@shopify/react-native-skia": "0.1.196"
+    "@shopify/react-native-skia": "0.1.196",
+    "expo-image-manipulator": "~11.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
