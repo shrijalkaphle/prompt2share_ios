@@ -18,6 +18,7 @@ import { CreatePostScreen } from './src/screens/CreatePost.screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
+import { AppBarComponent } from './src/components/core/AppBarComponent';
 
 const Stack = createNativeStackNavigator();
 

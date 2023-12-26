@@ -35,17 +35,12 @@ export const PostScreen = ({ navigation }: any) => {
         getPosts()
     }, [page])
 
-    const reinniciatePost = () => {
-        setPage(1)
-        setPosts([])
-    }
-
     return (
         <StyledView className="w-full h-full bg-background">
             <FloatingButton navigation={navigation} />
             {
                 posts.length != 0 ?
-                    <FlatList data={posts} renderItem={({ item }) => <StyledView className="px-4"><PostCard post={item} navigation={navigation} /></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} />
+                    <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`px-4 ${index == posts.length-1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} /></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} />
                     :
                     <StyledView className="px-4"><LoadingPost /></StyledView>
             }

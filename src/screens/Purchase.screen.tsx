@@ -7,7 +7,8 @@ import { completeCoinPurchase, generatePaymentIntent, updatePaymentIntent } from
 import Toast from "react-native-root-toast";
 import * as Linking from 'expo-linking';
 import { ICompletePurchaseProps, IUpdatePaymentIntentPropos } from "../types/services/payment.type";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
+import { ButtonType } from "@stripe/stripe-react-native/lib/typescript/src/types/PlatformPay";
 
 export const PurchaseScreen = ({ navigation }: any) => {
     const rate = 96
@@ -21,7 +22,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const [isPlatformpaySupported, setIsPlatformpaySupported] = useState(false);
 
     const initializePaymentSheet = async () => {
-        const intentResponse = await generatePaymentIntent({amount: parseInt(amount)})
+        const intentResponse = await generatePaymentIntent({amount: 12})
         if (intentResponse && intentResponse.error) {
             Toast.show(intentResponse.error)
             return
@@ -30,6 +31,27 @@ export const PurchaseScreen = ({ navigation }: any) => {
         const { error } = await initPaymentSheet({
             merchantDisplayName: 'Prompt to Share',
             paymentIntentClientSecret: intentResponse.intent.client_secret,
+            style: 'alwaysDark',
+            googlePay: {
+                merchantCountryCode: 'US',
+                testEnv: true,
+            },
+            applePay: {
+                merchantCountryCode: 'US',
+                cartItems: [
+                    {
+                        label: 'Token',
+                        amount: `14.00`,
+                        paymentType: PlatformPay.PaymentType.Immediate
+                    },
+                    {
+                        label: 'Total',
+                        amount: `12.00`,
+                        paymentType: PlatformPay.PaymentType.Immediate
+                    }
+                ],
+                buttonType: PlatformPay.ButtonType.Default,
+            },
             defaultBillingDetails: {
                 name: 'Jane Doe',
             }
@@ -53,17 +75,19 @@ export const PurchaseScreen = ({ navigation }: any) => {
 
     const openPaymentSheet = async () => {
         // check if amount is different
-        if (parseInt(amount) * 100 != paymentIntent.amount) {
-            if (amount == '' || amount == '0') {
-                Toast.show('Enter a valid amount!', {
-                    containerStyle: {
-                        backgroundColor: 'red',
-                    }
-                })
-                return
-            }
-            updateAmount()
-        }
+        // if(parseInt(amount)*100 != paymentIntent.amount) {
+        //     if (amount == '' || amount == '0') {
+        //         Toast.show('Enter a valid amount!', {
+        //             containerStyle: {
+        //                 backgroundColor: 'red',
+        //             }
+        //         })
+        //         return
+        //     }
+        // }
+        
+        // await updateAmount()
+
         const { error, paymentOption } = await presentPaymentSheet()
         if (error) {
             Toast.show(error.code)
@@ -84,15 +108,6 @@ export const PurchaseScreen = ({ navigation }: any) => {
         navigation.navigate('Home', { screen: 'Profile' })
     }
 
-    const updateAmount = async () => {
-        const props: IUpdatePaymentIntentPropos = {
-            amount: parseInt(amount) * 100,
-            payment_intent_id: paymentIntent.id
-        }
-        // update payment intent
-        const intentResponse = await updatePaymentIntent(props)
-    }
-
 
     const pay = async () => {
         const intentResponse = await generatePaymentIntent({amount: parseInt(amount)})
@@ -101,7 +116,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
             return
         }
         setPaymentIntent(intentResponse.intent)
-        const { error } = await confirmPlatformPayPayment(
+        const response = await confirmPlatformPayPayment(
             intentResponse.intent.client_secret,
             {
                 applePay: {
@@ -109,21 +124,44 @@ export const PurchaseScreen = ({ navigation }: any) => {
                     currencyCode: 'USD',
                     cartItems: [
                         {
-                            label: 'Prompt to Share',
-                            amount: amount,
+                            label: 'Token',
+                            amount: `${amount}.00`,
+                            paymentType: PlatformPay.PaymentType.Immediate
+                        },
+                        {
+                            label: 'Total',
+                            amount: `12.00`,
                             paymentType: PlatformPay.PaymentType.Immediate
                         }
                     ],
-                    requiredShippingAddressFields: [
-                        PlatformPay.ContactField.PostalAddress
-                    ],
-                    requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
+                },
+                googlePay: {
+                    testEnv: true,
+                    currencyCode: 'USD',
+                    merchantName: 'Prompt to Share',
+                    merchantCountryCode: 'US'
                 }
             }
         )
+        const { error } = response
+        console.log(response)
         if(error)
-            Alert.alert(error.message, error.stripeErrorCode)
+            Alert.alert(`Error code: ${error.code}`, JSON.stringify(response))
     };
+
+    const updateAmount = async () => {
+        const props: IUpdatePaymentIntentPropos = {
+            amount: parseInt(amount) * 100,
+            payment_intent_id: paymentIntent.id
+        }
+        // update payment intent
+        const intentResponse = await updatePaymentIntent(props)
+        if (intentResponse && intentResponse.error) {
+            Toast.show(intentResponse.error)
+            return
+        }
+        setPaymentIntent(intentResponse.intent)
+    }
 
 
     return (
@@ -134,8 +172,8 @@ export const PurchaseScreen = ({ navigation }: any) => {
                     <StyledText className="text-white text-2xl font-bold mt-6">Purchase your token here</StyledText>
 
                     <StyledView className="w-full bg-white/10 p-4 mt-6 rounded-3xl flex flex-row items-center justify-center">
-                        <Ionicons name="logo-usd" size={24} color="white" />
-                        <StyledTextInput className="text-white w-5/6 px-2 py-0.5 text-lg" value={amount} onChange={(e) => setAmount(e.nativeEvent.text)} keyboardType="numeric" placeholderTextColor={'white'} />
+                        <Ionicons name="logo-usd" size={18} color="white" />
+                        <StyledTextInput className={`text-white w-5/6 px-2 text-base ${Platform.OS === 'ios' ? '-mt-2.5' : ''}`} value={amount} onChange={(e) => setAmount(e.nativeEvent.text)} keyboardType="numeric" returnKeyLabel="Pay" placeholderTextColor={'white'} />
                     </StyledView>
 
                     <StyledText className="text-white text-2xl font-semibold mt-6">{isNaN(rate * parseInt(amount)) ? '0' : rate * parseInt(amount)} coins</StyledText>
@@ -145,12 +183,13 @@ export const PurchaseScreen = ({ navigation }: any) => {
                     isPlatformpaySupported ?
                         <PlatformPayButton
                             onPress={pay}
-                            type={PlatformPay.ButtonType.Order}
+                            type={PlatformPay.ButtonType.Buy}
                             appearance={PlatformPay.ButtonStyle.Black}
                             borderRadius={4}
                             style={{
                                 width: '100%',
                                 height: 50,
+                                marginTop: 24
                             }}
                         />
                         :

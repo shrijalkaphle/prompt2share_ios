@@ -109,7 +109,7 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
 
     return (
         <>
-            <StyledView className="my-2 bg-white/10 shadow rounded-lg p-4">
+            <StyledView className="my-2 bg-white/10 rounded-lg p-4">
                 <StyledView className="flex flex-row gap-x-4">
                     <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
                     <StyledView>
@@ -118,7 +118,7 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
                     </StyledView>
                 </StyledView>
                 <StyledView className="my-2">
-                    <StyledText className={`text-white my-4 ${isLiked ? '' : 'hidden'}`}>
+                    <StyledText className={`text-white my-4 ${(isLiked || isTroplyed) ? '' : 'hidden'}`}>
                         <StyledText className="font-bold">Prompt: </StyledText>
                         <StyledText>{post.title}</StyledText>
                     </StyledText>

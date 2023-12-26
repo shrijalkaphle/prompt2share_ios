@@ -12,12 +12,13 @@ interface IGalleryViewProps {
     images: IGeneratedImage[],
     prompt: string,
     navigation: any
+    setImage: any
 }
 const albumName = "PromptToShare"
 
-export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) => {
+export const GalleryView = ({ images, prompt, navigation, setImage }: IGalleryViewProps) => {
 
-    
+
     // const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
 
     const [activeImageIndex, setActiveImageIndex] = useState<number>(0)
@@ -30,7 +31,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
     }
 
     const postImage = async () => {
-        if(!activeImageIndex) {
+        if (!activeImageIndex) {
             Toast.show('Please select an image!')
             return
         }
@@ -42,7 +43,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
         }
         const response = await postGenerateImage(props)
         console.log(response)
-        if(response && response.error) {
+        if (response && response.error) {
             Toast.show(response.error)
             setPostingImage(false)
             return
@@ -65,21 +66,23 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
     }
 
     const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+        '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
     return (
-        <StyledView className="rounded-lg h-3/6 mt-2 px-4 py-1 flex items-center">
-            
-            <StyledView className="flex flex-row items-end justify-end w-full px-3">
+        <StyledView className="rounded-lg h-3/6 px-4 py-1 flex items-center">
+            <StyledView className="flex flex-row items-center justify-between w-full px-3 my-2">
+                <StyledTouchableOpacity className="" onPress={() => setImage([])}>
+                    <Ionicons name="arrow-back" size={24} color="white" />
+                </StyledTouchableOpacity>
                 <StyledTouchableOpacity className="" onPress={saveToMedia} disabled={imageSaving}>
-                    
+
                     {
-                        imageSaving ? <StyledActivityIndicator /> : <Ionicons name="cloud-download" size={32} color="white" />
+                        imageSaving ? <StyledActivityIndicator /> : <Ionicons name="cloud-download" size={24} color="white" />
                     }
                 </StyledTouchableOpacity>
             </StyledView>
 
-            <Image source={images[activeImageIndex].uri} style={{ width: '100%', aspectRatio: 1, borderRadius: 8 }} placeholder={blurhash} transition={500} contentFit="cover"/>
+            <Image source={images[activeImageIndex].uri} style={{ width: '100%', aspectRatio: 1, borderRadius: 8 }} placeholder={blurhash} transition={500} contentFit="cover" />
             <StyledView className="flex flex-row items-center justify-center mt-2">
                 {
                     images.map((image, index) => {
@@ -97,7 +100,7 @@ export const GalleryView = ({ images, prompt, navigation }: IGalleryViewProps) =
                     {
                         postingImage ? <StyledActivityIndicator /> : <StyledText className="text-white font-bold text-xl">Post</StyledText>
                     }
-                    
+
                 </StyledTouchableOpacity>
             </StyledView>
 

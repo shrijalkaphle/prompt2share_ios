@@ -11,7 +11,7 @@ import * as MediaLibrary from 'expo-media-library'
 import * as ImagePicker from 'expo-image-picker';
 import { ENDPOINT } from "../enum/endpoint.enum";
 import * as FileSystem from 'expo-file-system';
-import { manipulateAsync, FlipType } from 'expo-image-manipulator';
+import { manipulateAsync } from 'expo-image-manipulator';
 
 
 export const EditProfileScreen = ({ navigation }: any) => {

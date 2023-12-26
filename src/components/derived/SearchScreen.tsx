@@ -6,6 +6,7 @@ import { SearchUserCard } from "../core/SearchUserCard"
 import { PostCard } from "../core/PostCard"
 import { FloatingButton } from "../core/FloatingButton"
 import Toast from "react-native-root-toast"
+import { Platform } from "react-native"
 
 export const SearchScreen = ({navigation}: any) => {
 
@@ -41,10 +42,10 @@ export const SearchScreen = ({navigation}: any) => {
     return (
         <StyledView className="bg-background w-full h-full">
             <FloatingButton navigation={navigation}/>
-            <StyledView className="p-4">
-            <StyledTextInput className="border border-white p-3 rounded-full text-white" placeholder="Search" value={searchText} onChangeText={(e) => searchUpdate(e)} onSubmitEditing={(e) => search(e.nativeEvent.text)} autoCapitalize="none" placeholderTextColor={'white'}/>
+            <StyledView className="px-4">
+            <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} placeholder="Search" value={searchText} onChangeText={(e) => searchUpdate(e)} onSubmitEditing={(e) => search(e.nativeEvent.text)} autoCapitalize="none" placeholderTextColor={'white'}/>
             </StyledView>
-            <StyledScrollView className="mt-4 border-t border-slate-600 p-4">
+            <StyledScrollView className="mt-4 border-t border-slate-800 p-4">
                 {
                     searching
                         ?

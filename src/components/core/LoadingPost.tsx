@@ -18,7 +18,7 @@ export const LoadingPost = () => {
     }, [])
 
     return (
-        <StyledView className="my-2 bg-white/10 shadow rounded-lg p-4" >
+        <StyledView className="my-2 bg-white/10 rounded-lg p-4" >
             <Animated.View className="flex flex-row gap-x-4" style={reanimatedStyle}>
                 <StyledView className="h-10 w-10 rounded-full bg-white/10"></StyledView>
                 <StyledView className="h-10 w-2/3">

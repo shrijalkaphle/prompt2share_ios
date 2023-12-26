@@ -2,7 +2,7 @@
   "expo": {
     "name": "PrompttoShare",
     "slug": "prompt-to-share",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -23,9 +23,11 @@
         "NSPhotoLibraryUsageDescription": "Allow P2S to access your photos.",
         "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
       },
-      "bundleIdentifier": "com.aiinterf.prompttoshare"
+      "bundleIdentifier": "com.aiinterf.prompttoshare",
+      "buildNumber": "22548"
     },
     "android": {
+      "versionCode": 323,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
@@ -52,7 +54,7 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow P2S) to access your photos.",
+          "photosPermission": "Allow P2S to access your photos.",
           "savePhotosPermission": "Allow P2S to save photos.",
           "isAccessMediaLocationEnabled": true
         }

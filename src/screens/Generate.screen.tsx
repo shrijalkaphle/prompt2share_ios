@@ -8,7 +8,7 @@ import { generateFeedPost, getPrompts } from "../services/openai.service";
 import { ICreatePostProps } from "../types/services/post.type";
 import { createPost } from "../services/post.service";
 import { IPrompt } from "../types/models.type";
-import { Keyboard } from "react-native";
+import { Keyboard, Platform } from "react-native";
 
 export const GenerateScreen = ({ navigation }: any) => {
 
@@ -89,9 +89,29 @@ export const GenerateScreen = ({ navigation }: any) => {
     }, [])
 
     return (
-        <StyledView className="w-full h-full bg-background flex items-center justify-between">
-            <StyledView className="w-full">
-                <AppBarComponent navigation={navigation} hasBack={true} />
+        <StyledView className="w-full h-full bg-background">
+            <AppBarComponent navigation={navigation} hasBack={true} />
+            <StyledView className="flex">
+                <StyledView className="w-full px-4 flex items-center justify-center mb-10">
+                    <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'} />
+                    <StyledTouchableOpacity className="w-full bg-white/10 p-4 rounded-full flex items-center justify-center my-2" onPress={() => generateText('Write about')} disabled={generatingText}>
+                        {generatingText ? <StyledActivityIndicator /> : <StyledText className="text-white">Generate</StyledText>}
+                    </StyledTouchableOpacity>
+                    <StyledView className={`w-full ${generatingText ? 'hidden' : ''}`}>
+                        <StyledTextInput className="w-full px-3 py-2 text-white border-b border-slate-300 " placeholder="Search prompt" value={filterPrompt} onChange={(e) => filter(e.nativeEvent.text)} placeholderTextColor={'white'} />
+                        <StyledScrollView horizontal={true} className="mt-4">
+                            {
+                                filteredPrompts.map((prompt, index) => {
+                                    return (
+                                        <StyledTouchableOpacity className="rounded-3xl w-fit p-3 text-white border-slate-300 border mx-1" onPress={() => generateText(prompt.name)} key={index} disabled={generatingText}>
+                                            <StyledText className="text-white">{prompt.name}</StyledText>
+                                        </StyledTouchableOpacity>
+                                    )
+                                })
+                            }
+                        </StyledScrollView>
+                    </StyledView>
+                </StyledView>
                 <StyledView className="border border-slate-300 mx-2 rounded-lg h-1/2 relative p-4 mt-4">
                     <StyledScrollView className="mb-3">
                         {
@@ -100,9 +120,7 @@ export const GenerateScreen = ({ navigation }: any) => {
                             ))
                         }
                     </StyledScrollView>
-
-                    {/* <StyledText className="text-white text-2xl font-bold mt-4">{generatePrompt}</StyledText> */}
-                    <StyledView className="absolute -bottom-7 left-0 right-0 flex flex-row items-center justify-between px-3">
+                    <StyledView className="absolute -top-7 left-0 right-0 flex flex-row items-center justify-between px-3">
                         <StyledTouchableOpacity onPress={copyToClipboard}>
                             <Ionicons name={'copy'} size={22} color={'white'} />
                         </StyledTouchableOpacity>
@@ -116,10 +134,10 @@ export const GenerateScreen = ({ navigation }: any) => {
                     </StyledView>
                 </StyledView>
             </StyledView>
-            <StyledView className="w-full px-4 flex items-center justify-center mb-10">
-                <StyledTextInput className="rounded-lg w-full px-3 py-2 text-white border border-slate-300 " placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'} />
-                <StyledTouchableOpacity className="rounded-3xl w-full p-3  bg-slate-300 border my-2 flex items-center justify-center" onPress={() => generateText('Write about')} disabled={generatingText}>
-                    {generatingText ? <StyledActivityIndicator /> : <StyledText className="text-background font-bold text-lg">Generate</StyledText>}
+            {/* <StyledView className="w-full px-4 flex items-center justify-center mb-10">
+                <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'} />
+                <StyledTouchableOpacity className="w-full bg-white/10 p-4 rounded-full flex items-center justify-center my-2" onPress={() => generateText('Write about')} disabled={generatingText}>
+                    {generatingText ? <StyledActivityIndicator /> : <StyledText className="text-white">Generate</StyledText>}
                 </StyledTouchableOpacity>
                 <StyledView className={`w-full ${generatingText ? 'hidden' : ''}`}>
                     <StyledTextInput className="w-full px-3 py-2 text-white border-b border-slate-300 " placeholder="Search prompt" value={filterPrompt} onChange={(e) => filter(e.nativeEvent.text)} placeholderTextColor={'white'} />
@@ -135,7 +153,7 @@ export const GenerateScreen = ({ navigation }: any) => {
                         }
                     </StyledScrollView>
                 </StyledView>
-            </StyledView>
+            </StyledView> */}
         </StyledView>
     )
 }

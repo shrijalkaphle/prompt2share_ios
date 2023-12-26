@@ -45,3 +45,8 @@ export interface IUpdateDetailParams {
     name: string
     email: string
 }
+
+export interface IVerifyOTPParams {
+    otp: string
+    email: string
+}

@@ -11,7 +11,7 @@ export const CameraScreen = ({ navigation }: any) => {
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false)
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
     const [photo, setPhoto] = useState<CameraCapturedPicture | ImagePicker.ImagePickerAsset | undefined>(undefined);
-    const [type, setType] = useState(CameraType.back);
+    const [type, setType] = useState(CameraType.front);
 
     useEffect(() => {
         const focus = navigation.addListener('focus', async () => {

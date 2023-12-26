@@ -11,14 +11,14 @@ export const ImageModel = ({ modelState, setModelState, image }: any) => {
             visible={modelState}
             animationType="slide"
             transparent={true}>
-                <StyledView className="h-full flex items-center bg-black/80 p-4">
-                    <StyledView className="w-full flex items-end justify-end">
+                <StyledView className="h-full flex items-center bg-black/90 p-4">
+                    <StyledView className="w-full flex items-end justify-end mt-4">
                         <StyledTouchableOpacity onPress={() => setModelState(false)}>
                             <Ionicons name="close" size={24} color="white"/>
                         </StyledTouchableOpacity>
                     </StyledView>
                     <StyledView className="w-full flex items-center justify-center">
-                    <Image source={image} style={{ width: '100%', height: '80%' }} placeholder={blurhash} transition={500} contentFit="contain"/>
+                    <Image source={image} style={{ width: '100%', height: '80%',borderRadius: 10 }} placeholder={blurhash} transition={500} contentFit="contain"/>
                     </StyledView>
                 </StyledView>
             </Modal>

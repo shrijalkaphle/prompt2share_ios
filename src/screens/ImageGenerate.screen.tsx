@@ -4,7 +4,7 @@ import { StyledActivityIndicator, StyledText, StyledTextInput, StyledTouchableOp
 import Toast from "react-native-root-toast";
 import { generateFeedPost, generateImages } from "../services/openai.service";
 import { GalleryView } from "../components/core/GalleryView";
-import { Keyboard } from "react-native";
+import { Keyboard, Platform } from "react-native";
 
 export interface IGeneratedImage {
     uri: string,
@@ -42,7 +42,7 @@ export const ImageGenerateScreen = ({ navigation }: any) => {
         <StyledView className="flex w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
             <StyledView className="p-4">
-                <StyledTextInput className="border border-slate-300 p-3 rounded-full text-white" value={generatePrompt} onChangeText={(e) => setGeneratePrompt(e)} onSubmitEditing={generateImage} autoCapitalize="none" placeholder="Enter your prompt" placeholderTextColor={'white'}/>
+                <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} value={generatePrompt} onChangeText={(e) => setGeneratePrompt(e)} onSubmitEditing={generateImage} autoCapitalize="none" placeholder="Enter your prompt" placeholderTextColor={'white'}/>
                 <StyledTouchableOpacity className="w-full bg-white/10 p-4 rounded-full flex items-center justify-center mt-2" onPress={generateImage} disabled={generating}>
                     {
                         generating ? <StyledActivityIndicator /> : <StyledText className="text-white">Generate</StyledText>
@@ -50,7 +50,7 @@ export const ImageGenerateScreen = ({ navigation }: any) => {
                 </StyledTouchableOpacity>
             </StyledView>
             {
-                generatedImage.length > 0 && <GalleryView images={generatedImage} prompt={generatePrompt} navigation={navigation} />
+                generatedImage.length > 0 && <GalleryView images={generatedImage} prompt={generatePrompt} navigation={navigation} setImage={setGeneratedImage}/>
             }
             
 

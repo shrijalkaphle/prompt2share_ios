@@ -60,7 +60,7 @@ export const UserScreen = ({ navigation, route }: any) => {
                 <StyledActivityIndicator size={"large"}/>
             </StyledView> :
                 <StyledScrollView className="p-4">
-                    <StyledView className="w-full bg-white/10 p-4 shadow rounded-lg flex flex-col items-center justify-between gap-y-4 mt-[2px]">
+                    <StyledView className="w-full bg-white/10 p-4 rounded-lg flex flex-col items-center justify-between gap-y-4 mt-[2px]">
                         <StyledView className="h-32 w-36 rounded-full">
                             <StyledImage source={{
                                 uri: user?.profile ? user?.profile : "https://bootdey.com/img/Content/avatar/avatar7.png"
@@ -72,31 +72,31 @@ export const UserScreen = ({ navigation, route }: any) => {
                         </StyledView>
                     </StyledView>
                     <StyledScrollView horizontal={true} className="my-4">
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Reward given</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.reward_given}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Trophy given</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.trophy_given}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Your History</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.generate_history}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Trophy received</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.trophy_received}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Reward received</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.reward_received}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Total price</StyledText>
                             <StyledText className="text-white text-sm font-base">${user?.total_price}</StyledText>
                         </StyledView>
-                        <StyledView className="flex flex-col items-center bg-white/10 shadow rounded p-4 w-36 mx-2">
+                        <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                             <StyledText className="text-white font-bold">Report Problem</StyledText>
                             <StyledText className="text-white text-sm font-base">{user?.report_count}</StyledText>
                         </StyledView>

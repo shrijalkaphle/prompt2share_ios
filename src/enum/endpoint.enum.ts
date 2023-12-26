@@ -1,6 +1,7 @@
 export enum ENDPOINT {
     LOGIN = "auth/login",
     REGISTER = "auth/register",
+    VERIFY_OTP = "auth/verify-otp",
     ME = "auth/me",
     BILLING = "me/billing",
     NOTIFICATIONS = "me/notifications",
@@ -25,5 +26,7 @@ export enum ENDPOINT {
     UPDATE_PASSWORD="auth/update-password",
     UPDATE_DETAIL="auth/update-detail",
     UPDATE_PROFILE="auth/update-profile",
-    PROMPTS="prompts"
+    PROMPTS="prompts",
+
+    WITHDRAW_REQUEST="withdraw_request",
 }

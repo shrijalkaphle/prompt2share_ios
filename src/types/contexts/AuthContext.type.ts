@@ -1,5 +1,5 @@
 import { IUser } from "../models.type"
-import { ILoginParams, IRegisterParams } from "../services/auth.type"
+import { ILoginParams, IRegisterParams, IVerifyOTPParams } from "../services/auth.type"
 
 export interface IAuthContext {
     authUser?: IUser | undefined
@@ -8,6 +8,7 @@ export interface IAuthContext {
     onLogin?: (loginParams: ILoginParams) => Promise<any>
     onLogout?: () => Promise<any>
     setAuthUser?: (authUser: IUser | undefined) => void
+    onVerifyOTP?: ({ otp, email }: IVerifyOTPParams) => Promise<any>
 }
 
 export interface IAuthState {

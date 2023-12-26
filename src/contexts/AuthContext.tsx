@@ -2,7 +2,7 @@ import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useState } from "react";
 import { IAuthContext, IAuthState } from "../types/contexts/AuthContext.type";
-import { ILoginParams, IRegisterParams } from "../types/services/auth.type";
+import { ILoginParams, IRegisterParams, IVerifyOTPParams } from "../types/services/auth.type";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { IUser } from "../types/models.type";
 
@@ -60,7 +60,21 @@ export const AuthProvider = ({ children }: any) => {
     }
 
     const register = async (registerParams: IRegisterParams) => {
-        
+        try {
+            const response = await axios.post(`${API_ENDPOINT}/${ENDPOINT.REGISTER}`, registerParams)
+            return response.data
+        } catch (error) {
+            return { error: true, message: (error as any).response.data.message }
+        }
+    }
+
+    const verifyOTP = async (verifyOTPParams: IVerifyOTPParams) => {
+        try {
+            const response = await axios.post(`${API_ENDPOINT}/${ENDPOINT.VERIFY_OTP}`, verifyOTPParams)
+            return response.data
+        } catch (error) {
+            return { error: true, message: (error as any).response.data.message }
+        }
     }
     const value = {
         authUser: authUser,
@@ -68,7 +82,8 @@ export const AuthProvider = ({ children }: any) => {
         onRegister: register,
         onLogin: login,
         onLogout: logout,
-        setAuthUser: setAuthUser
+        setAuthUser: setAuthUser,
+        onVerifyOTP: verifyOTP
     }
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
