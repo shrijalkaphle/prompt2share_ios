@@ -17,9 +17,6 @@ export const ProfileScreen = ({ navigation }: any) => {
     const [posts, setPosts] = useState<IPost[]>([]);
     const [page, setPage] = useState<number>(1);
 
-    const [withdrawModalState, setWithdrawModalState] = useState<boolean>(false);
-    const [reportProblemModalState, setReportProblemModalState] = useState<boolean>(false);
-
     const [dataLoading, setDataLoading] = useState<boolean>(false)
 
     let params = {
@@ -55,21 +52,15 @@ export const ProfileScreen = ({ navigation }: any) => {
                         <StyledText className="text-white text-2xl font-bold">{authUser?.name}</StyledText>
                         <StyledText className="text-white text-xl font-semibold">Level: {authUser?.level ? authUser?.level : '0'}</StyledText>
                     </StyledView>
-                    <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('EditProfile')}>
-                        <StyledText className="text-white">Edit Profile</StyledText>
-                    </StyledTouchableOpacity>
+
                     <StyledView className="flex flex-row justify-around items-center w-full">
+                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('EditProfile')}>
+                            <StyledText className="text-white">Edit Profile</StyledText>
+                        </StyledTouchableOpacity>
                         <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('PurchaseCoin')}>
                             <StyledText className="text-white">Purchase Coins</StyledText>
                         </StyledTouchableOpacity>
-                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => setReportProblemModalState(true)}>
-                            <StyledText className="text-white">Report Problem</StyledText>
-                        </StyledTouchableOpacity>
                     </StyledView>
-
-                    <StyledTouchableOpacity className="border border-white rounded py-2 px-5 disabled:bg-slate-500" onPress={() => setWithdrawModalState(true)}>
-                        <StyledText className="text-white">Withdraw</StyledText>
-                    </StyledTouchableOpacity>
 
                 </StyledView>
                 <StyledScrollView horizontal={true} className="my-4 h-16">
@@ -121,9 +112,6 @@ export const ProfileScreen = ({ navigation }: any) => {
                 <StyledActivityIndicator />
                 <StyledText className="ml-2 text-white">Loading</StyledText>
             </StyledView>
-
-            <WithdrawModal modelState={withdrawModalState} setModelState={setWithdrawModalState} availableAmount={authUser?.total_price} />
-            <ReportProblemModel modelState={reportProblemModalState} setModelState={setReportProblemModalState} />
         </StyledView>
     )
 }

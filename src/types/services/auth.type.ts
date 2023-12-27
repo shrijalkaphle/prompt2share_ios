@@ -46,7 +46,22 @@ export interface IUpdateDetailParams {
     email: string
 }
 
-export interface IVerifyOTPParams {
+export interface IVerifyRegisterParams {
     otp: string
     email: string
+}
+
+export interface IVerifAccountParams {
+    email: string
+}
+
+export interface IVerifyPasswordResetParams {
+    otp: string
+    email: string
+}
+
+export interface IPasswordChangeParams {
+    password: string
+    confirm_password: string
+    user_id: string
 }

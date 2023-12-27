@@ -25,7 +25,7 @@ export const NotificationCard = ({ message, is_read }: INotificationCardProps) =
             <StyledView className="h-10 w-10 bg-slate-700 rounded-full " >
                 <StyledImage source={{ uri: authUser?.profile ? authUser?.profile : "https://bootdey.com/img/Content/avatar/avatar7.png" }} className="h-full w-full rounded-full" />
             </StyledView>
-            <StyledText className={`text-white text-lg ml-4 ${is_read ? 'font-medium' : 'font-semibold'} `}>{message}</StyledText>
+            <StyledText className={`text-white ml-4 ${is_read ? 'font-medium' : 'font-semibold'} `}>{message}</StyledText>
         </StyledView>
     )
 }

@@ -47,3 +47,19 @@ export interface ICreateManualPostProps {
     chunk: string | null
     postType: IPostType
 }
+
+export interface ICreateManualTextPostProps {
+    prompt: string
+    chunk: string
+}
+
+export interface ICreateManualImagePostProps {
+    prompt: string
+    file: string
+    imageProvider: string
+}
+
+export interface ICreateManualVideoPostProps {
+    prompt: string
+    file: string
+}

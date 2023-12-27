@@ -1,7 +1,7 @@
 export enum ENDPOINT {
     LOGIN = "auth/login",
     REGISTER = "auth/register",
-    VERIFY_OTP = "auth/verify-otp",
+    VERIFY_REGISTER = "auth/verify-register",
     ME = "auth/me",
     BILLING = "me/billing",
     NOTIFICATIONS = "me/notifications",
@@ -26,7 +26,16 @@ export enum ENDPOINT {
     UPDATE_PASSWORD="auth/update-password",
     UPDATE_DETAIL="auth/update-detail",
     UPDATE_PROFILE="auth/update-profile",
+    VERIFY_ACCOUNT="auth/verify-email",
+    VERIFY_PASSWORD_RESET="auth/verify-password-reset",
+    UPDATE_FORGOT_PASSWORD="auth/update-forgot-password",
     PROMPTS="prompts",
 
-    WITHDRAW_REQUEST="withdraw_request",
+    WITHDRAW_REQUEST="withdraw-request",
+    CIRCLE="me/circles",
+    REPORT_PROBLEM="me/report-problem",
+
+    MAUNAL_TEXT_POST="posts/text",
+    MAUNAL_IMAGE_POST="posts/image",
+    MAUNAL_VIDEO_POST="posts/video",
 }

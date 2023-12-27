@@ -27,7 +27,6 @@ export const NotificationScreen = ({navigation}: any) => {
             return
         }
         setNotifications([...notifications, ...response.data])
-        console.log(params)
         setNotificationLoading(false)
     }
 

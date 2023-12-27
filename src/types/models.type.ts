@@ -67,11 +67,11 @@ export interface IBought {
 }
 
 export interface IWithdraw {
-    amt: string
+    amount: string
     status: string
     bank_name: string
-    routing_name: string
-    account_num: string
+    routing_number: string
+    account_number: string
     created_at: string
     id: string
     sender_account: string

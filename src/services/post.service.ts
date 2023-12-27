@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { REQUEST_TYPE } from "../enum/http.enum";
-import { ICommentProps, ICreateManualPostProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
+import { ICommentProps, ICreateManualImagePostProps, ICreateManualPostProps, ICreateManualTextPostProps, ICreateManualVideoPostProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AUTH_CONSTANTS } from "../enum/auth.enum";
 
@@ -68,10 +68,33 @@ export const createPost = async (createPostProps: ICreatePostProps) => {
     }
 }
 
-export const createManualPost = async (createManualPostProps: ICreateManualPostProps) => {
-    const endpoint = `${api_url}/${ENDPOINT.POST}`;
+export const createManualTextPost = async (createManualTextPostProps: ICreateManualTextPostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.MAUNAL_TEXT_POST}`;
     try {
-        const result = await axios.post(endpoint,createManualPostProps)
+        const result = await axios.post(endpoint,createManualTextPostProps)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+
+export const createManualImagePost = async (createManualImagePostProps: ICreateManualImagePostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.MAUNAL_IMAGE_POST}`;
+    try {
+        const result = await axios.post(endpoint,createManualImagePostProps)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const createManualVideoPost = async (createManualVideoPostProps: ICreateManualVideoPostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.MAUNAL_VIDEO_POST}`;
+    try {
+        const result = await axios.post(endpoint,createManualVideoPostProps)
         return result.data
     } catch (error) {
         console.log(error)

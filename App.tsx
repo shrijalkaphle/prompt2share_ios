@@ -19,6 +19,8 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { AppBarComponent } from './src/components/core/AppBarComponent';
+import { CircleScreen } from './src/screens/Circle.screen';
+import { CheckoutScreen } from './src/screens/Checkout.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,8 @@ export const Layout = () => {
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>

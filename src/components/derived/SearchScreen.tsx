@@ -59,9 +59,8 @@ export const SearchScreen = ({navigation}: any) => {
                                     <StyledScrollView horizontal={true} className="py-4">
                                         {
                                             users.map((user: IUser, index) => (
-                                                <StyledTouchableOpacity key={index} onPress={() => navigation.navigate('User', { userId: user.user_id })}>
-                                                    <SearchUserCard {...user} />
-                                                </StyledTouchableOpacity>
+                                                
+                                                <SearchUserCard user={user} navigation={navigation} key={index} />
                                             ))
                                         }
                                     </StyledScrollView>

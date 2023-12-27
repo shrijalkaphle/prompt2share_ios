@@ -77,13 +77,13 @@ export const BillingScreen = ({ navigation }: any) => {
                                     <WithdrawCard
                                         key={index}
                                         created_at={withdraw.created_at}
-                                        amt={withdraw.amt}
+                                        amt={withdraw.amount}
                                         status={withdraw.status}
                                         sender_account={withdraw.sender_account}
                                         sender_receipt={withdraw.sender_receipt}
                                         bank_name={withdraw.bank_name}
-                                        routing_name={withdraw.routing_name}
-                                        account_num={withdraw.account_num}
+                                        routing_name={withdraw.routing_number}
+                                        account_num={withdraw.account_number}
                                     />
                                 ))
                             }

@@ -4,48 +4,39 @@ import { Ionicons } from "@expo/vector-icons"
 import { useRef, useState } from "react"
 import { withdrawRequest } from "../../services/payment.service"
 import Toast from "react-native-root-toast"
+import { Formik } from "formik"
+import { InputField } from "./InputField"
+import { IWithdrawRequestProps } from "../../types/services/payment.type"
+import { WithdrawFormSchema } from "../../schema/Withdraw.schema"
+
 
 export const WithdrawModal = ({ modelState, setModelState, availableAmount }: any) => {
 
-    const [bankName, setBankName] = useState<string>('')
-    const [routingNumber, setRoutingNumber] = useState<string>('')
-    const [accountNumber, setAccountNumber] = useState<string>('')
-    const [accountName, setAccountName] = useState<string>('')
-    const [amount, setAmount] = useState<string>('')
+    const initialWithdrawValue = {
+        bankName: '',
+        routingNumber: '',
+        accountNumber: '',
+        name: '',
+        amount: ''
+    }
+    const [initialValue, setInitialValue] = useState<IWithdrawRequestProps>(initialWithdrawValue)
 
     const [formSumbitting, setFormSubmitting] = useState<boolean>(false)
 
-    const bankNameRef = useRef<any>(null)
-    const routingNumberRef = useRef<any>(null)
-    const accountNumberRef = useRef<any>(null)
-    const accountNameRef = useRef<any>(null)
-    const amountRef = useRef<any>(null)
-
-    const requestWithdraw = async () => {
+    const requestWithdraw = async (value: IWithdrawRequestProps) => {
         setFormSubmitting(true)
-        const props = {
-            bankName: bankName,
-            routingNumber: routingNumber,
-            accountNumber: accountNumber,
-            name: accountName,
-            amount: amount
-        }
 
-        const reponse = await withdrawRequest(props)
-        if(reponse && reponse.error) {
+        const reponse = await withdrawRequest(value)
+        if (reponse && reponse.error) {
             Toast.show(reponse.error)
             setFormSubmitting(false)
             return
         }
-        
+
         setFormSubmitting(false)
         Toast.show(reponse.message)
         setModelState(false)
-        setAmount('')
-        setBankName('')
-        setRoutingNumber('')
-        setAccountNumber('')
-        setAccountName('')
+        setInitialValue(initialWithdrawValue)
     }
 
 
@@ -60,32 +51,59 @@ export const WithdrawModal = ({ modelState, setModelState, availableAmount }: an
                         </StyledTouchableOpacity>
                     </StyledView>
                     <StyledView className="mt-8">
-                        <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
-                            placeholder="Bank Name" placeholderTextColor={'white'} value={bankName} ref={bankNameRef}
-                            onChangeText={setBankName} returnKeyType="next" onSubmitEditing={() => { routingNumberRef.current.focus(); }} blurOnSubmit={false}/>
-                        <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
-                            placeholder="Routing Number" placeholderTextColor={'white'} value={routingNumber} ref={routingNumberRef} keyboardType={Platform.OS === 'ios' ? 'default' : 'numeric'}
-                            onChangeText={setRoutingNumber} returnKeyType="next" onSubmitEditing={() => { accountNameRef.current.focus(); }} blurOnSubmit={false}/>
-                        <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
-                            placeholder="Account Name" placeholderTextColor={'white'} value={accountName} ref={accountNameRef}
-                            onChangeText={setAccountName} returnKeyType="next" onSubmitEditing={() => { accountNumberRef.current.focus(); }} blurOnSubmit={false}/>
-                        <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
-                            placeholder="Account Number" placeholderTextColor={'white'} value={accountNumber} ref={accountNumberRef} 
-                            onChangeText={setAccountNumber} returnKeyType="next" onSubmitEditing={() => { amountRef.current.focus(); }} blurOnSubmit={false}/>
-                        <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} keyboardType={Platform.OS === 'ios' ? 'default' : 'numeric'}
-                            placeholder="Amount" placeholderTextColor={'white'} value={amount} ref={amountRef}
-                            onChangeText={setAmount} returnKeyType="default"/>
-                        <StyledView className="flex items-center justify-center mt-2">
-                            <StyledText className="text-white text-lg font-bold">Available amount for withdraw: ${availableAmount}</StyledText>
-                            <StyledTouchableOpacity onPress={requestWithdraw} className="border border-slate-300 rounded-lg px-4 py-3 w-fit mt-3" disabled={availableAmount < 25 || formSumbitting}>
-                            {availableAmount < 25 ? 
-                                <StyledText className="text-white font-bold">Atleast $25 required for withdraw</StyledText> 
-                                : 
-                                <StyledText className="text-white font-bold">{formSumbitting ? <StyledActivityIndicator/> : 'Request'}</StyledText>
-                            }
-                                
-                            </StyledTouchableOpacity>
-                        </StyledView>
+                        <Formik initialValues={initialValue} onSubmit={requestWithdraw} enableReinitialize={true} validationSchema={WithdrawFormSchema}>
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                                <StyledView>
+                                    <InputField
+                                        value={values.bankName}
+                                        handleChange={handleChange('bankName')}
+                                        handleBlur={handleBlur('bankName')}
+                                        placeholder="Bank Name"
+                                        error={`${errors.bankName && touched.bankName ? errors.bankName : ""}`}
+                                        secureText={false} />
+                                    <InputField
+                                        value={values.routingNumber}
+                                        handleChange={handleChange('routingNumber')}
+                                        handleBlur={handleBlur('routingNumber')}
+                                        placeholder="Routing Number"
+                                        error={`${errors.routingNumber && touched.routingNumber ? errors.routingNumber : ""}`}
+                                        secureText={false} />
+                                    <InputField
+                                        value={values.name}
+                                        handleChange={handleChange('name')}
+                                        handleBlur={handleBlur('name')}
+                                        placeholder="Account Name"
+                                        error={`${errors.name && touched.name ? errors.name : ""}`}
+                                        secureText={false} />
+                                    <InputField
+                                        value={values.accountNumber}
+                                        handleChange={handleChange('accountNumber')}
+                                        handleBlur={handleBlur('accountNumber')}
+                                        placeholder="Account Number"
+                                        error={`${errors.accountNumber && touched.accountNumber ? errors.accountNumber : ""}`}
+                                        secureText={false} />
+                                    <InputField
+                                        value={values.amount}
+                                        handleChange={handleChange('amount')}
+                                        handleBlur={handleBlur('amount')}
+                                        placeholder="Amount"
+                                        error={`${errors.amount && touched.amount ? errors.amount : ""}`}
+                                        secureText={false} />
+                                    <StyledView className="flex items-center justify-center mt-2">
+                                        <StyledText className="text-white text-lg font-bold">Available amount for withdraw: ${availableAmount}</StyledText>
+                                        <StyledTouchableOpacity onPress={()=>handleSubmit()} className="border border-slate-300 rounded-lg px-4 py-3 w-fit mt-3" disabled={availableAmount < 25 || formSumbitting}>
+                                            {availableAmount < 25 ?
+                                                <StyledText className="text-white font-bold">Atleast $25 required for withdraw</StyledText>
+                                                :
+                                                <StyledText className="text-white font-bold">{formSumbitting ? <StyledActivityIndicator /> : 'Request'}</StyledText>
+                                            }
+
+                                        </StyledTouchableOpacity>
+                                    </StyledView>
+                                </StyledView>
+
+                            )}
+                        </Formik>
                     </StyledView>
                 </StyledView>
             </StyledView>

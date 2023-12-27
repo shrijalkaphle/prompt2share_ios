@@ -24,7 +24,7 @@
         "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
       },
       "bundleIdentifier": "com.aiinterf.prompttoshare",
-      "buildNumber": "22548"
+      "buildNumber": "22552"
     },
     "android": {
       "versionCode": 323,
