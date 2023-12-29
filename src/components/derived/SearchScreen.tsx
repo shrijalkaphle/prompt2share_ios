@@ -22,9 +22,7 @@ export const SearchScreen = ({navigation}: any) => {
     }
 
     const search = async (value: string) => {
-        if (value.length < 3) {
-            return
-        }
+        if (value.length == 0) return
         setSearching(true)
         const response = await searchQuery(value)
         if (response && response.error) {

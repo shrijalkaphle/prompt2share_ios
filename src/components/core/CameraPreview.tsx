@@ -34,6 +34,12 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
     }
 
     const generateImage = async () => {
+        if(!prompt) {
+            Toast.show('Prompt cannot be empty', {
+                backgroundColor: 'red'
+            })
+            return
+        }
         setImageGenerating(true)
         const image = canvasRef.current?.makeImageSnapshot()
         if (!image) {
@@ -46,7 +52,7 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
         }
 
         const bytes = image.encodeToBase64();
-        const { base64 } = await manipulateAsync(photo.uri, [], { compress: 0, base64: true })
+        const { base64 } = await manipulateAsync(photo.uri, [], { compress: 1, base64: true })
         const props = {
             prompt: prompt,
             mask: bytes,
@@ -74,17 +80,24 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
         <StyledView className="h-full w-full flex items-center bg-background">
             {
                 generatedImages.length > 0 ?
-                    <StyledView className="w-full mt-10"><GalleryView images={generatedImages} prompt={prompt} navigation={navigation} setImage={setGeneratedImages}/></StyledView> :
+                    <StyledView className="w-full mt-10">
+                        <GalleryView images={generatedImages} prompt={prompt} navigation={navigation} setImage={setGeneratedImages}/>
+                    </StyledView> 
+                :
                     <>
-                        <StyledView className="w-full p-2 mt-10 relative" ref={canvasViewRef} style={{ aspectRatio: 1 }}>
-                            <StyledImage source={{ uri: photo.uri }} className="w-full h-full rounded-2xl" />
-                            <Canvas style={{ flex: 1, width: '100%', aspectRatio: 1, backgroundColor: 'transparent', overflow: 'hidden', position: 'absolute', top: 8, left: 8, right: 8, bottom: 8 }} onTouch={appendMask} ref={canvasRef} mode="continuous" id="canvas">
-                                {paths.map((path, index) => (
-                                    <RoundedRect key={index} x={path.xAxis} y={path.yAxis} width={20} height={20} color="#ffeeff" r={25} />
-                                ))}
-                            </Canvas>
+                        <StyledView className="w-full flex flex-row items-center justify-center px-4 mt-16">
+                            <StyledTextInput className={`text-white bg-white/10 rounded-lg mt-1 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
+                                placeholder="Enter prompt" placeholderTextColor={"white"} onChange={(e) => setPrompt(e.nativeEvent.text)} value={prompt} returnKeyType="done" autoCapitalize="none"/>
                         </StyledView>
-                        <StyledView className="w-full flex flex-row items-center justify-between px-4 mt-1">
+                        <StyledView className="w-full flex flex-row items-center justify-center px-4">
+                            <StyledTouchableOpacity className="w-full bg-white/10 py-3 rounded-lg flex items-center justify-center mt-1" onPress={generateImage} >
+                                {
+                                    imageGenerating ? <StyledActivityIndicator /> : <StyledText className="text-white font-bold my-0.5">Generate</StyledText>
+                                }
+                            </StyledTouchableOpacity>
+                        </StyledView>
+                        <StyledText className="my-1 text-white text-xs font-bold text-center px-4">The prompt should describe the full new image, not just the erased area.</StyledText>
+                        <StyledView className="w-full flex flex-row items-center justify-between px-4">
                             <StyledTouchableOpacity className="border border-slate-300 py-2 px-4 rounded-full" onPress={() => setPhoto(undefined)}>
                                 <StyledText className="text-white">Select another</StyledText>
                             </StyledTouchableOpacity>
@@ -92,17 +105,15 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
                                 <StyledText className="text-white">Undo Mask</StyledText>
                             </StyledTouchableOpacity>
                         </StyledView>
-                        <StyledView className="w-full flex flex-row items-center justify-center px-4 mt-4">
-                            <StyledTextInput className={`text-white bg-white/10 rounded-lg mt-1 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
-                                placeholder="Enter prompt" placeholderTextColor={"white"} onChange={(e) => setPrompt(e.nativeEvent.text)} value={prompt} onEndEditing={generateImage} />
+                        <StyledView className="w-full p-2 relative h-2/3 -mt-1" ref={canvasViewRef}>
+                            <StyledImage source={{ uri: photo.uri }} className="w-full h-full rounded-2xl" />
+                            <Canvas style={{ flex: 1, width: '100%', aspectRatio: 1, backgroundColor: 'transparent', overflow: 'hidden', position: 'absolute', top: 8, left: 8, right: 8, bottom: 8,  }} onTouch={appendMask} ref={canvasRef} mode="continuous" id="canvas">
+                                {paths.map((path, index) => (
+                                    <RoundedRect key={index} x={path.xAxis} y={path.yAxis} width={20} height={20} color="#ffeeff" r={25} />
+                                ))}
+                            </Canvas>
                         </StyledView>
-                        <StyledView className="w-full flex flex-row items-center justify-center px-4">
-                            <StyledTouchableOpacity className="w-full bg-white/10 p-4 rounded-full flex items-center justify-center mt-4" onPress={generateImage} >
-                                {
-                                    imageGenerating ? <StyledActivityIndicator /> : <StyledText className="text-white font-bold text-xl">Generate</StyledText>
-                                }
-                            </StyledTouchableOpacity>
-                        </StyledView>
+                        
                     </>
             }
         </StyledView>

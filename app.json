@@ -24,7 +24,7 @@
         "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
       },
       "bundleIdentifier": "com.aiinterf.prompttoshare",
-      "buildNumber": "22552"
+      "buildNumber": "22558"
     },
     "android": {
       "versionCode": 323,
@@ -68,7 +68,9 @@
       [
         "@stripe/stripe-react-native",
         {
-          "merchantIdentifier": "merchant.prompttoshare.prompttoshare",
+          "merchantIdentifier": [
+            "merchant.prompttoshare.prompttoshare"
+          ],
           "enableGooglePay": true
         }
       ]
@@ -78,6 +80,6 @@
         "projectId": "e59a261c-109f-4880-9960-71758c7017b9"
       }
     },
-    "owner": "shrijalkaphle"
+    "owner": "aiinterf"
   }
 }

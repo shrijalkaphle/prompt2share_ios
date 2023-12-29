@@ -10,15 +10,28 @@ import Toast from 'react-native-root-toast'
 import { Video, ResizeMode } from 'expo-av';
 import { Modal } from "react-native";
 import { ImageModel } from "./ImageModel";
+import { Menu, MenuOption, MenuOptionCustomStyle, MenuOptions, MenuTrigger } from "react-native-popup-menu";
+import { ReportModal } from "./ReportModal";
+import { DeleteModal } from "./DeleteModal";
 
 interface IPostCard {
     post: IPost
+    removePost: (id: number) => void
     navigation: any
 }
 
-export const PostCard = ({ post, navigation }: IPostCard) => {
+const menuOptionStyles: MenuOptionCustomStyle = {
+    optionWrapper: {
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+    },
+    optionText: {
+        color: 'white',
+    }
+}
 
-    const video = useRef(null)
+export const PostCard = ({ post, removePost }: IPostCard) => {
+
     const [status, setStatus] = React.useState({});
 
     const { authUser, setAuthUser } = useAuth();
@@ -34,7 +47,9 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
     const [isTroplyed, setIsTroplyed] = useState<boolean>(post.trophy.some((like: any) => like.user_id === authUser?.user_id))
 
     const [commenting, setCommenting] = useState<boolean>(false)
-    const [modelState, setModelState] = useState<boolean>(false)
+    const [imageModelState, setImageModelState] = useState<boolean>(false)
+    const [reportModelState, setReportModelState] = useState<boolean>(false)
+    const [deleteModelState, setDeleteModelState] = useState<boolean>(false)
 
     const dateFormat = () => {
         return moment(post.created_at).format('MMM D, YYYY');
@@ -104,18 +119,44 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
     }
 
     const triggerModel = () => {
-        setModelState(true)
+        setImageModelState(true)
+    }
+
+    const triggerReportModal = () => {
+        setReportModelState(true)
+    }
+
+    const triggerDeleteModal = () => {
+        setDeleteModelState(true)
+    }
+
+    const triggerShare = () => {
+        
     }
 
     return (
         <>
             <StyledView className="my-2 bg-white/10 rounded-lg p-4">
-                <StyledView className="flex flex-row gap-x-4">
-                    <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
-                    <StyledView>
-                        <StyledText className="text-lg font-base text-white">{post.user?.name}</StyledText>
-                        <StyledText className="text-xs font-bold text-white">{dateFormat()}</StyledText>
+                <StyledView className="flex flex-row justify-between">
+                    <StyledView className="flex flex-row">
+                        <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
+                        <StyledView className="ml-4">
+                            <StyledText className="text-lg font-base text-white">{post.user?.name}</StyledText>
+                            <StyledText className="text-xs font-bold text-white">{dateFormat()}</StyledText>
+                        </StyledView>
                     </StyledView>
+                    <Menu>
+                        <MenuTrigger>
+                            <Ionicons name="ellipsis-vertical" size={24} color="white" />
+                        </MenuTrigger>
+                        <MenuOptions customStyles={{ optionsContainer: { marginTop: 10, backgroundColor: 'rgba(36,25,40,1)' } }}>
+                            {
+                                (authUser?.user_id === post.user?.user_id) && <MenuOption onSelect={triggerDeleteModal} text='Delete' customStyles={menuOptionStyles} />
+                            }
+                            <MenuOption onSelect={triggerReportModal} text='Report' customStyles={menuOptionStyles} />
+                            <MenuOption onSelect={triggerShare} text='Share' customStyles={menuOptionStyles} />
+                        </MenuOptions>
+                    </Menu>
                 </StyledView>
                 <StyledView className="my-2">
                     <StyledText className={`text-white my-4 ${(isLiked || isTroplyed) ? '' : 'hidden'}`}>
@@ -132,9 +173,7 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
                                         </StyledTouchableOpacity>
                                         :
                                         <Video
-                                            ref={video}
-                                            style={{ flex: 1, alignSelf: 'stretch', width: '100%', height: 300, backgroundColor: '#000' }}
-                                            // className="w-full h-64 rounded-lg flex"
+                                            style={{ flex: 1, alignSelf: 'stretch', width: '100%', height: 256, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 16 }}
                                             source={{
                                                 uri: post.file,
                                             }}
@@ -143,7 +182,7 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
                                             isLooping
                                             onPlaybackStatusUpdate={status => setStatus(() => status)}
                                         />
-                                    // <StyledText className="text-white">{fileExtensionType()}</StyledText>
+
                                 }
                             </StyledView>
                             :
@@ -188,7 +227,9 @@ export const PostCard = ({ post, navigation }: IPostCard) => {
                 </StyledView>
             </StyledView>
 
-            <ImageModel modelState={modelState} setModelState={setModelState} image={post.file} />
+            <ImageModel modelState={imageModelState} setModelState={setImageModelState} image={post.file} />
+            <ReportModal modelState={reportModelState} setModelState={setReportModelState} postId={post.id}/>
+            <DeleteModal modelState={deleteModelState} setModelState={setDeleteModelState} postId={parseInt(post.id)} removePost={removePost}/>
         </>
 
     )

@@ -38,4 +38,11 @@ export enum ENDPOINT {
     MAUNAL_TEXT_POST="posts/text",
     MAUNAL_IMAGE_POST="posts/image",
     MAUNAL_VIDEO_POST="posts/video",
+
+    UPDATE_FOLLOWING = "auth/update-following",
+
+    REPORT_POST = "post/report",
+    USER_RATING = "user/rating",
+
+    DELETE_PROFILE = "me/delete"
 }

@@ -61,7 +61,7 @@ export const ImagePost = ({ navigation }: any) => {
         
         // upload image to server
         if (!photo) {
-            Toast.show('Please select a video', {
+            Toast.show('Please select a image', {
                 backgroundColor: 'red',
             })
             return
@@ -132,9 +132,9 @@ export const ImagePost = ({ navigation }: any) => {
                     <StyledView >
                         <StyledView className="w-full flex flex-row items-center justify-between">
                             <StyledText className="text-white text-2xl font-bold mb-2">Create a post</StyledText>
-                            <StyledTouchableOpacity className="w-fit px-4 py-2 rounded-full flex items-center justify-center border-slate-300 border" disabled={formLoading} onPress={() => handleSubmit()}>
+                            <StyledTouchableOpacity className="w-1/3 px-4 py-3 rounded-full flex items-center justify-center border-slate-300 border" disabled={formLoading} onPress={() => handleSubmit()}>
                                 {
-                                    formLoading ? <StyledActivityIndicator /> : <StyledText className="text-white text-lg">Post</StyledText>
+                                    formLoading ? <StyledActivityIndicator /> : <StyledText className="text-white my-0.5">Post</StyledText>
                                 }
                             </StyledTouchableOpacity>
                         </StyledView>

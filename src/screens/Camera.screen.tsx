@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react"
-import { StyledActivityIndicator, StyledImage, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
-import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera'
+import { StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
+import { Camera, CameraCapturedPicture, CameraPictureOptions, CameraType } from 'expo-camera'
 import { Ionicons } from "@expo/vector-icons"
 import * as MediaLibrary from 'expo-media-library'
 import * as ImagePicker from 'expo-image-picker';
 import Toast from "react-native-root-toast"
 import { CameraPreview } from "../components/core/CameraPreview"
+import { FlipType, manipulateAsync } from "expo-image-manipulator";
 export const CameraScreen = ({ navigation }: any) => {
     let cameraRef = useRef<Camera>(null)
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false)
@@ -25,15 +26,24 @@ export const CameraScreen = ({ navigation }: any) => {
     }, [])
 
     const takePicture = async () => {
-        let options = {
+        let options: CameraPictureOptions = {
             quality: 1,
             base64: true,
             exif: false
         };
 
         if (cameraRef) {
-            const data = await cameraRef.current?.takePictureAsync(options)
+            let data = await cameraRef.current?.takePictureAsync(options)
+            if(data) {
+                const { uri, base64 } = await manipulateAsync(data.uri, [
+                    { flip: FlipType.Horizontal },
+                ], { compress: 1, base64: true })
+                data.uri = uri
+                data.base64 = base64
+            }
             setPhoto(data)
+
+            // crop image
         }
     }
 
@@ -83,8 +93,8 @@ export const CameraScreen = ({ navigation }: any) => {
                                     <Ionicons name="camera-reverse" size={24} color="white" />
                                 </StyledTouchableOpacity>
                             </StyledView>
-                            <StyledView className="w-full rounded-3xl mt-1 overflow-hidden relative" style={{ aspectRatio: 1 }}>
-                                <Camera ref={cameraRef} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }} type={type} ratio="1:1"></Camera>
+                            <StyledView className="rounded-3xl mt-1 overflow-hidden relative bg-white h-3/4">
+                                <Camera ref={cameraRef} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }} type={type} ></Camera>
                             </StyledView>
                         </StyledView>
                         <StyledView className="bg-black flex flex-row items-center justify-between px-4 w-full mb-10">

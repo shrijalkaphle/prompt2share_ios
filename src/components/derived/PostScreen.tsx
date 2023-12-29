@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, StyledView } from "../../helpers/NativeWind.helper"
+import { PureComponent, ReactNode, useEffect, useState } from "react"
+import { StyledActivityIndicator, StyledText, StyledView } from "../../helpers/NativeWind.helper"
 import { LoadingPost } from "../core/LoadingPost"
 import { IPost } from "../../types/models.type"
 import { getPost } from "../../services/post.service"
@@ -35,12 +35,16 @@ export const PostScreen = ({ navigation }: any) => {
         getPosts()
     }, [page])
 
+    const removePost = (id: number) => {
+        setPosts(posts.filter((post: IPost) => parseInt(post.id) != id))
+    }
+
     return (
         <StyledView className="w-full h-full bg-background">
             <FloatingButton navigation={navigation} />
             {
                 posts.length != 0 ?
-                    <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`px-4 ${index == posts.length-1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} /></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} />
+                    <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`px-4 ${index == posts.length-1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost}/></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} />
                     :
                     <StyledView className="px-4"><LoadingPost /></StyledView>
             }

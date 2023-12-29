@@ -12,7 +12,8 @@ export const NotificationScreen = ({navigation}: any) => {
 
     const [notifications, setNotifications] = useState<INotification[]>([])
     const [page, setPage] = useState<number>(1)
-    const [notificationLoading, setNotificationLoading] = useState<boolean>(true)
+    const [dataLoading, setDataLoading] = useState<boolean>(false)
+    const [hasMore, setHasMore] = useState<boolean>(false)
 
     const getNotifications = async () => {
         let params = {
@@ -23,11 +24,26 @@ export const NotificationScreen = ({navigation}: any) => {
         const response = await getUserNotification(params)
         if (response && response.error) {
             console.log(response.error)
-            setNotificationLoading(false)
+            setDataLoading(false)
             return
         }
-        setNotifications([...notifications, ...response.data])
-        setNotificationLoading(false)
+        if(notifications.length == 0)
+            setNotifications(response.data)
+        else
+            setNotifications([...notifications, ...response.data])
+
+        if(response.total_page > page) 
+            setHasMore(true)
+        else
+            setHasMore(false)
+
+        setDataLoading(false)
+    }
+
+    const updatePageCount = () => {
+        if(!hasMore) return
+        setPage(page + 1)
+        setDataLoading(true)
     }
 
     useEffect(() => {
@@ -36,20 +52,24 @@ export const NotificationScreen = ({navigation}: any) => {
 
 
     return (
-        <StyledView className="bg-background h-full flex">
+        <StyledView className="bg-background h-full w-full relative">
             <FloatingButton navigation={navigation} />
             {/* <StyledActivityIndicator/> */}
             <StyledView className="p-1">
                 {
                     notifications.length == 0 ? <LoadingNotificationCard /> :
-                        <FlatList data={notifications} renderItem={({ item, index }) => <StyledView className={`${index == notifications.length-1 ? 'mb-24' : ''}`}><NotificationCard message={item.message} is_read={item.is_read} /></StyledView>} style={{ borderColor: 'white' }} />
+                        <FlatList data={notifications} renderItem={({ item, index }) => 
+                            <StyledView className={`${index == notifications.length-1 ? 'mb-24' : ''}`}>
+                                <NotificationCard message={item.message} is_read={item.is_read} />
+                            </StyledView>
+                        } style={{ borderColor: 'white' }} onEndReached={updatePageCount}/>
                 }
             </StyledView>
 
-            {/* <StyledView className={`fixed left-0 right-0 bottom-0 bg-black flex flex-row items-center justify-center rounded-t-xl`}>
+            <StyledView className={`absolute left-0 right-0 bottom-0 bg-black flex flex-row items-center justify-center rounded-t-xl ${dataLoading?'':'hidden' }`}>
                 <StyledActivityIndicator />
                 <StyledText className="ml-2 text-white">Loading</StyledText>
-            </StyledView> */}
+            </StyledView>
         </StyledView>
     )
 }

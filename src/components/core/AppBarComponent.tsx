@@ -13,7 +13,7 @@ import { useState } from "react";
 import { WithdrawModal } from "./WithdrawModal";
 import { ReportProblemModel } from "./ReportProblemModel";
 
-export const AppBarComponent = ({ navigation, hasBack, hasTitle, title }: any) => {
+export const AppBarComponent = ({ navigation, hasBack }: any) => {
     const { authUser, onLogout } = useAuth();
 
     const [withdrawModalState, setWithdrawModalState] = useState<boolean>(false);
@@ -30,11 +30,15 @@ export const AppBarComponent = ({ navigation, hasBack, hasTitle, title }: any) =
                             </StyledTouchableOpacity>
                         }
                     </StyledView>
-                    <StyledView className="w-1/3 flex items-center justify-center">
-                        {hasTitle &&
-                            <StyledText className="text-white text-lg font-bold">{title}</StyledText>
-                        }
-
+                    <StyledView className="w-1/3 flex items-center flex-row justify-center">
+                        <StyledView className="flex items-center flex-row justify-center">
+                            <Ionicons name="medal" size={18} color="white" />
+                            <StyledText className="ml-0.5 font-bold text-white">{authUser?.reward_received}</StyledText>
+                        </StyledView>
+                        <StyledView className="flex items-center flex-row justify-center ml-2">
+                            <Ionicons name="trophy" size={18} color="white" />
+                            <StyledText className="ml-0.5 font-bold text-white">{authUser?.trophy_received}</StyledText>
+                        </StyledView>
                     </StyledView>
                     <StyledView className="w-1/3 flex items-end justify-center">
                         <Menu>

@@ -63,3 +63,16 @@ export interface ICreateManualVideoPostProps {
     prompt: string
     file: string
 }
+
+export interface IUpdateFollowStatusProps {
+    user_id: number
+}
+
+export interface IDeletePostProps {
+    post_id: number
+}
+
+export interface IReportPostProps {
+    postId: number
+    reason: string
+}

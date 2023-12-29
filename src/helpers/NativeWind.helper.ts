@@ -1,3 +1,4 @@
+import { Video } from "expo-av";
 import Checkbox from "expo-checkbox";
 import { styled } from "nativewind";
 import { View, SafeAreaView, TextInput, Text, TouchableOpacity, Button, ActivityIndicator, Image, ScrollView } from "react-native";

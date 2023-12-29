@@ -1,9 +1,6 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
-import { REQUEST_TYPE } from "../enum/http.enum";
-import { ICommentProps, ICreateManualImagePostProps, ICreateManualPostProps, ICreateManualTextPostProps, ICreateManualVideoPostProps, ICreatePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse } from "../types/services/post.type";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AUTH_CONSTANTS } from "../enum/auth.enum";
+import { ICommentProps, ICreateManualImagePostProps, ICreateManualTextPostProps, ICreateManualVideoPostProps, ICreatePostProps, IDeletePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse, IReportPostProps, IUpdateFollowStatusProps } from "../types/services/post.type";
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
 
@@ -106,6 +103,39 @@ export const getPostbyUserId = async ({page, perPage, user_id}: IGetPostParams )
     const endpoint = `${api_url}/${ENDPOINT.POST}?user_id=${user_id}&${perPage && `perPage=${perPage}&`}${page && `page=${page}`}`;
     try {
         const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const updateFollowStatus = async (updateFollowStatusProps: IUpdateFollowStatusProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.UPDATE_FOLLOWING}`;
+    try {
+        const result = await axios.post(endpoint,updateFollowStatusProps)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const deletePostById = async (id: number) => {
+    const endpoint = `${api_url}/${ENDPOINT.POST}?postId=${id}`;
+    try {
+        const result = await axios.delete(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const reportPostForProblem = async (reportPostProps: IReportPostProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.REPORT_POST}`;
+    try {
+        const result = await axios.post(endpoint,reportPostProps)
         return result.data
     } catch (error) {
         console.log(error)

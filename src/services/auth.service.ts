@@ -15,7 +15,7 @@ export const getBillingDetails = async () => {
 }
 
 export const getUserNotification = async (getUserNotificationParams: IGetUserNotificationParams) => {
-    const endpoint = `${api_url}/${ENDPOINT.NOTIFICATIONS}`;
+    const endpoint = `${api_url}/${ENDPOINT.NOTIFICATIONS}?${getUserNotificationParams.perPage && `perPage=${getUserNotificationParams.perPage}&`}${getUserNotificationParams.page && `page=${getUserNotificationParams.page}`}`;
     try {
         const result = await axios.get(endpoint)
         return result.data

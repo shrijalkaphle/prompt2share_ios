@@ -12,7 +12,9 @@ export interface IUser {
     total_price: string
     report_count: string
     level: number
-    
+    isFollowed?: boolean
+    average_rating: number
+    rating_count: number
 }
 
 export interface IPost {

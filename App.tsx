@@ -1,4 +1,4 @@
-
+import 'expo-dev-client';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootSiblingParent } from 'react-native-root-siblings';
@@ -58,7 +58,7 @@ export const Layout = () => {
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false}} />
           <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
         </Stack.Navigator>

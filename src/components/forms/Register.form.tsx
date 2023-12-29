@@ -89,11 +89,11 @@ export const RegisterForm = () => {
                                             secureText={true}
                                         />
                                         <InputField
-                                            value={values.password}
+                                            value={values.confirm_password}
                                             handleChange={handleChange('confirm_password')}
                                             handleBlur={handleBlur('confirm_password')}
                                             placeholder="Confirm password"
-                                            error={`${errors.password && touched.confirm_password ? errors.confirm_password : ""}`}
+                                            error={`${errors.confirm_password && touched.confirm_password ? errors.confirm_password : ""}`}
                                             secureText={true}
                                         />
                                         <StyledView className="w-full mt-6 flex items-center justify-center">

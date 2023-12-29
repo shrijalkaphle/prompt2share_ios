@@ -161,7 +161,10 @@ export const EditProfileScreen = ({ navigation }: any) => {
                                 </StyledView>
                                 <StyledView className="my-3">
                                     <StyledText className="text-lg text-white font-semibold">Email</StyledText>
-                                    <StyledTextInput className="bg-white/10 h-10 rounded-lg mt-1 px-3 py-2 text-white" value={email} onChange={(e) => setEmail(e.nativeEvent.text)} autoCapitalize="none" />
+                                    <StyledView className="bg-white/10 h-10 rounded-lg mt-1 px-3 py-2 flex justify-center">
+                                        <StyledText className="text-white/50">{email}</StyledText>
+                                    </StyledView>
+                                    {/* <StyledTextInput className="bg-white/10 h-10 rounded-lg mt-1 px-3 py-2 text-white" value={email} onChange={(e) => setEmail(e.nativeEvent.text)} autoCapitalize="none"/> */}
                                 </StyledView>
                             </StyledView>
                     }

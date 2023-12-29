@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
-import { useStripe } from "@stripe/stripe-react-native";
+import { Address, BillingDetails, useStripe, isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment } from "@stripe/stripe-react-native";
 import { completeCoinPurchase, generatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
 import { ICompletePurchaseProps } from "../types/services/payment.type";
@@ -10,6 +10,8 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
 
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
+    const [isApplePaySupported, setIsApplePaySupported] = useState<boolean>(false);
+
     const rate = 96
     const tax = 0
     const { amount } = route.params
@@ -17,6 +19,21 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
     const [paymentIntent, setPaymentIntent] = useState<any>()
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
 
+    const address: Address = {
+        city: 'San Francisco',
+        country: 'AT',
+        line1: '510 Townsend St.',
+        line2: '123 Street',
+        postalCode: '94102',
+        state: 'California',
+    };
+
+    const billingDetails: BillingDetails = {
+        name: 'Jane Doe',
+        email: 'foo@bar.com',
+        phone: '555-555-555',
+        address: address,
+    };
     const initializePaymentSheet = async () => {
         const response = await generatePaymentIntent({ amount: amount })
         if (response.error) {
@@ -24,31 +41,23 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
             Toast.show(response.message)
             return
         }
-        const { intent } = response
+        const { intent, ephemeralKey, customer } = response
         setPaymentIntent(intent)
         const { error } = await initPaymentSheet({
             merchantDisplayName: "P2S",
             paymentIntentClientSecret: intent.client_secret,
-            applePay: {
-                merchantCountryCode: "US",
-                cartItems: [
-                    {
-                        'label': "P2S Coins",
-                        'amount': `${amount}.00`,
-                        'paymentType': "Immediate"
-                    },
-                    {
-                        'label': "Total",
-                        'amount': `${amount}.00`,
-                        'paymentType': "Immediate"
-                    },
-                ]
-            },
-            googlePay: {
-                merchantCountryCode: "US",
-                testEnv: true,
-                currencyCode: "USD",
-            }
+            customerId: customer.id,
+            customerEphemeralKeySecret: ephemeralKey.secret,
+            applePay: { merchantCountryCode: "US" },
+            googlePay: { merchantCountryCode: "US", testEnv: true, },
+            // returnURL: "example://stripe-redirect",
+            primaryButtonLabel: "Pay",
+            style: "automatic",
+            customFlow: false,
+            defaultBillingDetails: billingDetails,
+            defaultShippingDetails: billingDetails,
+            allowsDelayedPaymentMethods: true,
+
         })
         if (error) {
             setError(error)
@@ -81,9 +90,35 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
 
     }
 
+    const pay = async () => {
+        const clientSecret = paymentIntent.client_secret
+
+        const { error } = await confirmPlatformPayPayment(
+            clientSecret,
+            {
+                applePay: { 
+                    merchantCountryCode: 'US',
+                    currencyCode: 'USD',
+                    cartItems: [
+                        {
+                            label: 'P2S',
+                            amount: amount,
+                            paymentType: PlatformPay.PaymentType.Immediate
+                        }
+                    ]
+                }
+            }
+        );
+
+        setError(error)
+    }
+
     useEffect(() => {
-        initializePaymentSheet()
-    }, [])
+        initializePaymentSheet();
+        (async function () {
+            setIsApplePaySupported(await isPlatformPaySupported());
+        })();
+    }, [isPlatformPaySupported])
 
     return (
         <StyledView className="w-full h-full bg-background">
@@ -112,6 +147,18 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
             </StyledView>
             <StyledText className="text-white">{JSON.stringify(error)}</StyledText>
             <StyledView className="flex w-full mt-6">
+                {isApplePaySupported && (
+                    <PlatformPayButton
+                        onPress={pay}
+                        type={PlatformPay.ButtonType.Order}
+                        appearance={PlatformPay.ButtonStyle.Black}
+                        borderRadius={4}
+                        style={{
+                            width: '100%',
+                            height: 50,
+                        }}
+                    />
+                )}
                 <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={openPaymentSheet}>
                     <StyledText className="text-white text-lg font-bold">Proceed to pay</StyledText>
                 </StyledTouchableOpacity>

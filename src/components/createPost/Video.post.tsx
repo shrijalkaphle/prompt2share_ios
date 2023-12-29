@@ -14,6 +14,7 @@ import { ENDPOINT } from "../../enum/endpoint.enum"
 import { FileSystemUploadType } from "expo-file-system"
 import { useAuth } from "../../contexts/AuthContext"
 import { ICreateManualVideoPostProps } from "../../types/services/post.type"
+import { ResizeMode, Video } from "expo-av"
 
 interface IImagePost {
     prompt: string
@@ -35,6 +36,8 @@ export const VideoPost = ({ navigation }: any) => {
     const [formLoading, setFormLoading] = useState<boolean>(false)
     const [video, setVideo] = useState<ImagePickerAsset>();
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
+
+    const [thumbnail, setThumbnail] = useState<string>('');
 
     const postToFeed = async (value: IImagePost) => {
 
@@ -70,6 +73,12 @@ export const VideoPost = ({ navigation }: any) => {
         }
 
         Toast.show('Post created')
+        try {
+            const cacheDirectory = `${FileSystem.cacheDirectory}/${video.fileName}`;
+            if(cacheDirectory) await FileSystem.deleteAsync(video.uri);
+        } catch(e) {
+            console.log(e)
+        }
         navigation.navigate('Home', { screen: 'Profile' })
         setFormLoading(false)
     }
@@ -86,8 +95,11 @@ export const VideoPost = ({ navigation }: any) => {
         })
 
         if (!result.canceled) {
-            setVideo(result.assets[0]);
+            setVideo(result.assets[0])
+            console.log(result.assets[0])
         }
+
+        
     }
 
     useEffect(() => {
@@ -105,9 +117,9 @@ export const VideoPost = ({ navigation }: any) => {
                     <StyledView >
                         <StyledView className="w-full flex flex-row items-center justify-between">
                             <StyledText className="text-white text-2xl font-bold mb-2">Create a post</StyledText>
-                            <StyledTouchableOpacity className="w-fit px-4 py-2 rounded-full flex items-center justify-center border-slate-300 border" disabled={formLoading} onPress={() => handleSubmit()}>
+                            <StyledTouchableOpacity className="w-1/3 px-4 py-3 rounded-full flex items-center justify-center border-slate-300 border" disabled={formLoading} onPress={() => handleSubmit()}>
                                 {
-                                    formLoading ? <StyledActivityIndicator /> : <StyledText className="text-white text-lg">Post</StyledText>
+                                    formLoading ? <StyledActivityIndicator /> : <StyledText className="text-white my-0.5">Post</StyledText>
                                 }
                             </StyledTouchableOpacity>
                         </StyledView>
@@ -124,8 +136,8 @@ export const VideoPost = ({ navigation }: any) => {
                         {
                             video ?
                                 <StyledView>
-                                    <StyledImage source={{ uri: video.uri }} className="w-full h-52 rounded-xl mt-4 relative" />
-                                    <StyledTouchableOpacity className="w-full rounded-t rounded-b-xl bg-white/50 py-2 flex items-center justify-center absolute bottom-0" onPress={videoPicker}>
+                                    <Video source={{ uri: video.uri }} className="w-full h-52 rounded-t-xl mt-4 relative bg-white/10" useNativeControls resizeMode={ResizeMode.CONTAIN}/>
+                                    <StyledTouchableOpacity className="w-full rounded-b-xl bg-white/50 py-2 flex items-center justify-center" onPress={videoPicker}>
                                         <StyledText className="text-white text-xl font-bold">Upload another</StyledText>
                                     </StyledTouchableOpacity>
                                 </StyledView>
