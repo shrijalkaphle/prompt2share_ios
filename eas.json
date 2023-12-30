@@ -21,10 +21,7 @@
       }
     },
     "production": {
-      "autoIncrement": true,
-      "ios": {
-        "image": "macos-ventura-13.6-xcode-15.1"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {

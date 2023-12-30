@@ -19,21 +19,6 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
     const [paymentIntent, setPaymentIntent] = useState<any>()
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
 
-    const address: Address = {
-        city: 'San Francisco',
-        country: 'AT',
-        line1: '510 Townsend St.',
-        line2: '123 Street',
-        postalCode: '94102',
-        state: 'California',
-    };
-
-    const billingDetails: BillingDetails = {
-        name: 'Jane Doe',
-        email: 'foo@bar.com',
-        phone: '555-555-555',
-        address: address,
-    };
     const initializePaymentSheet = async () => {
         const response = await generatePaymentIntent({ amount: amount })
         if (response.error) {
@@ -50,12 +35,9 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
             customerEphemeralKeySecret: ephemeralKey.secret,
             applePay: { merchantCountryCode: "US" },
             googlePay: { merchantCountryCode: "US", testEnv: true, },
-            // returnURL: "example://stripe-redirect",
             primaryButtonLabel: "Pay",
             style: "automatic",
             customFlow: false,
-            defaultBillingDetails: billingDetails,
-            defaultShippingDetails: billingDetails,
             allowsDelayedPaymentMethods: true,
 
         })
@@ -96,7 +78,7 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
         const { error } = await confirmPlatformPayPayment(
             clientSecret,
             {
-                applePay: { 
+                applePay: {
                     merchantCountryCode: 'US',
                     currencyCode: 'USD',
                     cartItems: [
@@ -109,8 +91,24 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
                 }
             }
         );
-
-        setError(error)
+        if (error) {
+            setError(error)
+            Toast.show(error.message)
+            return
+        }
+        // complete payment
+        setPaymentProcessing(true)
+        const props: ICompletePurchaseProps = {
+            paymentIntentId: paymentIntent.id,
+            amount: amount,
+            paymentOption: 'apple pay'
+        }
+        const response = await completeCoinPurchase(props)
+        if (response && response.error) {
+            Toast.show(response.error)
+            return
+        }
+        navigation.navigate('Home', { screen: 'Profile' })
     }
 
     useEffect(() => {
@@ -145,23 +143,29 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
                     <StyledText className="text-white font-bold">${(parseInt(amount) * tax) + parseInt(amount)}</StyledText>
                 </StyledView>
             </StyledView>
-            <StyledText className="text-white">{JSON.stringify(error)}</StyledText>
-            <StyledView className="flex w-full mt-6">
-                {isApplePaySupported && (
-                    <PlatformPayButton
-                        onPress={pay}
-                        type={PlatformPay.ButtonType.Order}
-                        appearance={PlatformPay.ButtonStyle.Black}
-                        borderRadius={4}
-                        style={{
-                            width: '100%',
-                            height: 50,
-                        }}
-                    />
-                )}
-                <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={openPaymentSheet}>
-                    <StyledText className="text-white text-lg font-bold">Proceed to pay</StyledText>
-                </StyledTouchableOpacity>
+            {/* <StyledText className="text-white">{JSON.stringify(error)}</StyledText> */}
+            <StyledView className="flex w-full mt-6 p-4">
+                {
+                    isApplePaySupported ?
+                        (
+                            <PlatformPayButton
+                                onPress={pay}
+                                type={PlatformPay.ButtonType.Order}
+                                appearance={PlatformPay.ButtonStyle.Black}
+                                borderRadius={4}
+                                style={{
+                                    width: '100%',
+                                    height: 50,
+                                    borderRadius: 16
+                                }}
+                            />
+                        )
+                        :
+                        <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={openPaymentSheet}>
+                            <StyledText className="text-white text-lg font-bold">Proceed to pay</StyledText>
+                        </StyledTouchableOpacity>
+                }
+
             </StyledView>
             {
                 paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">

@@ -119,7 +119,7 @@ export const UserScreen = ({ navigation, route }: any) => {
                     </StyledView>
                     <StyledView className="flex flex-row items-center justify-center">
                         <Rating stars={user?.average_rating} maxStars={5} size={18} />
-                        <StyledText className="text-white text-xs ml-1 font-semibold">({user?.average_rating.toString().split('.')[1] ? user?.average_rating.toFixed(1) : user?.average_rating}/5)</StyledText>
+                        <StyledText className="text-white text-xs ml-1 font-semibold">({user?.average_rating && user?.average_rating.toString().split('.')[1] ? user?.average_rating.toFixed(1) : user?.average_rating}/5)</StyledText>
                     </StyledView>
                     {user?.isFollowed &&
                         <StyledView className="flex items-center justify-center">
