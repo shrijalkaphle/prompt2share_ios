@@ -26,12 +26,12 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
             Toast.show(response.message)
             return
         }
-        const { intent, ephemeralKey, customer } = response
+        const { intent, ephemeralKey, customerId } = response
         setPaymentIntent(intent)
         const { error } = await initPaymentSheet({
             merchantDisplayName: "P2S",
             paymentIntentClientSecret: intent.client_secret,
-            customerId: customer.id,
+            customerId: customerId,
             customerEphemeralKeySecret: ephemeralKey.secret,
             applePay: { merchantCountryCode: "US" },
             googlePay: { merchantCountryCode: "US", testEnv: true, },
@@ -74,7 +74,6 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
 
     const pay = async () => {
         const clientSecret = paymentIntent.client_secret
-
         const { error } = await confirmPlatformPayPayment(
             clientSecret,
             {
