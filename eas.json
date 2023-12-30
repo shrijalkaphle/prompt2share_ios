@@ -21,7 +21,12 @@
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "ios": {
+        "cocoapods": "1.14.3",
+        "node": "20.10.0",
+        "image": "macos-monterey-12.6-xcode-14.2"
+      }
     }
   },
   "submit": {
