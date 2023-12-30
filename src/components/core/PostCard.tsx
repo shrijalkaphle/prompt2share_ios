@@ -1,18 +1,19 @@
 import moment from "moment";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyledActivityIndicator, StyledImage, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper"
-import React, { useEffect, useRef, useState } from "react";
-import { IPost, IPostComment, IPostLike } from "../../types/models.type";
+import React, { useRef, useState } from "react";
+import { IPost, IPostComment } from "../../types/models.type";
 import { commentPostbyId, likePostbyId, tyophyPostbyId } from "../../services/post.service";
 import { useAuth } from "../../contexts/AuthContext";
 import { ICommentProps, ICommentResponse } from "../../types/services/post.type";
 import Toast from 'react-native-root-toast'
 import { Video, ResizeMode } from 'expo-av';
-import { Modal } from "react-native";
 import { ImageModel } from "./ImageModel";
 import { Menu, MenuOption, MenuOptionCustomStyle, MenuOptions, MenuTrigger } from "react-native-popup-menu";
 import { ReportModal } from "./ReportModal";
 import { DeleteModal } from "./DeleteModal";
+import { ShareModal } from "./ShareModal";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 interface IPostCard {
     post: IPost
@@ -33,6 +34,7 @@ const menuOptionStyles: MenuOptionCustomStyle = {
 export const PostCard = ({ post, removePost }: IPostCard) => {
 
     const [status, setStatus] = React.useState({});
+    const bottomSheetRef = useRef<BottomSheet>(null);
 
     const { authUser, setAuthUser } = useAuth();
 
@@ -130,8 +132,8 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
         setDeleteModelState(true)
     }
 
-    const triggerShare = () => {
-        
+    const triggerShare = async () => {
+        bottomSheetRef.current?.expand()
     }
 
     return (
@@ -230,6 +232,7 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
             <ImageModel modelState={imageModelState} setModelState={setImageModelState} image={post.file} />
             <ReportModal modelState={reportModelState} setModelState={setReportModelState} postId={post.id}/>
             <DeleteModal modelState={deleteModelState} setModelState={setDeleteModelState} postId={parseInt(post.id)} removePost={removePost}/>
+            {/* <ShareModal ref={bottomSheetRef}/> */}
         </>
 
     )

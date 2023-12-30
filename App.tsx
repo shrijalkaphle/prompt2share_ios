@@ -1,4 +1,5 @@
 import 'expo-dev-client';
+import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootSiblingParent } from 'react-native-root-siblings';
@@ -18,7 +19,6 @@ import { CreatePostScreen } from './src/screens/CreatePost.screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
-import { AppBarComponent } from './src/components/core/AppBarComponent';
 import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
 
@@ -28,14 +28,14 @@ export default function App() {
   return (
     <AuthProvider>
       <StripeProvider
-        publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
-        merchantIdentifier="merchant.prompttoshate.prompttoshare">
-        <RootSiblingParent>
-          <MenuProvider>
-            <Layout />
-          </MenuProvider>
-        </RootSiblingParent>
-      </StripeProvider>
+          publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
+          merchantIdentifier="merchant.prompttoshate.prompttoshare">
+          <RootSiblingParent>
+            <MenuProvider>
+              <Layout />
+            </MenuProvider>
+          </RootSiblingParent>
+        </StripeProvider>
     </AuthProvider>
   );
 }
@@ -48,7 +48,7 @@ export const Layout = () => {
 
       {authState?.authenticated ?
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PurchaseCoin" component={PurchaseScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
@@ -58,7 +58,7 @@ export const Layout = () => {
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false}} />
+          <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
