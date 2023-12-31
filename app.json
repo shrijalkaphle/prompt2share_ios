@@ -68,7 +68,7 @@
       [
         "@stripe/stripe-react-native",
         {
-          "merchantIdentifier": "",
+          "merchantIdentifier": "merchant.prompttoshare.prompttoshare",
           "enableGooglePay": true
         }
       ]

@@ -30,7 +30,7 @@ export default function App() {
     <AuthProvider>
       <StripeProvider
           publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
-          merchantIdentifier="merchant.prompttoshate.prompttoshare">
+          merchantIdentifier="merchant.prompttoshare.prompttoshare">
           <RootSiblingParent>
             <MenuProvider>
               <Layout />

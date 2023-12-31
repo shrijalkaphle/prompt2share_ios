@@ -28,7 +28,8 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
             return
         }
         const clientSecret = paymentIntent.client_secret
-        const { error, paymentMethod } = await createPlatformPayPaymentMethod(
+        const { error, paymentIntent:confirmedPayment } = await confirmPlatformPayPayment(
+            clientSecret,
             {
                 applePay: {
                     merchantCountryCode: 'US',
@@ -49,6 +50,7 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
             Toast.show(error.message)
             return
         }
+        console.log(confirmedPayment)
     }
 
     useEffect(() => {
@@ -102,17 +104,16 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
                     {
                     isApplePaySupported ?
                         (
-                            // <ApplePayButton
-                            //     onPress={pay}
-                            //     type='plain'
-                            //     buttonStyle='black'
-                            //     borderRadius={16}
-                            //     style={{
-                            //         width: '100%',
-                            //         height: 50,
-                            //     }}
-                            // />
-                            <></>
+                            <ApplePayButton
+                                onPress={pay}
+                                type='plain'
+                                buttonStyle='black'
+                                borderRadius={16}
+                                style={{
+                                    width: '100%',
+                                    height: 50,
+                                }}
+                            />
                         )
                         :
                         <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={() => {}}>
