@@ -6,7 +6,7 @@ import { StyledView } from "../helpers/NativeWind.helper"
 export const HomeScreen = () => {
     return (
         <StyledView className="flex w-full h-full">
-            <StatusBar style="light" animated={true} />
+            <StatusBar style="light"/>
             <BottomTab />
         </StyledView>
     )

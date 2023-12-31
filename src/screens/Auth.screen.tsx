@@ -12,7 +12,7 @@ export const AuthScreen = () => {
 
     return (
         <StyledView className="flex justify-center items-center bg-background w-full h-full">
-            <StatusBar style="light" animated={true} />
+            <StatusBar style="light"/>
             {
                 authType == 'login' &&
                 <StyledView className={`h-4/5 w-full items-center flex`}>

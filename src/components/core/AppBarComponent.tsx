@@ -47,7 +47,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
                                     <Image source={{ uri: authUser?.profile ? authUser?.profile : "https://bootdey.com/img/Content/avatar/avatar7.png" }} className="w-full h-full rounded-full" />
                                 </StyledView>
                             </MenuTrigger>
-                            <MenuOptions customStyles={{ optionsContainer: { marginTop: 50, backgroundColor: 'rgba(36,25,40,1)' } }}>
+                            <MenuOptions customStyles={{ optionsContainer: { marginTop: 10, backgroundColor: 'rgba(36,25,40,1)' } }}>
                                 <MenuOption onSelect={() => navigation.navigate('Guide')} text='Guide' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Billing')} text='Billing' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Circle')} text='Circle' customStyles={menuOptionStyles} />

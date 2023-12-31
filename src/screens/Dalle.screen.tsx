@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react"
 
 export const DalleScreen = ({ route, navigation }: any) => {
 
-    const canvas = useRef(null)
     const { imageBase64 } = route.params
     const [imageGenerating, setImageGenerating] = useState<boolean>(false)
 

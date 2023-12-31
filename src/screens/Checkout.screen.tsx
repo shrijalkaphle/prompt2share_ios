@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
-import { Address, BillingDetails, useStripe, isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment } from "@stripe/stripe-react-native";
+import { useStripe, isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment } from "@stripe/stripe-react-native";
 import { completeCoinPurchase, generatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
 import { ICompletePurchaseProps } from "../types/services/payment.type";

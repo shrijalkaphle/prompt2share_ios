@@ -1,7 +1,7 @@
 import moment from "moment";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyledActivityIndicator, StyledImage, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper"
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { IPost, IPostComment } from "../../types/models.type";
 import { commentPostbyId, likePostbyId, tyophyPostbyId } from "../../services/post.service";
 import { useAuth } from "../../contexts/AuthContext";
@@ -33,7 +33,7 @@ const menuOptionStyles: MenuOptionCustomStyle = {
 
 export const PostCard = ({ post, removePost }: IPostCard) => {
 
-    const [status, setStatus] = React.useState({});
+    const [status, setStatus] = useState({});
     const bottomSheetRef = useRef<BottomSheet>(null);
 
     const { authUser, setAuthUser } = useAuth();

@@ -1,6 +1,5 @@
-import 'expo-dev-client';
 import 'react-native-gesture-handler';
-import React from 'react';
+import 'expo-dev-client';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -53,7 +52,7 @@ export const Layout = () => {
           <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Generate" component={GenerateScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} /> */}
           <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />

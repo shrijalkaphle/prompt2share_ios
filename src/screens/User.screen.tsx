@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
 import { IPost, IUser } from "../types/models.type"
@@ -158,7 +158,10 @@ export const UserScreen = ({ navigation, route }: any) => {
         )
     }
 
-
+    const removePost = (id: number) => {
+        setPosts(posts.filter((post: IPost) => parseInt(post.id) != id))
+    }
+    
     return (
         <StyledView className="bg-background w-full h-full">
             <AppBarComponent navigation={navigation} hasBack={true} />
@@ -173,7 +176,7 @@ export const UserScreen = ({ navigation, route }: any) => {
                                     <StyledView className="p-4">
                                         {
                                             !initialLoading ?
-                                                <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} /></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} ListHeaderComponent={() => headerContent()} />
+                                                <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost}/></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} ListHeaderComponent={() => headerContent()} />
                                                 :
                                                 <LoadingPost />
                                         }
