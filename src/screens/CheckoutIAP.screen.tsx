@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
-import { isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment, ApplePayButton, presentApplePay } from "@stripe/stripe-react-native";
+import { isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment, ApplePayButton, presentApplePay, confirmPlatformPaySetupIntent, createPlatformPayPaymentMethod } from "@stripe/stripe-react-native";
 import { generatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
+
+interface PaymentIntent {
+    client_secret: string,
+    id: string
+}
 
 export const CheckoutIAPScreen = ({ navigation, route }: any) => {
     const rate = 96
@@ -13,17 +18,17 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
     const [isApplePaySupported, setIsApplePaySupported] = useState<boolean>(false);
 
+    const [paymentIntent, setPaymentIntent] = useState<PaymentIntent>()
+
+    const [pageInitializing, setPageInitializing] = useState<boolean>(true)
+
     const pay = async () => {
-        const response = await generatePaymentIntent({ amount: amount })
-        if (response.error) {
-            setError(response.error)
-            Toast.show(response.message)
+        if(!paymentIntent) {
+            Toast.show('Cannot innitialzie payment.')
             return
         }
-        const { intent } = response
-        const clientSecret = intent.client_secret
-        const responsePlatformPay = await confirmPlatformPayPayment(
-            clientSecret,
+        const clientSecret = paymentIntent.client_secret
+        const { error, paymentMethod } = await createPlatformPayPaymentMethod(
             {
                 applePay: {
                     merchantCountryCode: 'US',
@@ -31,29 +36,40 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
                     cartItems: [
                         {
                             label: 'P2S',
-                            amount: amount,
+                            amount: `${amount}.00`,
                             paymentType: PlatformPay.PaymentType.Immediate
                         }
                     ]
                 }
             }
         );
-        if (responsePlatformPay.error) {
-            setError(responsePlatformPay)
-            Toast.show(responsePlatformPay.error.message)
+        if (error) {
+            setError(error)
+            alert('payment method not working')
+            Toast.show(error.message)
             return
         }
     }
 
     useEffect(() => {
         (async function () {
-            setIsApplePaySupported(await isPlatformPaySupported());
+            const paySupported = await isPlatformPaySupported()
+            setIsApplePaySupported(paySupported);
+            const { error, intent, message } = await generatePaymentIntent({ amount: amount })
+            if(error) {
+                setIsApplePaySupported(false)
+                Toast.show(message)
+                setPageInitializing(false)
+                return
+            }
+            setPaymentIntent(intent)
+            setPageInitializing(false)
         })();
     }, [isPlatformPaySupported])
     return (
         <StyledView className="w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
-            <StyledView className="flex flex-col items-center p-4 h-2/4">
+            <StyledView className="flex flex-col items-center p-4 h-2/5">
                 <StyledText className="text-white text-lg font-bold">Checkout</StyledText>
                 <StyledView className="flex flex-row justify-between rounded-lg p-4 bg-white/10 w-full mt-2">
                     <StyledText className="text-white font-bold">Coins</StyledText>
@@ -76,25 +92,34 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
                 </StyledView>
             </StyledView>
             <StyledText className="text-white">{JSON.stringify(error)}</StyledText>
-            <StyledView className="flex w-full mt-6 p-4">
+            <StyledText className="text-white">{JSON.stringify(paymentIntent?.client_secret)}</StyledText>
+            <StyledView className="flex w-full p-4">
                 {
+                    pageInitializing ?
+                    null
+                    :
+                    <>
+                    {
                     isApplePaySupported ?
                         (
-                            <ApplePayButton
-                                onPress={pay}
-                                type='plain'
-                                buttonStyle='black'
-                                borderRadius={16}
-                                style={{
-                                    width: '100%',
-                                    height: 50,
-                                }}
-                            />
+                            // <ApplePayButton
+                            //     onPress={pay}
+                            //     type='plain'
+                            //     buttonStyle='black'
+                            //     borderRadius={16}
+                            //     style={{
+                            //         width: '100%',
+                            //         height: 50,
+                            //     }}
+                            // />
+                            <></>
                         )
                         :
                         <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={() => {}}>
                             <StyledText className="text-white text-center font-bold">Apple pay is either not supported or you have not setup apple pay</StyledText>
                         </StyledTouchableOpacity>
+                }
+                    </>
                 }
             </StyledView>
             {

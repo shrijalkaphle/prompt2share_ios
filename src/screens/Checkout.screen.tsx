@@ -147,17 +147,18 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
                 {
                     isApplePaySupported ?
                         (
-                            <PlatformPayButton
-                                onPress={pay}
-                                type={PlatformPay.ButtonType.Order}
-                                appearance={PlatformPay.ButtonStyle.Black}
-                                borderRadius={4}
-                                style={{
-                                    width: '100%',
-                                    height: 50,
-                                    borderRadius: 16
-                                }}
-                            />
+                            // <PlatformPayButton
+                            //     onPress={pay}
+                            //     type={PlatformPay.ButtonType.Order}
+                            //     appearance={PlatformPay.ButtonStyle.Black}
+                            //     borderRadius={4}
+                            //     style={{
+                            //         width: '100%',
+                            //         height: 50,
+                            //         borderRadius: 16
+                            //     }}
+                            // />
+                            <></>
                         )
                         :
                         <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={openPaymentSheet}>

@@ -23,7 +23,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@shopify/react-native-skia": "0.1.196",
-    "@stripe/stripe-react-native": "0.28.0",
+    "@stripe/stripe-react-native": "0.25.0",
     "axios": "^1.6.2",
     "expo": "~49.0.15",
     "expo-av": "~13.4.1",
