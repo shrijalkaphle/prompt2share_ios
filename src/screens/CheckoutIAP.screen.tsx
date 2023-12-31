@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
 import { isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment, ApplePayButton, presentApplePay, confirmPlatformPaySetupIntent, createPlatformPayPaymentMethod } from "@stripe/stripe-react-native";
-import { generatePaymentIntent } from "../services/payment.service";
+import { completeCoinPurchase, generatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
+import { ICompletePurchaseProps } from "../types/services/payment.type";
 
 interface PaymentIntent {
     client_secret: string,
@@ -23,12 +24,12 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
     const [pageInitializing, setPageInitializing] = useState<boolean>(true)
 
     const pay = async () => {
-        if(!paymentIntent) {
+        if (!paymentIntent) {
             Toast.show('Cannot innitialzie payment.')
             return
         }
         const clientSecret = paymentIntent.client_secret
-        const { error, paymentIntent:confirmedPayment } = await confirmPlatformPayPayment(
+        const { error } = await confirmPlatformPayPayment(
             clientSecret,
             {
                 applePay: {
@@ -46,11 +47,21 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
         );
         if (error) {
             setError(error)
-            alert('payment method not working')
             Toast.show(error.message)
             return
         }
-        console.log(confirmedPayment)
+        setPaymentProcessing(true)
+        const props: ICompletePurchaseProps = {
+            paymentIntentId: paymentIntent.id,
+            amount: amount,
+            paymentOption: 'apple pay'
+        }
+        const response = await completeCoinPurchase(props)
+        if (response && response.error) {
+            Toast.show(response.error)
+            return
+        }
+        navigation.navigate('Home', { screen: 'Profile' })
     }
 
     useEffect(() => {
@@ -58,7 +69,7 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
             const paySupported = await isPlatformPaySupported()
             setIsApplePaySupported(paySupported);
             const { error, intent, message } = await generatePaymentIntent({ amount: amount })
-            if(error) {
+            if (error) {
                 setIsApplePaySupported(false)
                 Toast.show(message)
                 setPageInitializing(false)
@@ -93,22 +104,16 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
                     <StyledText className="text-white font-bold">${(parseInt(amount) * tax) + parseInt(amount)}</StyledText>
                 </StyledView>
             </StyledView>
-            <StyledText className="text-white">{JSON.stringify(error)}</StyledText>
-            <StyledText className="text-white">{JSON.stringify(paymentIntent?.client_secret)}</StyledText>
             <StyledView className="flex w-full p-4">
                 {
-                    pageInitializing ?
-                    null
-                    :
-                    <>
-                    {
                     isApplePaySupported ?
                         (
-                            <ApplePayButton
+                            <PlatformPayButton
                                 onPress={pay}
-                                type='plain'
-                                buttonStyle='black'
+                                type={PlatformPay.ButtonType.Pay}
+                                appearance={PlatformPay.ButtonStyle.Black}
                                 borderRadius={16}
+                                disabled={pageInitializing}
                                 style={{
                                     width: '100%',
                                     height: 50,
@@ -116,11 +121,9 @@ export const CheckoutIAPScreen = ({ navigation, route }: any) => {
                             />
                         )
                         :
-                        <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={() => {}}>
+                        <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={() => { }}>
                             <StyledText className="text-white text-center font-bold">Apple pay is either not supported or you have not setup apple pay</StyledText>
                         </StyledTouchableOpacity>
-                }
-                    </>
                 }
             </StyledView>
             {
