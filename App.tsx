@@ -20,6 +20,8 @@ import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
+import { BottomSheetScreen } from './src/screens/BottomSheet.screen';
+import { CheckoutIAPScreen } from './src/screens/CheckoutIAP.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +54,7 @@ export const Layout = () => {
           <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Generate" component={GenerateScreen} options={{ headerShown: false }} />
-          {/* <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} /> */}
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
@@ -60,13 +62,13 @@ export const Layout = () => {
           <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="CheckoutIAP" component={CheckoutIAPScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>
           <Stack.Screen name="Login" component={AuthScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       }
-      {/* </Stack.Navigator> */}
     </NavigationContainer>
   )
 }

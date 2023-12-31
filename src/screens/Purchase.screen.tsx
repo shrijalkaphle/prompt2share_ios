@@ -10,7 +10,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const [amount, setAmount] = useState<string>('1')
 
     const proceedToPay = () => {
-        navigation.navigate('Checkout', { amount: amount})
+        navigation.navigate('CheckoutIAP', { amount: amount})
     }
 
     return (

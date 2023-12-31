@@ -96,7 +96,6 @@ export const VideoPost = ({ navigation }: any) => {
 
         if (!result.canceled) {
             setVideo(result.assets[0])
-            console.log(result.assets[0])
         }
 
         

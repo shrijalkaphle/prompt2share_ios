@@ -1,18 +1,17 @@
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { Ref, RefObject, useCallback, useMemo, useRef } from 'react';
-import { View, StyleSheet,Text, Button, GestureResponderEvent } from 'react-native';
-import { GestureHandlerRootView, gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { StyledSafeAreaView, StyledText, StyledView } from '../../helpers/NativeWind.helper';
+import { useCallback, useMemo, useRef } from "react"
+import { StyledSafeAreaView, StyledText, StyledView } from "../helpers/NativeWind.helper"
+import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import {  gestureHandlerRootHOC } from "react-native-gesture-handler"
+import { Button, Text } from "react-native"
 
-
-export const ShareModal = gestureHandlerRootHOC(() => {
+export const BottomSheetScreen = gestureHandlerRootHOC(() => {
+    const snapPoints = useMemo(() => ['10', '25', '50', '70%'], [])
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const snapPoints = useMemo(() => ['50', '70%'], []);
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log('handleSheetChanges', index);
-    }, []);
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
+    }, []);
+    const handleSheetChanges = useCallback((index: number) => {
+        console.log('handleSheetChanges', index);
     }, []);
     return (
         <BottomSheetModalProvider>

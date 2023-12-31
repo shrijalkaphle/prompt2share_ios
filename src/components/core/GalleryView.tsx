@@ -65,7 +65,7 @@ export const GalleryView = ({ images, prompt, navigation, setImage }: IGalleryVi
         '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
     return (
-        <StyledView className="rounded-lg h-3/6 px-4 py-1 flex items-center mt-20">
+        <StyledView className="rounded-lg h-3/6 px-4 py-1 flex items-center">
             <StyledView className="flex flex-row items-center justify-between w-full px-3 my-2">
                 <StyledTouchableOpacity className="" onPress={() => setImage([])}>
                     <Ionicons name="arrow-back" size={24} color="white" />

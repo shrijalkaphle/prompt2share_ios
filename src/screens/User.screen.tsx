@@ -192,7 +192,9 @@ export const UserScreen = ({ navigation, route }: any) => {
                                     </StyledView>
                                 </>
                                 :
-                                headerContent()
+                                <StyledView className="p-4">
+                                    {headerContent()}
+                                </StyledView>
                         }
                     </>
             }

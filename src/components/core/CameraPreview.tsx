@@ -80,7 +80,7 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
         <StyledView className="h-full w-full flex items-center bg-background">
             {
                 generatedImages.length > 0 ?
-                    <StyledView className="w-full mt-10">
+                    <StyledView className="w-full mt-28">
                         <GalleryView images={generatedImages} prompt={prompt} navigation={navigation} setImage={setGeneratedImages}/>
                     </StyledView> 
                 :

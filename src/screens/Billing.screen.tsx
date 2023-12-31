@@ -6,6 +6,7 @@ import Toast from "react-native-root-toast"
 import { IBought, IWithdraw } from "../types/models.type"
 import { PaymentCard } from "../components/core/PaymentCard"
 import { WithdrawCard } from "../components/core/WithdrawCard"
+import { FlatList } from "react-native"
 
 export const BillingScreen = ({ navigation }: any) => {
 
@@ -54,10 +55,10 @@ export const BillingScreen = ({ navigation }: any) => {
             </StyledView>
             {
                 pageLoading ?
-                    <StyledActivityIndicator size={"large"} className="mt-5"/>
+                    <StyledActivityIndicator size={"large"} className="mt-5" />
                     :
                     <>
-                        <StyledScrollView className={`w-full p-4 ${activeTab == 'token__bought' ? '' : 'hidden'}`}>
+                        {/* <StyledScrollView className={`w-full p-4 ${activeTab == 'token__bought' ? '' : 'hidden'}`}>
                             {
                                 boughts.map((bought, index) => (
                                     <PaymentCard
@@ -69,25 +70,40 @@ export const BillingScreen = ({ navigation }: any) => {
                                     />
                                 ))
                             }
-                        </StyledScrollView>
+                        </StyledScrollView> */}
+                        <FlatList
+                            data={boughts}
+                            renderItem={({ item, index }) => (
+                                <StyledView className={`px-4 mt-1 ${index == boughts.length - 1 ? 'mb-14' : ''} ${activeTab == 'token__bought' ? '' : 'hidden'}`}>
+                                    <PaymentCard
+                                        key={index}
+                                        date={item.created_at}
+                                        amount={item.price}
+                                        qty={item.qty}
+                                        payment_type={item.payment_type}
+                                    />
+                                </StyledView>
+                            )}
+                        />
 
-                        <StyledScrollView className={`w-full p-4 ${activeTab == 'token__withdraw' ? '' : 'hidden'}`}>
-                            {
-                                withdraws.map((withdraw, index) => (
+                        <FlatList
+                            data={withdraws}
+                            renderItem={({ item, index }) => (
+                                <StyledView className={`px-4 mt-1 ${index == withdraws.length - 1 ? 'mb-14' : ''} ${activeTab == 'token__withdraw' ? '' : 'hidden'}`}>
                                     <WithdrawCard
                                         key={index}
-                                        created_at={withdraw.created_at}
-                                        amt={withdraw.amount}
-                                        status={withdraw.status}
-                                        sender_account={withdraw.sender_account}
-                                        sender_receipt={withdraw.sender_receipt}
-                                        bank_name={withdraw.bank_name}
-                                        routing_name={withdraw.routing_number}
-                                        account_num={withdraw.account_number}
+                                        created_at={item.created_at}
+                                        amt={item.amount}
+                                        status={item.status}
+                                        sender_account={item.sender_account}
+                                        sender_receipt={item.sender_receipt}
+                                        bank_name={item.bank_name}
+                                        routing_name={item.routing_number}
+                                        account_num={item.account_number}
                                     />
-                                ))
-                            }
-                        </StyledScrollView>
+                                </StyledView>
+                            )}
+                        />
                     </>
             }
 

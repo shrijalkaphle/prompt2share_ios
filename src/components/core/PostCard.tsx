@@ -156,7 +156,7 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
                                 (authUser?.user_id === post.user?.user_id) && <MenuOption onSelect={triggerDeleteModal} text='Delete' customStyles={menuOptionStyles} />
                             }
                             <MenuOption onSelect={triggerReportModal} text='Report' customStyles={menuOptionStyles} />
-                            <MenuOption onSelect={triggerShare} text='Share' customStyles={menuOptionStyles} />
+                            {/* <MenuOption onSelect={triggerShare} text='Share' customStyles={menuOptionStyles} /> */}
                         </MenuOptions>
                     </Menu>
                 </StyledView>
@@ -232,7 +232,6 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
             <ImageModel modelState={imageModelState} setModelState={setImageModelState} image={post.file} />
             <ReportModal modelState={reportModelState} setModelState={setReportModelState} postId={post.id}/>
             <DeleteModal modelState={deleteModelState} setModelState={setDeleteModelState} postId={parseInt(post.id)} removePost={removePost}/>
-            {/* <ShareModal ref={bottomSheetRef}/> */}
         </>
 
     )
