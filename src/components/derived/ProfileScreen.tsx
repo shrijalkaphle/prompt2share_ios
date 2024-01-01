@@ -10,6 +10,7 @@ import { FlatList } from "react-native";
 import Toast from "react-native-root-toast";
 import { Rating } from 'react-native-stock-star-rating'
 import { DeleteProfileModal } from "../core/DeleteProfileModal";
+import { PostProcessing } from "../core/PostProcessing";
 
 export const ProfileScreen = ({ navigation, route }: any) => {
     const { authUser } = useAuth();
@@ -133,7 +134,21 @@ export const ProfileScreen = ({ navigation, route }: any) => {
             <StyledView className="px-4">
                 {
                     posts.length != 0 || !pageLoading ?
-                        <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost} /></StyledView>} onEndReached={() => { (!dataLoading) ? updatePageCount() : '' }} style={{ borderColor: 'white' }} ListHeaderComponent={() => headerContent()} />
+                        <FlatList 
+                            data={posts} 
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}>
+                                        {
+                                            item.status == 'processing' ? <PostProcessing post={item}/> : <PostCard post={item} navigation={navigation} removePost={removePost} />
+                                        }
+                                        
+                                    </StyledView>
+                                )
+                            }} onEndReached={() => { (!dataLoading) ? updatePageCount() : '' }} 
+                            style={{ borderColor: 'white' }} 
+                            ListHeaderComponent={() => headerContent()} 
+                        />
                         :
                         <LoadingPost />
                 }

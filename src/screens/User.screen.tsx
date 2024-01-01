@@ -4,7 +4,7 @@ import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, Sty
 import { IPost, IUser } from "../types/models.type"
 import { PostCard } from "../components/core/PostCard"
 import { LoadingPost } from "../components/core/LoadingPost"
-import { getUserDetail, rateUserProfile } from "../services/user.service"
+import { blockUser, getUserDetail, rateUserProfile } from "../services/user.service"
 import { getPostbyUserId, updateFollowStatus } from "../services/post.service"
 import { FlatList } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
@@ -104,6 +104,20 @@ export const UserScreen = ({ navigation, route }: any) => {
         setUser(response.user)
     }
 
+    const handleBlockUser = async () => {
+        const response = await blockUser({
+            blockedUserId: userId
+        })
+        if (response && response.error) {
+            Toast.show(response.message, {
+                backgroundColor: 'red',
+            })
+            return
+        }
+        Toast.show(response.message)
+        navigation.goBack()
+    }
+
     const headerContent = () => {
         return (
             <StyledView className="">
@@ -130,7 +144,10 @@ export const UserScreen = ({ navigation, route }: any) => {
                     <StyledView className="flex flex-row justify-around items-center w-full">
                         <StyledTouchableOpacity className="border border-white rounded py-2 px-5 w-1/3 flex items-center" onPress={handleFollowPressed}>
                             {isFollowedLoading ? <StyledActivityIndicator /> : <StyledText className="text-white my-0.5">{user?.isFollowed ? 'Unfollow' : 'Follow'}</StyledText>}
+                        </StyledTouchableOpacity>
 
+                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5 w-1/3 flex items-center" onPress={handleBlockUser}>
+                            {isFollowedLoading ? <StyledActivityIndicator /> : <StyledText className="text-white my-0.5">Block</StyledText>}
                         </StyledTouchableOpacity>
                     </StyledView>
                 </StyledView>

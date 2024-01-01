@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
-import { ICommentProps, ICreateManualImagePostProps, ICreateManualTextPostProps, ICreateManualVideoPostProps, ICreatePostProps, IDeletePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse, IReportPostProps, IUpdateFollowStatusProps } from "../types/services/post.type";
+import { IBlockUserProps, ICommentProps, ICreateManualImagePostProps, ICreateManualTextPostProps, ICreateManualVideoPostProps, ICreatePostProps, IDeletePostProps, IGetPostParams, ILikePostResponse, ILikeProps, IPostResponse, IReportPostProps, IUpdateFollowStatusProps } from "../types/services/post.type";
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
 

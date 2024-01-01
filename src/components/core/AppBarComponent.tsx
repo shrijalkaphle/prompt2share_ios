@@ -53,6 +53,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
                                 <MenuOption onSelect={() => navigation.navigate('Circle')} text='Circle' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => setReportProblemModalState(true)} text='Report Problem' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => setWithdrawModalState(true)} text='Withdraw' customStyles={menuOptionStyles} />
+                                <MenuOption onSelect={() => navigation.navigate('BlockedUser')} text='Blocked Users' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={onLogout} text='Logout' customStyles={menuOptionStyles} />
                             </MenuOptions>
                         </Menu>

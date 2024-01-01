@@ -22,6 +22,7 @@ import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
 import { BottomSheetScreen } from './src/screens/BottomSheet.screen';
 import { CheckoutIAPScreen } from './src/screens/CheckoutIAP.screen';
+import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ export const Layout = () => {
           <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
           <Stack.Screen name="CheckoutIAP" component={CheckoutIAPScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="BlockedUser" component={BlockedUserScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
         :
         <Stack.Navigator>

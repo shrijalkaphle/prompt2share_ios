@@ -33,6 +33,13 @@ export const PostScreen = ({ navigation }: any) => {
     }
     useEffect(() => {
         getPosts()
+        navigation.addListener('focus', () => {
+            setPosts([])
+            if (page == 1) getPosts()
+            setPage(1)
+            
+            // getPosts()
+        });
     }, [page])
 
     const removePost = (id: number) => {

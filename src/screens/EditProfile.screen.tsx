@@ -27,7 +27,6 @@ export const EditProfileScreen = ({ navigation }: any) => {
 
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
-
     const updateDetails = async () => {
         Keyboard.dismiss()
         if (changePassword) {

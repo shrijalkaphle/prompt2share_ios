@@ -57,11 +57,13 @@ export interface ICreateManualImagePostProps {
     prompt: string
     file: string
     imageProvider: string
+    token: string
 }
 
 export interface ICreateManualVideoPostProps {
     prompt: string
     file: string
+    token: string
 }
 
 export interface IUpdateFollowStatusProps {
@@ -75,4 +77,8 @@ export interface IDeletePostProps {
 export interface IReportPostProps {
     postId: number
     reason: string
+}
+
+export interface IBlockUserProps {
+    blockedUserId: number
 }

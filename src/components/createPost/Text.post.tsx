@@ -17,8 +17,8 @@ interface ITextPost {
 export const TextPost = ({navigation} : any) => {
 
     const initialFormikValue = {
-        prompt: 'test',
-        chunk: 'test'
+        prompt: '',
+        chunk: ''
     }
 
     const validationSchema = Yup.object().shape({

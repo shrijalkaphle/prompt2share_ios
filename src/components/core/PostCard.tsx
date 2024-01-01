@@ -1,7 +1,7 @@
 import moment from "moment";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyledActivityIndicator, StyledImage, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper"
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { IPost, IPostComment } from "../../types/models.type";
 import { commentPostbyId, likePostbyId, tyophyPostbyId } from "../../services/post.service";
 import { useAuth } from "../../contexts/AuthContext";
@@ -12,8 +12,7 @@ import { ImageModel } from "./ImageModel";
 import { Menu, MenuOption, MenuOptionCustomStyle, MenuOptions, MenuTrigger } from "react-native-popup-menu";
 import { ReportModal } from "./ReportModal";
 import { DeleteModal } from "./DeleteModal";
-import { ShareModal } from "./ShareModal";
-import BottomSheet from "@gorhom/bottom-sheet";
+import * as Clipboard from 'expo-clipboard';
 
 interface IPostCard {
     post: IPost
@@ -31,10 +30,9 @@ const menuOptionStyles: MenuOptionCustomStyle = {
     }
 }
 
-export const PostCard = ({ post, removePost }: IPostCard) => {
+export const PostCard = ({ post, removePost, navigation }: IPostCard) => {
 
     const [status, setStatus] = useState({});
-    const bottomSheetRef = useRef<BottomSheet>(null);
 
     const { authUser, setAuthUser } = useAuth();
 
@@ -133,7 +131,9 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
     }
 
     const triggerShare = async () => {
-        bottomSheetRef.current?.expand()
+        const text = "https://www.prompttoshare.com/post/" + post.slug
+        await Clipboard.setStringAsync(text)
+        Toast.show('Cpopied to clipboard!')
     }
 
     return (
@@ -141,9 +141,13 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
             <StyledView className="my-2 bg-white/10 rounded-lg p-4">
                 <StyledView className="flex flex-row justify-between">
                     <StyledView className="flex flex-row">
-                        <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
+                        <StyledTouchableOpacity onPress={() => navigation.navigate('User', { userId: post.user?.user_id })}>
+                            <StyledImage source={{ uri: post.user?.profile ? post.user?.profile : 'https://bootdey.com/img/Content/avatar/avatar7.png' }} className="h-10 w-10 rounded-full" />
+                        </StyledTouchableOpacity>
                         <StyledView className="ml-4">
-                            <StyledText className="text-lg font-base text-white">{post.user?.name}</StyledText>
+                            <StyledTouchableOpacity onPress={() => navigation.navigate('User', { userId: post.user?.user_id })}>
+                                <StyledText className="text-lg font-base text-white">{post.user?.name}</StyledText>
+                            </StyledTouchableOpacity>
                             <StyledText className="text-xs font-bold text-white">{dateFormat()}</StyledText>
                         </StyledView>
                     </StyledView>
@@ -156,7 +160,7 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
                                 (authUser?.user_id === post.user?.user_id) && <MenuOption onSelect={triggerDeleteModal} text='Delete' customStyles={menuOptionStyles} />
                             }
                             <MenuOption onSelect={triggerReportModal} text='Report' customStyles={menuOptionStyles} />
-                            {/* <MenuOption onSelect={triggerShare} text='Share' customStyles={menuOptionStyles} /> */}
+                            <MenuOption onSelect={triggerShare} text='Copy Link' customStyles={menuOptionStyles} />
                         </MenuOptions>
                     </Menu>
                 </StyledView>
@@ -230,8 +234,8 @@ export const PostCard = ({ post, removePost }: IPostCard) => {
             </StyledView>
 
             <ImageModel modelState={imageModelState} setModelState={setImageModelState} image={post.file} />
-            <ReportModal modelState={reportModelState} setModelState={setReportModelState} postId={post.id}/>
-            <DeleteModal modelState={deleteModelState} setModelState={setDeleteModelState} postId={parseInt(post.id)} removePost={removePost}/>
+            <ReportModal modelState={reportModelState} setModelState={setReportModelState} postId={post.id} />
+            <DeleteModal modelState={deleteModelState} setModelState={setDeleteModelState} postId={parseInt(post.id)} removePost={removePost} />
         </>
 
     )

@@ -44,5 +44,8 @@ export enum ENDPOINT {
     REPORT_POST = "post/report",
     USER_RATING = "user/rating",
 
-    DELETE_PROFILE = "me/delete"
+    DELETE_PROFILE = "me/delete",
+
+    BLOCK_USER = "user/block",
+    BLOCK_USER_LIST = 'me/blocked_users',
 }

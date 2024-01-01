@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { IRateUserProfileProps, IReportProblem } from "../types/services/user.type";
+import { IBlockUserProps } from "../types/services/post.type";
 
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
@@ -60,6 +61,30 @@ export const deleteUserProfile = async () => {
         const result = await axios.post(endpoint)
         return result.data
     } catch (error) {
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+
+
+export const blockUser = async (blockUserProps: IBlockUserProps) => {
+    const endpoint = `${api_url}/${ENDPOINT.BLOCK_USER}`;
+    try {
+        const result = await axios.post(endpoint,blockUserProps)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const blockUserList = async () => {
+    const endpoint = `${api_url}/${ENDPOINT.BLOCK_USER_LIST}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }

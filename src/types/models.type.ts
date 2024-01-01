@@ -20,6 +20,7 @@ export interface IUser {
 export interface IPost {
     category: string
     chunk: string
+    slug: string
     comment: []
     created_at: string
     file: string | null
@@ -30,6 +31,7 @@ export interface IPost {
     tool: string
     trophy: []
     user?: IUser
+    status: string | null
 }
 
 

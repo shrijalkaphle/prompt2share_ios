@@ -37,8 +37,6 @@ export const VideoPost = ({ navigation }: any) => {
     const [video, setVideo] = useState<ImagePickerAsset>();
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
 
-    const [thumbnail, setThumbnail] = useState<string>('');
-
     const postToFeed = async (value: IImagePost) => {
 
         // upload image to server
@@ -58,9 +56,11 @@ export const VideoPost = ({ navigation }: any) => {
                 'Authorization': `Bearer ${authState?.token}`
             }
         })
+        const {s3Url, token} = JSON.parse(body)
         const props: ICreateManualVideoPostProps = {
             prompt: value.prompt,
-            file: body
+            file: s3Url,
+            token: token
         }
 
         const response = await createManualVideoPost(props)
@@ -79,6 +79,7 @@ export const VideoPost = ({ navigation }: any) => {
         } catch(e) {
             console.log(e)
         }
+
         navigation.navigate('Home', { screen: 'Profile' })
         setFormLoading(false)
     }

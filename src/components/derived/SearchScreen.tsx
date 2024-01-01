@@ -37,6 +37,10 @@ export const SearchScreen = ({navigation}: any) => {
         setSearching(false)
     }
 
+    const removePost = (id: number) => {
+        setPosts(posts.filter((post: IPost) => parseInt(post.id) != id))
+    }
+
     return (
         <StyledView className="bg-background w-full h-full">
             <FloatingButton navigation={navigation}/>
@@ -71,7 +75,7 @@ export const SearchScreen = ({navigation}: any) => {
                                     <StyledScrollView className="pb-24">
                                         {
                                             posts.map((post: IPost, index) => (
-                                                <PostCard key={index} post={post} navigation={navigation}/>
+                                                <PostCard key={index} post={post} navigation={navigation} removePost={removePost}/>
                                             ))
                                         }
                                     </StyledScrollView>

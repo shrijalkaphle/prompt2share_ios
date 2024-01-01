@@ -77,10 +77,12 @@ export const ImagePost = ({ navigation }: any) => {
                 'Authorization': `Bearer ${authState?.token}`
             }
         })
+        const {s3Url, token} = JSON.parse(body)
         const props: ICreateManualImagePostProps = {
             prompt: value.prompt,
             imageProvider: value.imageProvider,
-            file: body
+            file: s3Url,
+            token: token
         }
 
         const response = await createManualImagePost(props)
