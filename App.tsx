@@ -30,7 +30,7 @@ export default function App() {
   return (
     <AuthProvider>
       <StripeProvider
-          publishableKey="pk_test_51Ncp0QJfXV5x0h2XFAFUVIzEv9yrEIrDHzFOrBrWxjqvIamPcapkQ52Cym6O10Cnul5FpymRdJrXZlaJwIbATuEd00uOkrQkVQ"
+          publishableKey="pk_live_51Ncp0QJfXV5x0h2XfqB27TYrUn7OleczxW12jjHNvQR1bKb3WY7dZu2bwtWKKyVekGAHwdMsgb84535IMjamxGg8000mBtaRzb"
           merchantIdentifier="merchant.prompttoshare.prompttoshare">
           <RootSiblingParent>
             <MenuProvider>
