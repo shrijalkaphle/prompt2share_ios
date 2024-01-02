@@ -20,7 +20,6 @@ import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
-import { BottomSheetScreen } from './src/screens/BottomSheet.screen';
 import { CheckoutIAPScreen } from './src/screens/CheckoutIAP.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
 
