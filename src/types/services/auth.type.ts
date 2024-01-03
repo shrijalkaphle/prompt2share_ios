@@ -37,6 +37,7 @@ export interface IGetUserNotificationParams {
 }
 
 export interface IUpdatePasswordParams {
+    user_id: string
     password: string
     confirm_password: string
 }

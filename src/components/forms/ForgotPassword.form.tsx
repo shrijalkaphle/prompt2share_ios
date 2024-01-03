@@ -71,7 +71,7 @@ export const ForgotPasswordForm = ({ setAuthType }:any) => {
         Keyboard.dismiss()
         setFormLoading(true)
         const params = {
-            user_id: 506,
+            user_id: userId ? userId : '',
             password: value.password,
             confirm_password: value.confirm_password
         }
