@@ -3,14 +3,54 @@ import { AppBarComponent } from "../components/core/AppBarComponent";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import {
+    requestPurchase,
+    useIAP
+} from "react-native-iap";
+
+const isIos = Platform.OS === "ios";
+const productSkus = Platform.select({
+    ios: ["P2S_Tokens_480","P2S_Tokens_96","P2S_Tokens_960"],
+});
 
 export const PurchaseScreen = ({ navigation }: any) => {
     const rate = 96
+    const {
+        connected,
+        getProducts
+    } = useIAP();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    // const handleGetProducts = async () => {
+    //     try {
+    //         if (!productSkus) return
+    //         await getProducts({ skus: productSkus });
+    //     } catch (error) {
+    //         console.log({ message: "handleGetSubscriptions", error });
+    //     }
+    // }
+
+    // console.log(connected)
+    // useEffect(() => {
+    //     handleGetProducts();
+    // }, [connected]);
+
+    // const handleBuyToken = async () => {
+    //     try {
+    //         if (!productSkus) return
+    //         setLoading(true);
+    //         await requestPurchase({ skus: productSkus });
+    //     } catch (error) {
+    //         setLoading(false);
+    //         console.log({ message: "handleBuyToken", error });
+    //     }
+    // } 
 
     const [amount, setAmount] = useState<string>('1')
 
     const proceedToPay = () => {
-        navigation.navigate('CheckoutIAP', { amount: amount})
+        navigation.navigate('CheckoutScreen', { amount: amount })
     }
 
     return (
@@ -31,17 +71,11 @@ export const PurchaseScreen = ({ navigation }: any) => {
                     <StyledText className="text-white text-xs mt-1">$1 = {rate} coins</StyledText>
                 </StyledView>
                 <StyledView className="flex w-full mt-6">
-                    <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={proceedToPay} disabled={amount === '' || amount === '0'}>
-                        <StyledText className="text-white text-lg font-bold">Proceed to pay</StyledText>
+                    <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-full flex items-center justify-center" onPress={proceedToPay}>
+                        <StyledText className="text-white text-lg font-bold">Purchase</StyledText>
                     </StyledTouchableOpacity>
                 </StyledView>
             </StyledView>
-            {/* {
-                paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">
-                    <StyledActivityIndicator size={"large"}></StyledActivityIndicator>
-                    <StyledText className="text-white text-lg font-semibold mt-8">We are processing your payment. Please wait. You will be automaticately redirected to profile tab after complete.</StyledText>
-                </StyledView>
-            } */}
         </StyledView>
     )
 }

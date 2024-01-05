@@ -71,20 +71,22 @@ export const BillingScreen = ({ navigation }: any) => {
                                 ))
                             }
                         </StyledScrollView> */}
-                        <FlatList
-                            data={boughts}
-                            renderItem={({ item, index }) => (
-                                <StyledView className={`px-4 mt-1 ${index == boughts.length - 1 ? 'mb-14' : ''} ${activeTab == 'token__bought' ? '' : 'hidden'}`}>
-                                    <PaymentCard
-                                        key={index}
-                                        date={item.created_at}
-                                        amount={item.price}
-                                        qty={item.qty}
-                                        payment_type={item.payment_type}
-                                    />
-                                </StyledView>
-                            )}
-                        />
+                        <StyledView>
+                            <FlatList
+                                data={boughts}
+                                renderItem={({ item, index }) => (
+                                    <StyledView className={`px-4 mt-1 ${index == boughts.length - 1 ? 'mb-14' : ''} ${activeTab == 'token__bought' ? '' : 'hidden'}`}>
+                                        <PaymentCard
+                                            key={index}
+                                            date={item.created_at}
+                                            amount={item.price}
+                                            qty={item.qty}
+                                            payment_type={item.payment_type}
+                                        />
+                                    </StyledView>
+                                )}
+                            />
+                        </StyledView>
 
                         <FlatList
                             data={withdraws}

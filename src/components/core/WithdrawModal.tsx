@@ -25,7 +25,6 @@ export const WithdrawModal = ({ modelState, setModelState, availableAmount }: an
 
     const requestWithdraw = async (value: IWithdrawRequestProps) => {
         setFormSubmitting(true)
-
         const reponse = await withdrawRequest(value)
         if (reponse && reponse.error) {
             Toast.show(reponse.error)
@@ -91,7 +90,7 @@ export const WithdrawModal = ({ modelState, setModelState, availableAmount }: an
                                         secureText={false} />
                                     <StyledView className="flex items-center justify-center mt-2">
                                         <StyledText className="text-white text-lg font-bold">Available amount for withdraw: ${availableAmount}</StyledText>
-                                        <StyledTouchableOpacity onPress={()=>handleSubmit()} className="border border-slate-300 rounded-lg px-4 py-3 w-fit mt-3" disabled={availableAmount < 25 || formSumbitting}>
+                                        <StyledTouchableOpacity onPress={()=>handleSubmit()} className="border border-slate-300 rounded-lg px-4 py-3 w-fit mt-3" >
                                             {availableAmount < 25 ?
                                                 <StyledText className="text-white font-bold">Atleast $25 required for withdraw</StyledText>
                                                 :

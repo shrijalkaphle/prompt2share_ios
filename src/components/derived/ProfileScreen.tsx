@@ -11,6 +11,7 @@ import Toast from "react-native-root-toast";
 import { Rating } from 'react-native-stock-star-rating'
 import { DeleteProfileModal } from "../core/DeleteProfileModal";
 import { PostProcessing } from "../core/PostProcessing";
+import { Ionicons } from "@expo/vector-icons";
 
 export const ProfileScreen = ({ navigation, route }: any) => {
     const { authUser } = useAuth();
@@ -49,8 +50,14 @@ export const ProfileScreen = ({ navigation, route }: any) => {
     useEffect(() => {
         getPosts()
         navigation.addListener('focus', () => {
-            setPage(0)
             setPosts([])
+            if(page == 1) {
+                setDataLoading(true)
+                getPosts()
+            } else {
+                setPage(1)
+                setDataLoading(true)
+            }
         });
     }, [page])
 
@@ -67,7 +74,7 @@ export const ProfileScreen = ({ navigation, route }: any) => {
     const headerContent = () => {
         return (
             <StyledView className="">
-                <StyledView className="w-full bg-white/10 p-4 rounded-lg flex flex-col items-center justify-between gap-y-4 mt-[2px]">
+                <StyledView className="w-full bg-white/10 p-4 rounded-lg flex flex-col items-center justify-between gap-y-4 mt-[2px] relative">
                     <StyledView className="h-32 w-36 rounded-full">
                         <StyledImage source={{
                             uri: authUser?.profile ? authUser?.profile : "https://bootdey.com/img/Content/avatar/avatar7.png"
@@ -82,26 +89,26 @@ export const ProfileScreen = ({ navigation, route }: any) => {
                         <StyledText className="text-white text-xs ml-1 font-semibold">({authUser?.average_rating ? authUser?.average_rating.toFixed(2) : 0}/5)</StyledText>
                     </StyledView>
                     <StyledView className="flex flex-row justify-around items-center w-full">
-                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('EditProfile')}>
-                            <StyledText className="text-white">Edit Profile</StyledText>
-                        </StyledTouchableOpacity>
-                        <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => navigation.navigate('PurchaseCoin')}>
+
+                        <StyledTouchableOpacity className="bg-white/10 rounded py-2 px-5" onPress={() => navigation.navigate('PurchaseCoin')}>
                             <StyledText className="text-white">Purchase Coins</StyledText>
                         </StyledTouchableOpacity>
                     </StyledView>
-                    <StyledTouchableOpacity className="border border-white rounded py-2 px-5" onPress={() => setDeleteModelState(true)}>
-                        <StyledText className="text-white">Delete Profile</StyledText>
-                    </StyledTouchableOpacity>
+                    <StyledView className="flex items-center juistify-center absolute -top-2 right-2">
+                        <StyledTouchableOpacity className="rounded-full p-4 bg-white/10" onPress={() => navigation.navigate('EditProfile')}>
+                            <Ionicons name="create-outline" size={18} color="white" />
+                        </StyledTouchableOpacity>
+                        <StyledTouchableOpacity className="rounded-full p-4 bg-white/10 mt-2" onPress={() => setDeleteModelState(true)}>
+                            <Ionicons name="trash-outline" size={18} color="white" />
+                        </StyledTouchableOpacity>
+                    </StyledView>
+
 
                 </StyledView>
                 <StyledScrollView horizontal={true} className="my-4 h-16">
                     <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
-                        <StyledText className="text-white font-bold">Reward given</StyledText>
-                        <StyledText className="text-white text-sm font-base">{authUser?.reward_given}</StyledText>
-                    </StyledView>
-                    <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
-                        <StyledText className="text-white font-bold">Trophy given</StyledText>
-                        <StyledText className="text-white text-sm font-base">{authUser?.trophy_given}</StyledText>
+                        <StyledText className="text-white font-bold">Available Coins</StyledText>
+                        <StyledText className="text-white text-sm font-base">{authUser?.token_balance}</StyledText>
                     </StyledView>
                     <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Your History</StyledText>
@@ -120,6 +127,14 @@ export const ProfileScreen = ({ navigation, route }: any) => {
                         <StyledText className="text-white text-sm font-base">${authUser?.total_price}</StyledText>
                     </StyledView>
                     <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
+                        <StyledText className="text-white font-bold">Reward given</StyledText>
+                        <StyledText className="text-white text-sm font-base">{authUser?.reward_given}</StyledText>
+                    </StyledView>
+                    <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
+                        <StyledText className="text-white font-bold">Trophy given</StyledText>
+                        <StyledText className="text-white text-sm font-base">{authUser?.trophy_given}</StyledText>
+                    </StyledView>
+                    <StyledView className="flex flex-col items-center bg-white/10 rounded p-4 w-36 mx-2">
                         <StyledText className="text-white font-bold">Report Problem</StyledText>
                         <StyledText className="text-white text-sm font-base">{authUser?.report_count}</StyledText>
                     </StyledView>
@@ -134,20 +149,20 @@ export const ProfileScreen = ({ navigation, route }: any) => {
             <StyledView className="px-4">
                 {
                     posts.length != 0 || !pageLoading ?
-                        <FlatList 
-                            data={posts} 
+                        <FlatList
+                            data={posts}
                             renderItem={({ item, index }) => {
                                 return (
                                     <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}>
                                         {
-                                            item.status == 'processing' ? <PostProcessing post={item}/> : <PostCard post={item} navigation={navigation} removePost={removePost} />
+                                            item.status == 'processing' ? <PostProcessing post={item} /> : <PostCard post={item} navigation={navigation} removePost={removePost} />
                                         }
-                                        
+
                                     </StyledView>
                                 )
-                            }} onEndReached={() => { (!dataLoading) ? updatePageCount() : '' }} 
-                            style={{ borderColor: 'white' }} 
-                            ListHeaderComponent={() => headerContent()} 
+                            }} onEndReached={() => { (!dataLoading) ? updatePageCount() : '' }}
+                            style={{ borderColor: 'white' }}
+                            ListHeaderComponent={() => headerContent()}
                         />
                         :
                         <LoadingPost />
@@ -159,6 +174,6 @@ export const ProfileScreen = ({ navigation, route }: any) => {
             </StyledView>
             <DeleteProfileModal modelState={deleteModelState} setModelState={setDeleteModelState} />
         </StyledView>
-        
+
     )
 }

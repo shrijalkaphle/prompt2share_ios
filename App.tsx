@@ -20,8 +20,9 @@ import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
-import { CheckoutIAPScreen } from './src/screens/CheckoutIAP.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
+
+import { withIAPContext } from "react-native-iap";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,12 +45,70 @@ export default function App() {
 export const Layout = () => {
 
   const { authState } = useAuth();
+  const screens = [
+    {
+      name: 'Home',
+      component: HomeScreen
+    },
+    {
+      name: 'PurchaseCoin',
+      component: withIAPContext(PurchaseScreen)
+    },
+    {
+      name: 'Billing',
+      component: BillingScreen
+    },
+    {
+      name: 'Guide',
+      component: GuideScreen
+    },
+    {
+      name: 'Generate',
+      component: GenerateScreen
+    },
+    {
+      name: 'Camera',
+      component: CameraScreen
+    },
+    {
+      name: 'DALLE',
+      component: DalleScreen
+    },
+    {
+      name: 'ImageGenerate',
+      component: ImageGenerateScreen
+    },
+    {
+      name: 'CreatePost',
+      component: CreatePostScreen
+    },
+    {
+      name: 'EditProfile',
+      component: EditProfileScreen
+    },
+    {
+      name: 'User',
+      component: UserScreen
+    },
+    {
+      name: 'Circle',
+      component: CircleScreen
+    },
+    {
+      name: 'Checkout',
+      component: CheckoutScreen
+    },
+    {
+      name: 'BlockedUser',
+      component: BlockedUserScreen
+    },
+  ]
   return (
     <NavigationContainer>
 
       {authState?.authenticated ?
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PurchaseCoin" component={PurchaseScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
@@ -62,8 +121,10 @@ export const Layout = () => {
           <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="CheckoutIAP" component={CheckoutIAPScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="BlockedUser" component={BlockedUserScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="BlockedUser" component={BlockedUserScreen} options={{ headerShown: false }} /> */}
+          {screens.map((screen, index) => (
+            <Stack.Screen name={screen.name} component={screen.component} options={{ headerShown: false }} key={index}/>
+          ))}
         </Stack.Navigator>
         :
         <Stack.Navigator>

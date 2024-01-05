@@ -1,78 +1,33 @@
 import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
 import { StyledActivityIndicator, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
-import { useStripe, isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment } from "@stripe/stripe-react-native";
+import { isPlatformPaySupported, PlatformPayButton, PlatformPay, confirmPlatformPayPayment, ApplePayButton, presentApplePay, confirmPlatformPaySetupIntent, createPlatformPayPaymentMethod } from "@stripe/stripe-react-native";
 import { completeCoinPurchase, generatePaymentIntent } from "../services/payment.service";
 import Toast from "react-native-root-toast";
 import { ICompletePurchaseProps } from "../types/services/payment.type";
 
+interface PaymentIntent {
+    client_secret: string,
+    id: string
+}
+
 export const CheckoutScreen = ({ navigation, route }: any) => {
-
-    const { initPaymentSheet, presentPaymentSheet } = useStripe();
-
-    const [isApplePaySupported, setIsApplePaySupported] = useState<boolean>(false);
-
     const rate = 96
     const tax = 0
     const { amount } = route.params
     const [error, setError] = useState<any>({ "error": false, "message": "" })
-    const [paymentIntent, setPaymentIntent] = useState<any>()
     const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
+    const [isApplePaySupported, setIsApplePaySupported] = useState<boolean>(false);
 
-    const initializePaymentSheet = async () => {
-        const response = await generatePaymentIntent({ amount: amount })
-        if (response.error) {
-            setError(response.error)
-            Toast.show(response.message)
-            return
-        }
-        const { intent, ephemeralKey, customerId } = response
-        setPaymentIntent(intent)
-        const { error } = await initPaymentSheet({
-            merchantDisplayName: "P2S",
-            paymentIntentClientSecret: intent.client_secret,
-            customerId: customerId,
-            customerEphemeralKeySecret: ephemeralKey.secret,
-            applePay: { merchantCountryCode: "US" },
-            googlePay: { merchantCountryCode: "US", testEnv: true, },
-            primaryButtonLabel: "Pay",
-            style: "automatic",
-            customFlow: false,
-            allowsDelayedPaymentMethods: true,
+    const [paymentIntent, setPaymentIntent] = useState<PaymentIntent>()
 
-        })
-        if (error) {
-            setError(error)
-            Toast.show(error.message)
-            return
-        }
-    }
-
-    const openPaymentSheet = async () => {
-        const { error, paymentOption } = await presentPaymentSheet()
-        if (error) {
-            setError(error)
-            Toast.show(error.message)
-            return
-        }
-
-        // complete payment
-        setPaymentProcessing(true)
-        const props: ICompletePurchaseProps = {
-            paymentIntentId: paymentIntent.id,
-            amount: amount,
-            paymentOption: paymentOption ? paymentOption.label : 'card'
-        }
-        const response = await completeCoinPurchase(props)
-        if (response && response.error) {
-            Toast.show(response.error)
-            return
-        }
-        navigation.navigate('Home', { screen: 'Profile' })
-
-    }
+    const [pageInitializing, setPageInitializing] = useState<boolean>(true)
 
     const pay = async () => {
+        if (!paymentIntent) {
+            Toast.show('Cannot innitialzie payment.')
+            return
+        }
         const clientSecret = paymentIntent.client_secret
         const { error } = await confirmPlatformPayPayment(
             clientSecret,
@@ -83,7 +38,7 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
                     cartItems: [
                         {
                             label: 'P2S',
-                            amount: amount,
+                            amount: `${amount}.00`,
                             paymentType: PlatformPay.PaymentType.Immediate
                         }
                     ]
@@ -95,7 +50,6 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
             Toast.show(error.message)
             return
         }
-        // complete payment
         setPaymentProcessing(true)
         const props: ICompletePurchaseProps = {
             paymentIntentId: paymentIntent.id,
@@ -111,16 +65,26 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
     }
 
     useEffect(() => {
-        initializePaymentSheet();
         (async function () {
-            setIsApplePaySupported(await isPlatformPaySupported());
+            const paySupported = await isPlatformPaySupported()
+            setIsApplePaySupported(paySupported);
+            if (paySupported) {
+                const { error, intent, message } = await generatePaymentIntent({ amount: amount })
+                if (error) {
+                    setIsApplePaySupported(false)
+                    Toast.show(message)
+                    setPageInitializing(false)
+                    return
+                }
+                setPaymentIntent(intent)
+            }
+            setPageInitializing(false)
         })();
     }, [isPlatformPaySupported])
-
     return (
         <StyledView className="w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
-            <StyledView className="flex flex-col items-center p-4 h-2/4">
+            <StyledView className="flex flex-col items-center p-4 h-2/5">
                 <StyledText className="text-white text-lg font-bold">Checkout</StyledText>
                 <StyledView className="flex flex-row justify-between rounded-lg p-4 bg-white/10 w-full mt-2">
                     <StyledText className="text-white font-bold">Coins</StyledText>
@@ -142,36 +106,25 @@ export const CheckoutScreen = ({ navigation, route }: any) => {
                     <StyledText className="text-white font-bold">${(parseInt(amount) * tax) + parseInt(amount)}</StyledText>
                 </StyledView>
             </StyledView>
-            {/* <StyledText className="text-white">{JSON.stringify(error)}</StyledText> */}
-            <StyledView className="flex w-full mt-6 p-4">
-                {
-                    isApplePaySupported ?
-                        (
-                            <PlatformPayButton
-                                onPress={pay}
-                                type={PlatformPay.ButtonType.Order}
-                                appearance={PlatformPay.ButtonStyle.Black}
-                                borderRadius={4}
-                                style={{
-                                    width: '100%',
-                                    height: 50,
-                                    borderRadius: 16
-                                }}
-                            />
-                        )
-                        :
-                        <StyledTouchableOpacity className="w-full bg-white/10 p-4 mt-6 rounded-lg flex items-center justify-center" onPress={openPaymentSheet}>
-                            <StyledText className="text-white text-lg font-bold">Proceed to pay</StyledText>
-                        </StyledTouchableOpacity>
-                }
-
-            </StyledView>
+            <StyledView className="flex w-full p-4">
+                <PlatformPayButton
+                    onPress={pay}
+                    type={PlatformPay.ButtonType.Pay}
+                    appearance={PlatformPay.ButtonStyle.Black}
+                    borderRadius={16}
+                    disabled={pageInitializing || paymentProcessing || !isApplePaySupported}
+                    style={{
+                        width: '100%',
+                        height: 50,
+                    }}
+                />
+            </StyledView >
             {
                 paymentProcessing && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">
                     <StyledActivityIndicator size={"large"}></StyledActivityIndicator>
                     <StyledText className="text-white text-lg font-semibold mt-8">We are processing your payment. Please wait. You will be automaticately redirected to profile tab after complete.</StyledText>
                 </StyledView>
             }
-        </StyledView>
+        </StyledView >
     )
 }
