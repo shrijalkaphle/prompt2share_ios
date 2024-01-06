@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native';
-import Purchases, { CustomerInfo, PurchasesPackage } from 'react-native-purchases';
+import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from 'react-native-purchases';
 
 
 const APIKeys = {
@@ -8,7 +8,7 @@ const APIKeys = {
     android: ""
 }
 interface IRevenueCatProvider {
-    purchasePackage?: (pack: PurchasesPackage) => Promise<void>;
+    purchasePackage?: (pack: PurchasesPackage) => Promise<any>;
     restorePermission?: () => Promise<CustomerInfo>
     user: UserState
     packages: PurchasesPackage[]
@@ -39,12 +39,42 @@ export const RevenueCatProvider = ({children}: any) => {
                 await Purchases.configure({ apiKey: APIKeys.android })
             }
             setIsReady(true)
+            Purchases.setLogLevel(LOG_LEVEL.DEBUG)
+            await loadOfferings()
         }
 
         init()
     },[])
 
     const loadOfferings = async () => {
+        const offerings = await Purchases.getOfferings()
+        const currentOfferings = offerings.current
+        if(currentOfferings) {
+            setPackages(currentOfferings.availablePackages)
+        }
+    }
+
+    const purchasePackage = async (pack: PurchasesPackage) => {
+        try {
+            const customerInfo = await Purchases.purchasePackage(pack)
+            console.log(customerInfo)
+            return {"status": true}
+        } catch (error) {
+            console.log(error)
+            return {"status": false}
+        }
+    }
+
+    const restorePermission = async () => {
         
     }
+
+    const value = {
+        packages: packages,
+        user: user,
+        purchasePackage: purchasePackage,
+        restorePermission: undefined
+    }
+
+    return <RevenueCatContext.Provider value={value}>{children}</RevenueCatContext.Provider>
 }

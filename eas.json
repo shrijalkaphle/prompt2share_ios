@@ -7,11 +7,8 @@
     "development": {
       "developmentClient":true,
       "distribution": "internal",
-      "android": {
-        "gradleCommand": ":app:assembleDebug"
-      },
       "ios": {
-        "buildConfiguration": "Release"
+        "node": "20.10.0"
       }
     },
     "preview": {
@@ -25,6 +22,8 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+
+    }
   }
 }

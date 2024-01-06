@@ -20,12 +20,13 @@ import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
+import { RevenueCatProvider } from './src/contexts/RevenueCatProvider';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <>
+    <RevenueCatProvider>
       <AuthProvider>
         <RootSiblingParent>
           <MenuProvider>
@@ -33,7 +34,7 @@ export default function App() {
           </MenuProvider>
         </RootSiblingParent>
       </AuthProvider>
-    </>
+    </RevenueCatProvider>
   );
 }
 
