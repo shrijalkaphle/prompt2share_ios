@@ -1,6 +1,3 @@
-import { PaymentOption } from "@stripe/stripe-react-native/lib/typescript/src/types/PaymentSheet";
-import instance from "tsyringe/dist/typings/dependency-container";
-
 export interface IUpdatePaymentIntentPropos {
     payment_intent_id: string;
     amount: number;

@@ -15,7 +15,6 @@ import { CameraScreen } from './src/screens/Camera.screen';
 import { DalleScreen } from './src/screens/Dalle.screen';
 import { ImageGenerateScreen } from './src/screens/ImageGenerate.screen';
 import { CreatePostScreen } from './src/screens/CreatePost.screen';
-import { StripeProvider } from '@stripe/stripe-react-native';
 import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
@@ -29,15 +28,11 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <AuthProvider>
-      <StripeProvider
-          publishableKey="pk_live_51Ncp0QJfXV5x0h2XfqB27TYrUn7OleczxW12jjHNvQR1bKb3WY7dZu2bwtWKKyVekGAHwdMsgb84535IMjamxGg8000mBtaRzb"
-          merchantIdentifier="merchant.prompttoshare.prompttoshare">
-          <RootSiblingParent>
-            <MenuProvider>
-              <Layout />
-            </MenuProvider>
-          </RootSiblingParent>
-        </StripeProvider>
+      <RootSiblingParent>
+        <MenuProvider>
+          <Layout />
+        </MenuProvider>
+      </RootSiblingParent>
     </AuthProvider>
   );
 }
@@ -123,7 +118,7 @@ export const Layout = () => {
           <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
           <Stack.Screen name="BlockedUser" component={BlockedUserScreen} options={{ headerShown: false }} /> */}
           {screens.map((screen, index) => (
-            <Stack.Screen name={screen.name} component={screen.component} options={{ headerShown: false }} key={index}/>
+            <Stack.Screen name={screen.name} component={screen.component} options={{ headerShown: false }} key={index} />
           ))}
         </Stack.Navigator>
         :
