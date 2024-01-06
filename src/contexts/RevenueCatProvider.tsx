@@ -1,0 +1,50 @@
+import { createContext, useContext, useEffect, useState } from 'react'
+import { Platform } from 'react-native';
+import Purchases, { CustomerInfo, PurchasesPackage } from 'react-native-purchases';
+
+
+const APIKeys = {
+    ios: "appl_yswhEBvdHcXijQaHMdbJfqIUYNZ",
+    android: ""
+}
+interface IRevenueCatProvider {
+    purchasePackage?: (pack: PurchasesPackage) => Promise<void>;
+    restorePermission?: () => Promise<CustomerInfo>
+    user: UserState
+    packages: PurchasesPackage[]
+}
+
+export interface UserState {
+    cookies: number
+    items: string[]
+    pro: boolean
+}
+
+const RevenueCatContext = createContext<IRevenueCatProvider | null>(null);
+
+export const useRevenueCat = () => {
+    return useContext(RevenueCatContext) as IRevenueCatProvider;
+}
+
+export const RevenueCatProvider = ({children}: any) => {
+    const [user, setUser] = useState<UserState>({cookies:0,items:[],pro:false})
+    const [packages, setPackages] = useState<PurchasesPackage[]>([]);
+    const [isReady, setIsReady] = useState<boolean>(false)
+
+    useEffect(() => {
+        const init = async () => {
+            if (Platform.OS === 'ios') {
+                await Purchases.configure({ apiKey: APIKeys.ios })
+            } else {
+                await Purchases.configure({ apiKey: APIKeys.android })
+            }
+            setIsReady(true)
+        }
+
+        init()
+    },[])
+
+    const loadOfferings = async () => {
+        
+    }
+}

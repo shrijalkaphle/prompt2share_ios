@@ -21,19 +21,19 @@ import { CircleScreen } from './src/screens/Circle.screen';
 import { CheckoutScreen } from './src/screens/Checkout.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
 
-import { withIAPContext } from "react-native-iap";
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <AuthProvider>
-      <RootSiblingParent>
-        <MenuProvider>
-          <Layout />
-        </MenuProvider>
-      </RootSiblingParent>
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <RootSiblingParent>
+          <MenuProvider>
+            <Layout />
+          </MenuProvider>
+        </RootSiblingParent>
+      </AuthProvider>
+    </>
   );
 }
 
@@ -47,7 +47,7 @@ export const Layout = () => {
     },
     {
       name: 'PurchaseCoin',
-      component: withIAPContext(PurchaseScreen)
+      component: PurchaseScreen
     },
     {
       name: 'Billing',
@@ -89,10 +89,10 @@ export const Layout = () => {
       name: 'Circle',
       component: CircleScreen
     },
-    {
-      name: 'Checkout',
-      component: CheckoutScreen
-    },
+    // {
+    //   name: 'Checkout',
+    //   component: CheckoutScreen
+    // },
     {
       name: 'BlockedUser',
       component: BlockedUserScreen

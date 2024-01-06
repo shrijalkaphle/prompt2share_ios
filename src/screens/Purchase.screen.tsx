@@ -2,12 +2,6 @@ import { StyledText, StyledView } from "../helpers/NativeWind.helper"
 import { AppBarComponent } from "../components/core/AppBarComponent";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import {
-    getProducts,
-    initConnection,
-    requestPurchase,
-    useIAP
-} from "react-native-iap";
 
 const isIos = Platform.OS === "ios";
 const productSkus = Platform.select({
@@ -20,19 +14,6 @@ export const PurchaseScreen = ({ navigation }: any) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [products, setProducts] = useState<any[]>([]);
     
-    useEffect(() => {
-        (async function () {
-            const isConnected = await initConnection();
-            setConnectedToStore(isConnected);
-            if(isConnected) {
-                if(!productSkus) return
-                const productResponse = await getProducts({skus: productSkus})
-                console.log(productResponse)
-                setProducts(productResponse)
-            }
-        })();
-    },[])
-
     return (
         <StyledView className="w-full h-full bg-background relative">
             <AppBarComponent navigation={navigation} hasBack={true} />
