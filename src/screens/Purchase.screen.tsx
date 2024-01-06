@@ -18,6 +18,7 @@ const productSkus = Platform.select({
 export const PurchaseScreen = ({ navigation }: any) => {
     const [connectedToStore, setConnectedToStore] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [products, setProducts] = useState<any[]>([]);
     
     useEffect(() => {
         (async function () {
@@ -25,7 +26,9 @@ export const PurchaseScreen = ({ navigation }: any) => {
             setConnectedToStore(isConnected);
             if(isConnected) {
                 if(!productSkus) return
-                const products = await getProducts({skus: productSkus})
+                const productResponse = await getProducts({skus: productSkus})
+                console.log(productResponse)
+                setProducts(productResponse)
             }
         })();
     },[])
