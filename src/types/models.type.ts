@@ -15,6 +15,9 @@ export interface IUser {
     isFollowed?: boolean
     average_rating: number
     rating_count: number
+    role: 'admin' | 'user',
+    email_verified_at?: string
+    is_blocked?: boolean
 }
 
 export interface IPost {
@@ -68,6 +71,8 @@ export interface IBought {
     created_at: string
     id: string
     payment_type: string
+    name: string
+    email: string
 }
 
 export interface IWithdraw {
@@ -91,6 +96,12 @@ export interface INotification {
 }
 
 export interface IPrompt {
+    name: string
+    id: string
+    created_at: string
+}
+
+export interface INotice {
     name: string
     id: string
     created_at: string

@@ -48,4 +48,11 @@ export enum ENDPOINT {
 
     BLOCK_USER = "user/block",
     BLOCK_USER_LIST = 'me/blocked_users',
+
+    ADMIN_USER_LIST = "admin/users",
+    ADMIN_BLOCK_USER = "admin/block_user",
+    ADMIN_ORDER_LIST = "admin/orders",
+    ADMIN_WITHDRAW_LIST = "admin/withdraws",
+    ADMIN_PROMPTS_LIST = "admin/prompts",
+    ADMIN_NOTICES_LIST = "admin/notices",
 }

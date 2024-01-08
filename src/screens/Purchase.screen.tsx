@@ -42,20 +42,10 @@ export const PurchaseScreen = ({ navigation }: any) => {
             <StyledView className="flex flex-col items-center p-4">
                 <StyledView className="flex flex-col items-center justify-center">
                     <StyledText className="text-white text-2xl font-bold mt-6">Purchase your token here</StyledText>
-                    {/* <StyledText className="text-white">{JSON.stringify(packages)}</StyledText> */}
                 </StyledView>
             </StyledView>
             <StyledView className="px-4">
                 <StyledView className="h-2/3">
-                    {/* <StyledTouchableOpacity className="my-1">
-                        <StyledView className="rounded-lg p-4 bg-white/10 flex flex-row items-center justify-between">
-                            <StyledView>
-                                <StyledText className="text-white">Product Title</StyledText>
-                                <StyledText className="text-gray-300 text-sm">Product description</StyledText>
-                            </StyledView>
-                            <StyledText className="text-white">$9.99</StyledText>
-                        </StyledView>
-                    </StyledTouchableOpacity> */}
                     {
                         packages.map((pack, index) => {
                             return (
@@ -76,7 +66,7 @@ export const PurchaseScreen = ({ navigation }: any) => {
             {
                 loading && <StyledView className="bg-black/60 absolute inset-0 h-full w-full z-9 flex items-center justify-center px-12">
                     <StyledActivityIndicator size={"large"}></StyledActivityIndicator>
-                    <StyledText className="text-white text-lg font-semibold mt-8">We are processing your payment. Please wait. You will be automaticately redirected to profile after complete.</StyledText>
+                    <StyledText className="text-white text-lg font-semibold mt-8">We are processing your payment. Please wait. You will be automatically redirected to profile after complete.</StyledText>
                 </StyledView>
             }
         </StyledView>

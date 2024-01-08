@@ -94,14 +94,7 @@ export const BillingScreen = ({ navigation }: any) => {
                                 <StyledView className={`px-4 mt-1 ${index == withdraws.length - 1 ? 'mb-14' : ''} ${activeTab == 'token__withdraw' ? '' : 'hidden'}`}>
                                     <WithdrawCard
                                         key={index}
-                                        created_at={item.created_at}
-                                        amt={item.amount}
-                                        status={item.status}
-                                        sender_account={item.sender_account}
-                                        sender_receipt={item.sender_receipt}
-                                        bank_name={item.bank_name}
-                                        routing_name={item.routing_number}
-                                        account_num={item.account_number}
+                                        {...item}
                                     />
                                 </StyledView>
                             )}

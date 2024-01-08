@@ -51,7 +51,7 @@ export const ProfileScreen = ({ navigation, route }: any) => {
         getPosts()
         navigation.addListener('focus', () => {
             setPosts([])
-            if(page == 1) {
+            if (page == 1) {
                 setDataLoading(true)
                 getPosts()
             } else {
@@ -89,11 +89,19 @@ export const ProfileScreen = ({ navigation, route }: any) => {
                         <StyledText className="text-white text-xs ml-1 font-semibold">({authUser?.average_rating ? authUser?.average_rating.toFixed(2) : 0}/5)</StyledText>
                     </StyledView>
                     <StyledView className="flex flex-row justify-around items-center w-full">
-
                         <StyledTouchableOpacity className="bg-white/10 rounded py-2 px-5" onPress={() => navigation.navigate('PurchaseCoin')}>
                             <StyledText className="text-white">Purchase Coins</StyledText>
                         </StyledTouchableOpacity>
                     </StyledView>
+                    {
+                        authUser?.role === 'admin' ?
+                            <StyledView className="flex flex-row justify-around items-center w-full">
+                                <StyledTouchableOpacity className="bg-white/10 rounded py-2 px-5" onPress={() => navigation.navigate('AdminScreen')}>
+                                    <StyledText className="text-white">Admin Dashboard </StyledText>
+                                </StyledTouchableOpacity>
+                            </StyledView>
+                            : null
+                    }
                     <StyledView className="flex items-center juistify-center absolute -top-2 right-2">
                         <StyledTouchableOpacity className="rounded-full p-4 bg-white/10" onPress={() => navigation.navigate('EditProfile')}>
                             <Ionicons name="create-outline" size={18} color="white" />

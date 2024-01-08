@@ -18,9 +18,9 @@ import { CreatePostScreen } from './src/screens/CreatePost.screen';
 import { EditProfileScreen } from './src/screens/EditProfile.screen';
 import { UserScreen } from './src/screens/User.screen';
 import { CircleScreen } from './src/screens/Circle.screen';
-import { CheckoutScreen } from './src/screens/Checkout.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
 import { RevenueCatProvider } from './src/contexts/RevenueCatProvider';
+import { AdminScreen } from './src/screens/Admin.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -90,13 +90,13 @@ export const Layout = () => {
       name: 'Circle',
       component: CircleScreen
     },
-    // {
-    //   name: 'Checkout',
-    //   component: CheckoutScreen
-    // },
     {
       name: 'BlockedUser',
       component: BlockedUserScreen
+    },
+    {
+      name: 'AdminScreen',
+      component: AdminScreen
     },
   ]
   return (
@@ -104,20 +104,6 @@ export const Layout = () => {
 
       {authState?.authenticated ?
         <Stack.Navigator>
-          {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="PurchaseCoin" component={PurchaseScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Billing" component={BillingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Guide" component={GuideScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Generate" component={GenerateScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DALLE" component={DalleScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ImageGenerate" component={ImageGenerateScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="User" component={UserScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Circle" component={CircleScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="BlockedUser" component={BlockedUserScreen} options={{ headerShown: false }} /> */}
           {screens.map((screen, index) => (
             <Stack.Screen name={screen.name} component={screen.component} options={{ headerShown: false }} key={index} />
           ))}
