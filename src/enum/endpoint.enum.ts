@@ -55,4 +55,7 @@ export enum ENDPOINT {
     ADMIN_WITHDRAW_LIST = "admin/withdraws",
     ADMIN_PROMPTS_LIST = "admin/prompts",
     ADMIN_NOTICES_LIST = "admin/notices",
+    ADMIN_REPORTS_LIST = "admin/reports",
+    ADMIN_FEEDS_LIST = "admin/feeds",
+    ADMIN_SECURITY_LIST = "admin/security"
 }

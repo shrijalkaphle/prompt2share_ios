@@ -1,4 +1,4 @@
-import { KeyboardTypeOptions, NativeSyntheticEvent, Platform, TextInputFocusEventData } from "react-native"
+import { Keyboard, KeyboardTypeOptions, NativeSyntheticEvent, Platform, TextInputFocusEventData } from "react-native"
 import { StyledText, StyledTextInput, StyledView } from "../../helpers/NativeWind.helper"
 
 interface IInputField {

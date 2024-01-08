@@ -6,10 +6,13 @@ import { OrderList } from "../components/admin/Order.list";
 import { WithdrawList } from "../components/admin/Withdraw.list";
 import { PromptList } from "../components/admin/Prompt.list";
 import { NoticeList } from "../components/admin/Notice.list";
+import { ReportList } from "../components/admin/Report.list";
+import { FeedList } from "../components/admin/Feed.list";
+import { SecurityList } from "../components/admin/Security.list";
 
 export const AdminScreen = ({ navigation }: any) => {
-    const tabs = ["users", "orders", "withdraws", "prompts", "notice", "promoted ads", "report", "feeds", "security"];
-    const [activeTab, setActiveTab] = useState<string>("users")
+    const tabs = ["users", "orders", "withdraws", "prompts", "notice",  "report", "feeds", "security"]; //"promoted ads",
+    const [activeTab, setActiveTab] = useState<string>("report")
     return (
         <StyledView className="w-full h-full bg-background">
             <AppBarComponent navigation={navigation} hasBack={true} />
@@ -32,6 +35,9 @@ export const AdminScreen = ({ navigation }: any) => {
                 { activeTab === "withdraws" ? <WithdrawList /> : null }
                 { activeTab === "prompts" ? <PromptList /> : null }
                 { activeTab === "notice" ? <NoticeList /> : null }
+                { activeTab === "report" ? <ReportList /> : null }
+                { activeTab === "feeds" ? <FeedList /> : null }
+                { activeTab === "security" ? <SecurityList /> : null }
             </StyledView>
         </StyledView>
     )

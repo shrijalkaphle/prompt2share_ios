@@ -35,6 +35,7 @@ export interface IPost {
     trophy: []
     user?: IUser
     status: string | null
+    deleted_at?: string
 }
 
 
@@ -105,4 +106,21 @@ export interface INotice {
     name: string
     id: string
     created_at: string
+}
+
+export interface IReport {
+    name: string
+    title: string
+    message: string
+    created_at: string
+    id: string
+    email: string
+}
+
+export interface ISecurity {
+    profile_rating: string
+    problem_report: string
+    post: string
+    generate: string
+    id: string
 }

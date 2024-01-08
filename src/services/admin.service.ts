@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { IBlockStatusProps, ICreateNotice, ICreatePrompt, IGetAllUser, IUpdateNotice, IUpdatePrompt, IWithdrawStatusProps } from "../types/services/admin.type";
+import { ISecurity } from "../types/models.type";
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
 
@@ -156,6 +157,62 @@ export const deleteNoticeById = async (noticeId: string) => {
     const endpoint = `${api_url}/${ENDPOINT.ADMIN_NOTICES_LIST}/${noticeId}`;
     try {
         const result = await axios.delete(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const getAllReports = async ({ perPage, page }: IGetAllUser) => {
+    const endpoint = `${api_url}/${ENDPOINT.ADMIN_REPORTS_LIST}?${perPage && `perPage=${perPage}&`}${page && `page=${page}`}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const getAllFeeds = async ({ perPage, page }: IGetAllUser) => {
+    const endpoint = `${api_url}/${ENDPOINT.ADMIN_FEEDS_LIST}?${perPage && `perPage=${perPage}&`}${page && `page=${page}`}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const deletePostByAdmin = async (postId: string) => {
+    const endpoint = `${api_url}/${ENDPOINT.ADMIN_FEEDS_LIST}/${postId}`;
+    try {
+        const result = await axios.delete(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const getSecurityDetail = async () => {
+    const endpoint = `${api_url}/${ENDPOINT.ADMIN_SECURITY_LIST}`;
+    try {
+        const result = await axios.get(endpoint)
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return { error: true, message: (error as any).response.data.message }
+    }
+}
+
+export const updateSecurity = async (updateSecurity: ISecurity) => {
+    const { id, ...requestProps } = updateSecurity
+    const endpoint = `${api_url}/${ENDPOINT.ADMIN_SECURITY_LIST}/${id}`;
+    try {
+        const result = await axios.post(endpoint,requestProps)
         return result.data
     } catch (error) {
         console.log(error)
