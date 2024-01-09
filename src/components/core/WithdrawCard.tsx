@@ -12,14 +12,14 @@ export const WithdrawCard = ({ bank_name, routing_number, account_number, create
         <StyledView className="my-1">
             <StyledTouchableOpacity className={`w-full bg-white/10 p-4 flex flex-row justify-between items-center ${showMore ? 'rounded-t-xl' : 'rounded-xl'}`} onPress={() => setShowMore(!showMore)}>
                 <StyledView className="flex flex-col items-center justify-center">
-                    <StyledText className="text-white text-base font-bold">{moment(created_at).format('DD')}</StyledText>
-                    <StyledText className="text-white text-sm font-medium">{moment(created_at).format('MMM, YY')}</StyledText>
+                    <StyledText className="text-white text-sm font-bold">{moment(created_at).format('DD')}</StyledText>
+                    <StyledText className="text-white text-xs font-medium">{moment(created_at).format('MMM, YY')}</StyledText>
                 </StyledView>
                 <StyledView className="flex flex-col">
-                    <StyledText className="text-white text-base font-medium">${amount}</StyledText>
+                    <StyledText className="text-white text-sm font-medium">${amount}</StyledText>
                     <StyledText className="text-white text-xs font-base uppercase">{bank_name}</StyledText>
                 </StyledView>
-                <StyledText className="text-white text-lg font-bold capitalize">{status}</StyledText>
+                <StyledText className="text-white font-bold capitalize">{status}</StyledText>
             </StyledTouchableOpacity>
             <StyledView className={`w-full bg-white/10 p-4 flex flex-row justify-between items-center rounded-b-xl ${showMore ? '' : 'hidden'}`}>
                 <StyledView className="flex flex-row justify-between border-t border-white/10 w-full p-3">

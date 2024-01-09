@@ -5,7 +5,7 @@ import { IEditImageProps, IGenerateFeedPostProps, IGenerateImageProps, IPostGene
 
 const api_url = process.env.EXPO_PUBLIC_API_URL;
 export const generateFeedPost = async (generateFeedPropsProps: IGenerateFeedPostProps) => {
-    console.log('generating text')
+    // console.log('generating text')
     const endpoint = `${api_url}/${ENDPOINT.FEED_GENERATE}`;
     try {
         const result = await axios.post(endpoint,generateFeedPropsProps)
@@ -17,7 +17,7 @@ export const generateFeedPost = async (generateFeedPropsProps: IGenerateFeedPost
 }
 
 export const generateImages = async (generateImageProps: IGenerateImageProps) => {
-    console.log('generating image')
+    // console.log('generating image')
     const endpoint = `${api_url}/${ENDPOINT.IMAGE_GENERATE}`;
     try {
         const result = await axios.post(endpoint,generateImageProps)

@@ -73,7 +73,7 @@ export const blockUser = async (blockUserProps: IBlockUserProps) => {
         const result = await axios.post(endpoint,blockUserProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -84,7 +84,7 @@ export const blockUserList = async () => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }

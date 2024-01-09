@@ -23,7 +23,6 @@ export const NotificationScreen = ({navigation}: any) => {
 
         const response = await getUserNotification(params)
         if (response && response.error) {
-            console.log(response.error)
             setDataLoading(false)
             return
         }

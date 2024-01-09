@@ -11,7 +11,7 @@ export const getAllUsers = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -22,7 +22,7 @@ export const updateBlockStatus = async (blockStatusProps: IBlockStatusProps) => 
         const result = await axios.post(endpoint, blockStatusProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -33,7 +33,7 @@ export const getAllOrders = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -44,7 +44,7 @@ export const getAllWithdraws = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -56,7 +56,7 @@ export const updateWithdrawStatus = async (withdrawStatusProps: IWithdrawStatusP
         const result = await axios.post(endpoint, requestProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -67,7 +67,7 @@ export const rejectWithdrawRequest = async (withdrawId: string) => {
         const result = await axios.post(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -78,7 +78,7 @@ export const getAllPrompts = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -90,7 +90,7 @@ export const updatePrompt = async (updatePrompt: IUpdatePrompt) => {
         const result = await axios.post(endpoint, requestProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -101,7 +101,7 @@ export const deletePromptById = async (promptId: string) => {
         const result = await axios.delete(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -112,7 +112,7 @@ export const createPrompt = async (createPrompt: ICreatePrompt) => {
         const result = await axios.post(endpoint, createPrompt)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -123,7 +123,7 @@ export const getAllNotices = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -136,7 +136,7 @@ export const updateNotice = async (updateNotice: IUpdateNotice) => {
         const result = await axios.post(endpoint, requestProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 
@@ -148,7 +148,7 @@ export const createNotice = async (createNotice: ICreateNotice) => {
         const result = await axios.post(endpoint, createNotice)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -159,7 +159,7 @@ export const deleteNoticeById = async (noticeId: string) => {
         const result = await axios.delete(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -170,7 +170,7 @@ export const getAllReports = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -181,7 +181,7 @@ export const getAllFeeds = async ({ perPage, page }: IGetAllUser) => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -192,7 +192,7 @@ export const deletePostByAdmin = async (postId: string) => {
         const result = await axios.delete(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -203,7 +203,7 @@ export const getSecurityDetail = async () => {
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -215,7 +215,7 @@ export const updateSecurity = async (updateSecurity: ISecurity) => {
         const result = await axios.post(endpoint,requestProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }

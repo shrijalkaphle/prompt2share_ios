@@ -71,7 +71,7 @@ export const createManualTextPost = async (createManualTextPostProps: ICreateMan
         const result = await axios.post(endpoint,createManualTextPostProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -83,7 +83,7 @@ export const createManualImagePost = async (createManualImagePostProps: ICreateM
         const result = await axios.post(endpoint,createManualImagePostProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -94,7 +94,7 @@ export const createManualVideoPost = async (createManualVideoPostProps: ICreateM
         const result = await axios.post(endpoint,createManualVideoPostProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -105,7 +105,7 @@ export const getPostbyUserId = async ({page, perPage, user_id}: IGetPostParams )
         const result = await axios.get(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -116,7 +116,7 @@ export const updateFollowStatus = async (updateFollowStatusProps: IUpdateFollowS
         const result = await axios.post(endpoint,updateFollowStatusProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -127,7 +127,7 @@ export const deletePostById = async (id: number) => {
         const result = await axios.delete(endpoint)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }
@@ -138,7 +138,7 @@ export const reportPostForProblem = async (reportPostProps: IReportPostProps) =>
         const result = await axios.post(endpoint,reportPostProps)
         return result.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return { error: true, message: (error as any).response.data.message }
     }
 }

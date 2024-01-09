@@ -38,7 +38,7 @@ export const GalleryView = ({ images, prompt, navigation, setImage }: IGalleryVi
             image_url: images[activeImageIndex].uri
         }
         const response = await postGenerateImage(props)
-        console.log(response)
+        
         if (response && response.error) {
             Toast.show(response.error)
             setPostingImage(false)
@@ -54,9 +54,9 @@ export const GalleryView = ({ images, prompt, navigation, setImage }: IGalleryVi
         Toast.show('Saving image')
         const fileName = `${images[activeImageIndex].id}.png`
         const { uri } = await FileSystem.downloadAsync(images[activeImageIndex].uri, FileSystem.documentDirectory + fileName)
-        console.log(uri)
+        
         const response = await MediaLibrary.saveToLibraryAsync(uri)
-        console.log(response, uri)
+        
         Toast.show('Image Saved')
         setImageSaving(false)
     }

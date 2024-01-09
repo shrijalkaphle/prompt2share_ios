@@ -13,7 +13,7 @@ import { Menu, MenuOption, MenuOptionCustomStyle, MenuOptions, MenuTrigger } fro
 import { ReportModal } from "./ReportModal";
 import { DeleteModal } from "./DeleteModal";
 import * as Clipboard from 'expo-clipboard';
-
+import { Share } from 'react-native'
 interface IPostCard {
     post: IPost
     removePost: (id: number) => void
@@ -131,9 +131,27 @@ export const PostCard = ({ post, removePost, navigation }: IPostCard) => {
     }
 
     const triggerShare = async () => {
-        const text = "https://www.prompttoshare.com/post/" + post.slug
-        await Clipboard.setStringAsync(text)
-        Toast.show('Cpopied to clipboard!')
+        const defaultOpt = {
+            title: post.title,
+            subject: post.title,
+            message: `Please check this out. https://www.prompttoshare.com/post/${post.slug}`,
+        }
+        try {
+            const result = await Share.share(defaultOpt)
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+                Toast.show("Post shared!")
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+                Toast.show("Share Dismissed!")
+            }
+        } catch (e) {
+            Toast.show("Share Failed!")
+        }
     }
 
     return (
@@ -160,7 +178,7 @@ export const PostCard = ({ post, removePost, navigation }: IPostCard) => {
                                 (authUser?.user_id === post.user?.user_id) && <MenuOption onSelect={triggerDeleteModal} text='Delete' customStyles={menuOptionStyles} />
                             }
                             <MenuOption onSelect={triggerReportModal} text='Report' customStyles={menuOptionStyles} />
-                            <MenuOption onSelect={triggerShare} text='Copy Link' customStyles={menuOptionStyles} />
+                            <MenuOption onSelect={triggerShare} text='Share' customStyles={menuOptionStyles} />
                         </MenuOptions>
                     </Menu>
                 </StyledView>

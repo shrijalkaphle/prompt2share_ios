@@ -77,7 +77,7 @@ export const VideoPost = ({ navigation }: any) => {
             const cacheDirectory = `${FileSystem.cacheDirectory}/${video.fileName}`;
             if(cacheDirectory) await FileSystem.deleteAsync(video.uri);
         } catch(e) {
-            console.log(e)
+            
         }
 
         navigation.navigate('Home', { screen: 'Profile' })

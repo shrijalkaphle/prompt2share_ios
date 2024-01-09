@@ -29,7 +29,6 @@ export const ImageGenerateScreen = ({ navigation }: any) => {
             prompt: generatePrompt
         }
         const response = await generateImages(props)
-        // console.log(response)
         if(response && response.error) {
             Toast.show(response.error)
             setGenerating(false)

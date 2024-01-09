@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }: any) => {
     const [authUser, setAuthUser] = useState<IUser | undefined>(undefined)
 
     const updateAuthUser = async () => {
-        console.log('update user')
         const response = await axios.get(`${API_ENDPOINT}/${ENDPOINT.ME}`)
         setAuthUser(response.data)
     }

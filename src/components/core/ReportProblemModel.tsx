@@ -27,7 +27,7 @@ export const ReportProblemModel = ({ modelState, setModelState }: any) => {
         Keyboard.dismiss()
         setFormSubmitting(true)
         const response = await reportProblem(value)
-        console.log(response)
+        
         if(response && response.error) {
             Toast.show(response.message, {
                 backgroundColor: 'red'

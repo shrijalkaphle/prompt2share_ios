@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { AppBarComponent } from "../components/core/AppBarComponent"
-import { StyledActivityIndicator, StyledScrollView, StyledText, StyledView } from "../helpers/NativeWind.helper"
+import { StyledActivityIndicator, StyledScrollView, StyledText, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
 import { getBillingDetails } from "../services/auth.service"
 import Toast from "react-native-root-toast"
 import { IBought, IWithdraw } from "../types/models.type"
@@ -49,7 +49,10 @@ export const BillingScreen = ({ navigation }: any) => {
             <StyledView className="flex flex-row items-center w-full mt-5">
                 {
                     tabs.map((tab, index) => (
-                        <StyledText key={index} className={`text-white text-xl font-bold w-1/2 text-center p-2 ${activeTab == tab.id ? 'border-b-2 border-white' : 'border-b border-slate-600'}`} onPress={() => setActiveTab(tab.id)}>{tab.label}</StyledText>
+                        <StyledTouchableOpacity key={index} className={`w-1/2 text-center p-2 border-b-2 flex items-center ${activeTab == tab.id ? 'border-white' : 'border-slate-600'}`} onPress={() => setActiveTab(tab.id)}>
+                            <StyledText className={`text-white font-bold`}>{tab.label}</StyledText>
+                        </StyledTouchableOpacity>
+                        
                     ))
                 }
             </StyledView>

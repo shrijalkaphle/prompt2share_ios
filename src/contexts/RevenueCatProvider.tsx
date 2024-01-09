@@ -57,10 +57,8 @@ export const RevenueCatProvider = ({children}: any) => {
     const purchasePackage = async (pack: PurchasesPackage) => {
         try {
             const customerInfo = await Purchases.purchasePackage(pack)
-            console.log(customerInfo)
             return {"status": true}
         } catch (error) {
-            console.log(error)
             return {"status": false}
         }
     }
