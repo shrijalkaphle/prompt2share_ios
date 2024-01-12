@@ -2,7 +2,7 @@
   "expo": {
     "name": "PrompttoShare",
     "slug": "prompt-to-share",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -24,7 +24,7 @@
         "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
       },
       "bundleIdentifier": "com.aiinterf.prompttoshare",
-      "buildNumber": "20005"
+      "buildNumber": "20007"
     },
     "android": {
       "versionCode": 323,
