@@ -37,8 +37,6 @@ export const PostScreen = ({ navigation }: any) => {
             setPosts([])
             if (page == 1) getPosts()
             setPage(1)
-            
-            // getPosts()
         });
     }, [page])
 

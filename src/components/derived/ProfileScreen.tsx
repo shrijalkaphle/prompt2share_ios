@@ -51,13 +51,9 @@ export const ProfileScreen = ({ navigation, route }: any) => {
         getPosts()
         navigation.addListener('focus', () => {
             setPosts([])
-            if (page == 1) {
-                setDataLoading(true)
-                getPosts()
-            } else {
-                setPage(1)
-                setDataLoading(true)
-            }
+            setPageLoading(true)
+            if (page == 1) getPosts()
+            setPage(1)
         });
     }, [page])
 
