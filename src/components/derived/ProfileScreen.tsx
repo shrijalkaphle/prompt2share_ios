@@ -5,7 +5,6 @@ import { getUserPost } from "../../services/post.service";
 import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper";
 import { PostCard } from "../core/PostCard";
 import { LoadingPost } from "../core/LoadingPost";
-import { FloatingButton } from "../core/FloatingButton";
 import { FlatList } from "react-native";
 import Toast from "react-native-root-toast";
 import { Rating } from 'react-native-stock-star-rating'
@@ -149,7 +148,6 @@ export const ProfileScreen = ({ navigation, route }: any) => {
 
     return (
         <StyledView className="bg-background w-full h-full">
-            <FloatingButton navigation={navigation} />
             <StyledView className="px-4">
                 {
                     posts.length != 0 || !pageLoading ?

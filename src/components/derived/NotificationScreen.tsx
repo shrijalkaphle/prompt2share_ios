@@ -6,7 +6,6 @@ import { NotificationCard } from "../core/NotificationCard";
 import { getUserNotification } from "../../services/auth.service";
 import { LoadingNotificationCard } from "../core/LoadingNotificationCard";
 import { FlatList } from "react-native";
-import { FloatingButton } from "../core/FloatingButton";
 
 export const NotificationScreen = ({navigation}: any) => {
 
@@ -52,7 +51,6 @@ export const NotificationScreen = ({navigation}: any) => {
 
     return (
         <StyledView className="bg-background h-full w-full relative">
-            <FloatingButton navigation={navigation} />
             {/* <StyledActivityIndicator/> */}
             <StyledView className="p-1">
                 {

@@ -4,7 +4,6 @@ import { LoadingPost } from "../core/LoadingPost"
 import { IPost } from "../../types/models.type"
 import { getPost } from "../../services/post.service"
 import { PostCard } from "../core/PostCard"
-import { FloatingButton } from "../core/FloatingButton"
 import { FlatList, Modal } from "react-native"
 
 export const PostScreen = ({ navigation }: any) => {
@@ -46,7 +45,6 @@ export const PostScreen = ({ navigation }: any) => {
 
     return (
         <StyledView className="w-full h-full bg-background">
-            <FloatingButton navigation={navigation} />
             {
                 posts.length != 0 ?
                     <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`px-4 ${index == posts.length-1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost}/></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} />
