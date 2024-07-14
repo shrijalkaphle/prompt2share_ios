@@ -24,6 +24,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@shopify/react-native-skia": "0.1.196",
     "axios": "^1.6.2",
+    "eas": "^0.1.0",
     "expo": "^49.0.21",
     "expo-av": "~13.4.1",
     "expo-camera": "~13.4.4",
