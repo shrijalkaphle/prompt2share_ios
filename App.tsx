@@ -21,6 +21,7 @@ import { CircleScreen } from './src/screens/Circle.screen';
 import { BlockedUserScreen } from './src/screens/BlockedUser.screen';
 import { RevenueCatProvider } from './src/contexts/RevenueCatProvider';
 import { AdminScreen } from './src/screens/Admin.screen';
+import { NotificationScreen } from './src/components/derived/NotificationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -97,6 +98,10 @@ export const Layout = () => {
     {
       name: 'AdminScreen',
       component: AdminScreen
+    },
+    {
+      name: 'Notification',
+      component: NotificationScreen
     },
   ]
   return (

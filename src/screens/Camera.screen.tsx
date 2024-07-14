@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Toast from "react-native-root-toast"
 import { CameraPreview } from "../components/core/CameraPreview"
 import { FlipType, manipulateAsync } from "expo-image-manipulator";
+import { View } from "react-native"
 export const CameraScreen = ({ navigation }: any) => {
     let cameraRef = useRef<Camera>(null)
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false)
@@ -34,7 +35,7 @@ export const CameraScreen = ({ navigation }: any) => {
 
         if (cameraRef) {
             let data = await cameraRef.current?.takePictureAsync(options)
-            if(data) {
+            if (data) {
                 const { uri, base64 } = await manipulateAsync(data.uri, [
                     { flip: FlipType.Horizontal },
                 ], { compress: 1, base64: true })
@@ -62,7 +63,7 @@ export const CameraScreen = ({ navigation }: any) => {
                     allowsEditing: true,
                     aspect: [1, 1],
                 })
-                if(result.canceled) return
+                if (result.canceled) return
                 setPhoto(result.assets[0])
                 return
             }
@@ -88,7 +89,7 @@ export const CameraScreen = ({ navigation }: any) => {
                     :
                     <StyledView className="h-full w-full p-3 bg-black flex items-center justify-between">
                         <StyledView>
-                            <StyledView className="flex flex-row items-center justify-end p-2 w-full mt-9">
+                            <StyledView className="flex flex-row items-center justify-end p-2 w-full">
                                 <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full bg-white/20" onPress={toggleCameraType}>
                                     <Ionicons name="camera-reverse" size={24} color="white" />
                                 </StyledTouchableOpacity>
@@ -97,17 +98,19 @@ export const CameraScreen = ({ navigation }: any) => {
                                 <Camera ref={cameraRef} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }} type={type} ></Camera>
                             </StyledView>
                         </StyledView>
-                        <StyledView className="bg-black flex flex-row items-center justify-between px-4 w-full mb-10">
-                            <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full" onPress={selectFromMediaLibrary}>
-                                <Ionicons name="images" size={32} color="white" />
-                            </StyledTouchableOpacity>
-                            <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full bg-white" onPress={takePicture}>
-                                <Ionicons name="camera" size={46} color="black" />
-                            </StyledTouchableOpacity>
-                            <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full" onPress={() => navigation.goBack()}>
-                                <Ionicons name="close" size={32} color="white" />
-                            </StyledTouchableOpacity>
+                        <StyledView className="relative w-full">
+                            <StyledView className="bg-black flex flex-row items-center justify-center px-4 w-full mb-10">
+                                <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full bg-white" onPress={takePicture}>
+                                    <Ionicons name="camera" size={46} color="black" />
+                                </StyledTouchableOpacity>
+                            </StyledView>
+                            <StyledView className="absolute left-0 top-1">
+                                <StyledTouchableOpacity className="p-2 items-center justify-center rounded-full" onPress={selectFromMediaLibrary}>
+                                    <Ionicons name="images" size={32} color="white" />
+                                </StyledTouchableOpacity>
+                            </StyledView>
                         </StyledView>
+
                     </StyledView>
             }
         </>

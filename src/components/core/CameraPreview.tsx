@@ -80,12 +80,12 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
         <StyledView className="h-full w-full flex items-center bg-background">
             {
                 generatedImages.length > 0 ?
-                    <StyledView className="w-full mt-28">
+                    <StyledView className="w-full mt-10">
                         <GalleryView images={generatedImages} prompt={prompt} navigation={navigation} setImage={setGeneratedImages}/>
                     </StyledView> 
                 :
                     <>
-                        <StyledView className="w-full flex flex-row items-center justify-center px-4 mt-16">
+                        <StyledView className="w-full flex flex-row items-center justify-center px-4 mt-4">
                             <StyledTextInput className={`text-white bg-white/10 rounded-lg mt-1 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`}
                                 placeholder="Enter prompt" placeholderTextColor={"white"} onChange={(e) => setPrompt(e.nativeEvent.text)} value={prompt} returnKeyType="done" autoCapitalize="none"/>
                         </StyledView>
@@ -97,7 +97,7 @@ export const CameraPreview = ({ navigation, photo, setPhoto }: ICameraPreview) =
                             </StyledTouchableOpacity>
                         </StyledView>
                         <StyledText className="my-1 text-white text-xs font-bold text-center px-4">The prompt should describe the full new image, not just the erased area.</StyledText>
-                        <StyledView className="w-full flex flex-row items-center justify-between px-4">
+                        <StyledView className="w-full flex flex-row items-center justify-between px-4 my-2">
                             <StyledTouchableOpacity className="border border-slate-300 py-2 px-4 rounded-full" onPress={() => setPhoto(undefined)}>
                                 <StyledText className="text-white">Select another</StyledText>
                             </StyledTouchableOpacity>

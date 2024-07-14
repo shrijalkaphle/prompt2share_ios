@@ -48,6 +48,7 @@ export const AppBarComponent = ({ navigation, hasBack }: any) => {
                                 </StyledView>
                             </MenuTrigger>
                             <MenuOptions customStyles={{ optionsContainer: { marginTop: 10, backgroundColor: 'rgba(36,25,40,1)' } }}>
+                            <MenuOption onSelect={() => navigation.navigate('Notification')} text='Notification' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Guide')} text='Guide' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Billing')} text='Billing' customStyles={menuOptionStyles} />
                                 <MenuOption onSelect={() => navigation.navigate('Circle')} text='Circle' customStyles={menuOptionStyles} />

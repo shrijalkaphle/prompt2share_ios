@@ -90,7 +90,6 @@ export const GenerateScreen = ({ navigation }: any) => {
 
     return (
         <StyledView className="w-full h-full bg-background">
-            <AppBarComponent navigation={navigation} hasBack={true} />
             <StyledView className="flex">
                 <StyledView className="w-full px-4 flex items-center justify-center mb-10">
                     <StyledTextInput className={`text-white bg-white/10 rounded-lg my-2 px-4 w-full ${Platform.OS === 'ios' ? 'py-4' : 'py-2'}`} placeholder="Enter your prompt" value={generatePrompt} onChange={(e) => setGeneratePrompt(e.nativeEvent.text)} placeholderTextColor={'white'} />

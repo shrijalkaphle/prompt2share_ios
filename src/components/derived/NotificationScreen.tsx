@@ -6,6 +6,7 @@ import { NotificationCard } from "../core/NotificationCard";
 import { getUserNotification } from "../../services/auth.service";
 import { LoadingNotificationCard } from "../core/LoadingNotificationCard";
 import { FlatList } from "react-native";
+import { AppBarComponent } from "../core/AppBarComponent";
 
 export const NotificationScreen = ({navigation}: any) => {
 
@@ -51,7 +52,7 @@ export const NotificationScreen = ({navigation}: any) => {
 
     return (
         <StyledView className="bg-background h-full w-full relative">
-            {/* <StyledActivityIndicator/> */}
+            <AppBarComponent navigation={navigation} hasBack={true} />
             <StyledView className="p-1">
                 {
                     notifications.length == 0 ? <LoadingNotificationCard /> :
