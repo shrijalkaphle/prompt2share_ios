@@ -5,6 +5,7 @@ import { getUserPost } from "../../services/post.service";
 import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, StyledTouchableOpacity, StyledView } from "../../helpers/NativeWind.helper";
 import { PostCard } from "../core/PostCard";
 import { LoadingPost } from "../core/LoadingPost";
+import { FloatingButton } from "../core/FloatingButton";
 import { FlatList } from "react-native";
 import Toast from "react-native-root-toast";
 import { Rating } from 'react-native-stock-star-rating'
