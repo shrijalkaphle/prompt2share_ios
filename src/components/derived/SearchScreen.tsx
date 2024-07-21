@@ -6,6 +6,7 @@ import { SearchUserCard } from "../core/SearchUserCard"
 import { PostCard } from "../core/PostCard"
 import Toast from "react-native-root-toast"
 import { Platform } from "react-native"
+import { FloatingButton } from "../core/FloatingButton"
 
 export const SearchScreen = ({navigation}: any) => {
 
@@ -84,6 +85,7 @@ export const SearchScreen = ({navigation}: any) => {
                 }
 
             </StyledScrollView>
+            <FloatingButton navigation={navigation} />
         </StyledView>
     )
 }

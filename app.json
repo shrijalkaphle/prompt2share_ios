@@ -18,13 +18,16 @@
       "config": {
         "usesNonExemptEncryption": false
       },
+      "entitlements": {
+        "aps-environment": "production"
+      },
       "supportsTablet": true,
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Allow P2S to access your photos.",
-        "NSPhotoLibraryAddUsageDescription": "Allow P2S to save photos."
+        "NSPhotoLibraryUsageDescription": "This allows you to share, edit photos from your library.",
+        "NSPhotoLibraryAddUsageDescription": "This allows you to save phots to your library."
       },
       "bundleIdentifier": "com.aiinterf.prompttoshare",
-      "buildNumber": "30002"
+      "buildNumber": "30008"
     },
     "android": {
       "versionCode": 323,
@@ -48,23 +51,24 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow P2S to access your camera."
+          "cameraPermission": "This lets you do things like take, edit and share photos, record video and other special features."
         }
       ],
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow P2S to access your photos.",
-          "savePhotosPermission": "Allow P2S to save photos.",
+          "photosPermission": "This allows you to share, edit photos from your library.",
+          "savePhotosPermission": "This allows you to save phots to your library.",
           "isAccessMediaLocationEnabled": true
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "This allows you to share, edit photos from your library."
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {

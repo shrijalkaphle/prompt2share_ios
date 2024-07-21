@@ -1,21 +1,9 @@
-import { useEffect, useRef, useState } from "react"
-import { StyledActivityIndicator, StyledImage, StyledScrollView, StyledText, StyledTextInput, StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
+import { useState } from "react"
+import { StyledTouchableOpacity, StyledView } from "../helpers/NativeWind.helper"
 import { Ionicons } from "@expo/vector-icons"
-import AutoGrowingTextInput from 'react-native-autogrow-textinput-ts';
-import { Dropdown } from "react-native-element-dropdown";
-import * as MediaLibrary from 'expo-media-library'
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
 import { ImagePickerAsset } from "expo-image-picker";
-import { ICreateManualPostProps } from "../types/services/post.type";
-import { FileSystemUploadType } from "expo-file-system";
-import { ENDPOINT } from "../enum/endpoint.enum";
-import { useAuth } from "../contexts/AuthContext";
-import Toast from "react-native-root-toast";
 import { AppBarComponent } from "../components/core/AppBarComponent";
-import { manipulateAsync } from "expo-image-manipulator";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import { BottomTab } from "../components/core/BottomTab";
 import { TextPost } from "../components/createPost/Text.post";
 import { ImagePost } from "../components/createPost/Image.post";
 import { VideoPost } from "../components/createPost/Video.post";

@@ -2,19 +2,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PostScreen } from '../derived/PostScreen';
 import { ProfileScreen } from '../derived/ProfileScreen';
-import { NotificationScreen } from '../derived/NotificationScreen';
 import { SearchScreen } from '../derived/SearchScreen';
 import { AppBarComponent } from './AppBarComponent';
-import { View } from 'react-native';
-import { FloatingButton } from './FloatingButton';
 import { StyledTouchableOpacity, StyledView } from '../../helpers/NativeWind.helper';
-import { useState } from 'react';
 import { CameraScreen } from '../../screens/Camera.screen';
 import { GenerateScreen } from '../../screens/Generate.screen';
 
 const Tab = createBottomTabNavigator();
 
-export const BottomTab = () => {
+export const BottomTab = ({navigateToCameraPage}: any) => {
     return (
         <>
             <Tab.Navigator initialRouteName="PostList"
@@ -56,9 +52,11 @@ export const BottomTab = () => {
                     title: '',
                     tabBarIcon: ({ color, size, focused }) => {
                         return (
-                            <StyledView className="h-14 w-14 absolute bottom-2 rounded-full bg-white z-10 flex items-center justify-center">
+                            <StyledTouchableOpacity className='h-14 w-14 absolute bottom-2 rounded-full z-10 flex items-center justify-center' onPress={navigateToCameraPage}>
+                                <StyledView className="h-14 w-14 rounded-full bg-white z-10 flex items-center justify-center">
                                 <Ionicons name="camera-outline" size={22} color={'black'} />
                             </StyledView>
+                            </StyledTouchableOpacity>
                         )
                     },
                     unmountOnBlur: true

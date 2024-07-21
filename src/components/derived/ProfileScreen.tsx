@@ -176,6 +176,7 @@ export const ProfileScreen = ({ navigation, route }: any) => {
                 <StyledText className="ml-2 text-white">Loading</StyledText>
             </StyledView>
             <DeleteProfileModal modelState={deleteModelState} setModelState={setDeleteModelState} />
+            <FloatingButton navigation={navigation} />
         </StyledView>
 
     )

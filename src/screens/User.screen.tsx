@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons"
 import Toast from "react-native-root-toast"
 import { Rating, RatingInput } from 'react-native-stock-star-rating'
 import { IRateUserProfileProps } from "../types/services/user.type"
+import { FloatingButton } from "../components/core/FloatingButton"
 
 export const UserScreen = ({ navigation, route }: any) => {
     const { userId } = route.params
@@ -87,13 +88,13 @@ export const UserScreen = ({ navigation, route }: any) => {
         setRating(rating)
 
         // update to db
-        const props:IRateUserProfileProps = {
+        const props: IRateUserProfileProps = {
             rating: rating,
             profileId: userId
         }
 
         const response = await rateUserProfile(props)
-        if(response && response.error) {
+        if (response && response.error) {
             Toast.show(response.message, {
                 backgroundColor: 'red',
             })
@@ -178,7 +179,7 @@ export const UserScreen = ({ navigation, route }: any) => {
     const removePost = (id: number) => {
         setPosts(posts.filter((post: IPost) => parseInt(post.id) != id))
     }
-    
+
     return (
         <StyledView className="bg-background w-full h-full">
             <AppBarComponent navigation={navigation} hasBack={true} />
@@ -193,7 +194,7 @@ export const UserScreen = ({ navigation, route }: any) => {
                                     <StyledView className="p-4">
                                         {
                                             !initialLoading ?
-                                                <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost}/></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} ListHeaderComponent={() => headerContent()} />
+                                                <FlatList data={posts} renderItem={({ item, index }) => <StyledView className={`${index == posts.length - 1 ? 'mb-24' : ''}`}><PostCard post={item} navigation={navigation} removePost={removePost} /></StyledView>} onEndReached={() => { if (!dataLoading) updatePageCount(); return }} style={{ borderColor: 'white' }} ListHeaderComponent={() => headerContent()} />
                                                 :
                                                 <LoadingPost />
                                         }
@@ -215,6 +216,9 @@ export const UserScreen = ({ navigation, route }: any) => {
                         }
                     </>
             }
+
+
+            <FloatingButton navigation={navigation} />
         </StyledView>
     )
 }

@@ -5,11 +5,14 @@ import { FloatingButton } from "../components/core/FloatingButton"
 
 
 export const HomeScreen = ({navigation}: any) => {
+
+    const navigateToCameraPage = () => {
+        navigation.navigate('Camera')
+    }
     return (
         <StyledView className="flex w-full h-full">
-            <FloatingButton navigation={navigation} />
             <StatusBar style="light"/>
-            <BottomTab />
+            <BottomTab navigateToCameraPage={navigateToCameraPage}/>
         </StyledView>
     )
 }

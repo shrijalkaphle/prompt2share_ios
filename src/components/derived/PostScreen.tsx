@@ -5,6 +5,7 @@ import { IPost } from "../../types/models.type"
 import { getPost } from "../../services/post.service"
 import { PostCard } from "../core/PostCard"
 import { FlatList, Modal } from "react-native"
+import { FloatingButton } from "../core/FloatingButton"
 
 export const PostScreen = ({ navigation }: any) => {
 
@@ -55,6 +56,7 @@ export const PostScreen = ({ navigation }: any) => {
                 <StyledActivityIndicator />
                 <StyledText className="ml-2 text-white">Loading</StyledText>
             </StyledView>
+            <FloatingButton navigation={navigation} />
         </StyledView>
     )
 }
