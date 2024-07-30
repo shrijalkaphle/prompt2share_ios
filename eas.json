@@ -9,6 +9,10 @@
       "distribution": "internal",
       "ios": {
         "node": "20.10.0"
+      },
+      "android": {
+        "node": "20.10.0",
+        "buildType": "apk"
       }
     },
     "preview": {

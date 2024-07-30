@@ -5,7 +5,7 @@ import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from 'react-nati
 
 const APIKeys = {
     ios: "appl_yswhEBvdHcXijQaHMdbJfqIUYNZ",
-    android: ""
+    android: "goog_QLVqEXFXRKyZyzjXITfNJYXwNFy"
 }
 interface IRevenueCatProvider {
     purchasePackage?: (pack: PurchasesPackage) => Promise<any>;

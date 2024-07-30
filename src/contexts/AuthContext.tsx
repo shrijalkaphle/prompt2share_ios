@@ -2,7 +2,7 @@ import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useState } from "react";
 import { IAuthContext, IAuthState } from "../types/contexts/AuthContext.type";
-import { ILoginParams, IRegisterParams, IVerifyRegisterParams } from "../types/services/auth.type";
+import { ILoginParams, IProviderLoginProps, IRegisterParams, IVerifyRegisterParams } from "../types/services/auth.type";
 import { ENDPOINT } from "../enum/endpoint.enum";
 import { IUser } from "../types/models.type";
 
@@ -81,6 +81,21 @@ export const AuthProvider = ({ children }: any) => {
             return { error: true, message: (error as any).response.data.message }
         }
     }
+
+    const providerLogin = async (authProps: IProviderLoginProps) => {
+        try {
+            const response = await axios.post(`${API_ENDPOINT}/${ENDPOINT.PROVIDER_LOGIN}`, authProps)
+            if (response.data.access_token) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
+                await SecureStore.setItemAsync(TOKEN_KEY, response.data.access_token)
+                setAuthState({ token: response.data.access_token, authenticated: true })
+                updateAuthUser()
+            }
+        } catch (error) {
+            return { error: true, message: (error as any).response.data.message }
+        }
+        console.log(authProps)
+    }
     const value = {
         authUser: authUser,
         authState: authState,
@@ -88,7 +103,8 @@ export const AuthProvider = ({ children }: any) => {
         onLogin: login,
         onLogout: logout,
         setAuthUser: setAuthUser,
-        onRegisterVerify: verifyOTP
+        onRegisterVerify: verifyOTP,
+        onProviderLogin: providerLogin
     }
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "prompttoshare",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -15,6 +16,7 @@
       "**/*"
     ],
     "ios": {
+      "usesAppleSignIn": true,
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -30,7 +32,7 @@
       "buildNumber": "30008"
     },
     "android": {
-      "versionCode": 323,
+      "versionCode": 324,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
@@ -48,6 +50,7 @@
       "favicon": "./assets/icon.png"
     },
     "plugins": [
+      ["expo-apple-authentication"],
       [
         "expo-camera",
         {

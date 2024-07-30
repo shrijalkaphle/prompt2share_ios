@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { InputField } from "../core/InputField"
 import * as Yup from 'yup'
 import { FORM_ERRORS } from "../../enum/form.enum"
-import { createManualImagePost, createManualTextPost } from "../../services/post.service"
+import { createManualImagePost } from "../../services/post.service"
 import Toast from "react-native-root-toast"
 import { Dropdown } from "react-native-element-dropdown"
 import { ImagePickerAsset } from "expo-image-picker"

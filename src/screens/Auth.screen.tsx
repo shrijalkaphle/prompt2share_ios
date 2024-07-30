@@ -18,7 +18,7 @@ export const AuthScreen = () => {
                 <StyledView className={`h-4/5 w-full items-center flex`}>
                     <LoginForm />
                     <StyledText className="flex items-center justify-center text-white mt-6" onPress={() => setAuthType('forgot-password')}> Forgot Password? </StyledText>
-                    <StyledText className="flex items-center justify-center text-white mt-2"> Don't have an account? <StyledText className="text-primary font-bold" onPress={() => setAuthType('register')}> Register </StyledText> </StyledText>
+                    <StyledText className="flex items-center justify-center text-white mt-2"> Don't have an account? <StyledText className="text-primary font-bold" onPress={() => setAuthType('register')}> Register using email</StyledText> </StyledText>
                 </StyledView>
             }
             {

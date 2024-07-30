@@ -66,3 +66,10 @@ export interface IPasswordChangeParams {
     confirm_password: string
     user_id: string
 }
+
+export interface IProviderLoginProps {
+    provider: string
+    provider_id: string
+    name: string
+    email: string
+}
